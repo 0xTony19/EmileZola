@@ -314,9 +314,6 @@ class QuizEngine {
           </div>
 
           <div class="lobby-actions">
-            <button class="btn-secondary-action" onclick="window.quizApp.addBots()">
-              Aggiungi Studenti Dimostrativi
-            </button>
             <button class="btn-primary-action" onclick="window.quizApp.startGame()">
               Avvia la Sessione (10s per Domanda)
             </button>
