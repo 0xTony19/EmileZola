@@ -857,6 +857,9 @@ function initQuizController() {
         }).catch(() => {});
       } else {
         prompt("Copia questo link:", url);
+      }
+    },
+
     openLocalPlayerTab: function() {
       const room = this.engine.roomCode;
       let playerUrl = '';
