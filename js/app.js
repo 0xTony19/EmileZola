@@ -90,7 +90,9 @@ function initKeyboardNavigation() {
       const nextTheme = currentTheme === 'classic' ? 'dark' : (currentTheme === 'dark' ? 'sepia' : 'classic');
       document.body.setAttribute('data-theme', nextTheme);
       const label = document.querySelector('#theme-toggle-btn .theme-label');
-      if (label) label.textContent = `TEMA: ${nextTheme.toUpperCase()}`;
+      if (label) label.textContent = 'Tema';
+      const btn = document.getElementById('theme-toggle-btn');
+      if (btn) btn.title = `Tema: ${nextTheme.toUpperCase()} [T]`;
       return;
     }
 
@@ -138,7 +140,8 @@ function initThemeAndSettings() {
       const currentTheme = document.body.getAttribute('data-theme') || 'classic';
       const nextTheme = currentTheme === 'classic' ? 'dark' : (currentTheme === 'dark' ? 'sepia' : 'classic');
       document.body.setAttribute('data-theme', nextTheme);
-      themeToggleBtn.querySelector('.theme-label').textContent = `TEMA: ${nextTheme.toUpperCase()}`;
+      themeToggleBtn.querySelector('.theme-label').textContent = 'Tema';
+      themeToggleBtn.title = `Tema: ${nextTheme.toUpperCase()} [T]`;
       SFX.playTone(440, 'sine', 0.05, 0.05);
     });
   }
@@ -147,7 +150,8 @@ function initThemeAndSettings() {
     soundToggleBtn.addEventListener('click', () => {
       SFX.enabled = !SFX.enabled;
       soundToggleBtn.classList.toggle('muted', !SFX.enabled);
-      soundToggleBtn.querySelector('.sound-icon').textContent = SFX.enabled ? 'AUDIO: ATTIVO' : 'AUDIO: DISATTIVATO';
+      soundToggleBtn.querySelector('.sound-icon').textContent = 'Audio';
+      soundToggleBtn.title = SFX.enabled ? 'Audio Attivo' : 'Audio Disattivato';
       if (SFX.enabled) SFX.playTone(520, 'sine', 0.1, 0.08);
     });
   }
