@@ -513,14 +513,35 @@ class QuizEngine {
     if (isCorrect) {
       player.correctCount++;
       player.streak++;
-      // Calcolo Punti: 500 base + fino a 500 per velocità + bonus streak
-      const speedFraction = Math.max(0, (10 - timeTaken) / 10);
-      const points = Math.round(500 + (500 * speedFraction) + (player.streak * 50));
-      player.score += points;
-      player.lastPoints = points;
+
+      // 1. Streak & Multiplier System (Stile Kahoot)
+      let streakMultiplier = 1;
+      let streakBonusText = "";
+      if (player.streak === 2) {
+        streakMultiplier = 1.2;
+        streakBonusText = "2x Combo";
+      } else if (player.streak === 3) {
+        streakMultiplier = 1.5;
+        streakBonusText = "3x Fuoco";
+      } else if (player.streak >= 4) {
+        streakMultiplier = 2.0;
+        streakBonusText = `${player.streak}x Super Combo!`;
+      }
+
+      // Calcolo Punti: 500 base + velocità (fino a 500) moltiplicato per lo Streak
+      const speedFraction = Math.max(0, (this.timeLimit - timeTaken) / this.timeLimit);
+      const basePoints = Math.round(500 + (500 * speedFraction));
+      const totalPoints = Math.round(basePoints * streakMultiplier);
+      
+      player.score += totalPoints;
+      player.lastPoints = totalPoints;
+      player.streakMultiplier = streakMultiplier;
+      player.streakBonusText = streakBonusText;
     } else {
       player.streak = 0;
       player.lastPoints = 0;
+      player.streakMultiplier = 1;
+      player.streakBonusText = "";
     }
 
     this.updateHostAnswerCounter();
@@ -529,8 +550,10 @@ class QuizEngine {
   simulateBotAnswers(correctIdx) {
     this.players.forEach(p => {
       if (p.id.startsWith('bot_')) {
-        // I bot rispondono con tempi variabili tra 2.0s e 8.5s
-        const delay = 2000 + Math.random() * 6500;
+        // I bot rispondono con tempi variabili in base alla durata del timer
+        const maxBotTime = (this.timeLimit * 0.85) * 1000;
+        const minBotTime = Math.min(1800, this.timeLimit * 250);
+        const delay = minBotTime + Math.random() * (maxBotTime - minBotTime);
         setTimeout(() => {
           if (this.gameState === 'QUESTION') {
             const isLucky = Math.random() > 0.25; // 75% probabilità di risposta esatta
@@ -554,14 +577,25 @@ class QuizEngine {
     this.gameState = 'ANSWER_REVEAL';
     const q = this.currentQuestions[this.currentQuestionIdx];
 
-    // Trasmetti fine domanda
+    // Calcolo Distribuzione delle Risposte della Classe (Grafico a Barre)
+    const distribution = [0, 0, 0, 0];
+    this.players.forEach(p => {
+      if (p.answered && p.lastAnswerIdx !== undefined && p.lastAnswerIdx >= 0 && p.lastAnswerIdx <= 3) {
+        distribution[p.lastAnswerIdx]++;
+      } else if (p.answered && p.isCorrect) {
+        distribution[q.corretta]++;
+      }
+    });
+
+    // Trasmetti fine domanda a tutti i client
     this.syncHub.broadcast('QUESTION_END', {
       corretta: q.corretta,
       spiegazione: q.spiegazione,
+      distribution: distribution,
       players: Array.from(this.players.values())
     });
 
-    this.renderAnswerRevealHost(q);
+    this.renderAnswerRevealHost(q, distribution);
   }
 
   renderQuestionHost(q) {
@@ -576,7 +610,7 @@ class QuizEngine {
         <div class="quiz-top-bar">
           <div class="q-progress">Domanda ${this.currentQuestionIdx + 1} di ${this.currentQuestions.length}</div>
           <div class="q-timer-circle">
-            <span id="quiz-timer-sec">10</span>s
+            <span id="quiz-timer-sec">${this.timeLimit}</span>s
           </div>
           <div class="q-answers-counter" id="host-answer-count">0 / ${this.players.size} risposte</div>
         </div>
@@ -601,18 +635,43 @@ class QuizEngine {
     `;
   }
 
-  renderAnswerRevealHost(q) {
+  renderAnswerRevealHost(q, distribution = [0, 0, 0, 0]) {
     const container = document.getElementById('quiz-game-container');
     if (!container) return;
 
     const kahootColors = ['var(--kahoot-red)', 'var(--kahoot-blue)', 'var(--kahoot-yellow)', 'var(--kahoot-green)'];
     const kahootIcons = ['[A]', '[B]', '[C]', '[D]'];
+    const totalAnswers = distribution.reduce((a, b) => a + b, 0) || 1;
 
     container.innerHTML = `
       <div class="quiz-reveal-view animate-pop">
         <div class="reveal-header">
-          <span class="reveal-badge">Tempo Scaduto</span>
+          <span class="reveal-badge">Tempo Scaduto — Esito Domanda</span>
           <h2 class="reveal-question">${this.escapeHtml(q.domanda)}</h2>
+        </div>
+
+        <!-- 2. Grafico a Barre delle Risposte della Classe in Tempo Reale -->
+        <div class="class-distribution-box animate-slide-up">
+          <div class="distrib-header">
+            <h4>Distribuzione delle Risposte della Classe (${totalAnswers} Partecipanti):</h4>
+          </div>
+          <div class="distrib-bars-grid">
+            ${distribution.map((count, idx) => {
+              const pct = Math.round((count / totalAnswers) * 100);
+              const isCorrect = (idx === q.corretta);
+              return `
+                <div class="distrib-bar-col ${isCorrect ? 'is-correct-bar' : ''}">
+                  <div class="bar-count-tag">${count} risposte (${pct}%)</div>
+                  <div class="bar-fill-track">
+                    <div class="bar-fill-inner" style="height: ${Math.max(12, pct)}%; background: ${kahootColors[idx]};">
+                      <span class="bar-letter">${kahootIcons[idx]}</span>
+                    </div>
+                  </div>
+                  <div class="bar-label-preview">${isCorrect ? 'Esatta' : 'Opzione ' + kahootIcons[idx]}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
         </div>
 
         <div class="quiz-options-grid reveal-mode">
@@ -661,7 +720,11 @@ class QuizEngine {
                 <span class="lb-rank">#${idx + 1}</span>
                 <div class="lb-avatar-wrap">${this.renderAvatarHTML(p.avatar, 40)}</div>
                 <span class="lb-name">${this.escapeHtml(p.name)}</span>
-                ${p.streak > 1 ? `<span class="lb-streak">Serie: ${p.streak}</span>` : ''}
+                ${p.streak > 1 ? `
+                  <span class="lb-streak-badge ${p.streak >= 3 ? 'on-fire' : ''}">
+                    ${p.streak >= 3 ? '🔥 ' : '⚡ '}${p.streak} di Fila ${p.streakMultiplier > 1 ? `(${p.streakMultiplier}x)` : ''}
+                  </span>
+                ` : ''}
                 <span class="lb-score">${p.score} pt</span>
               </div>
             `;

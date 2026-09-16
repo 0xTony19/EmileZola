@@ -363,8 +363,19 @@
               </div>
             </div>
 
+            <!-- Selettore Durata Timer per Domanda -->
+            <div class="lobby-timer-selector-card">
+              <span class="timer-selector-label">DURATA TIMER PER DOMANDA:</span>
+              <div class="timer-chips-group">
+                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(5, this)">5s <small>Flash</small></button>
+                <button type="button" class="timer-chip active" onclick="window.quizApp.setTimeLimit(10, this)">10s <small>Standard</small></button>
+                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(15, this)">15s <small>Riflessivo</small></button>
+                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(20, this)">20s <small>Esteso</small></button>
+              </div>
+            </div>
+
             <div class="lobby-actions">
-              <button class="btn-primary-action" onclick="window.quizApp.startGame()">
+              <button id="lobby-start-btn" class="btn-primary-action" onclick="window.quizApp.startGame()">
                 Avvia la Sessione (10s per Domanda)
               </button>
             </div>

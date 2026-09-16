@@ -1008,3 +1008,267 @@ body[data-theme="dark"] .lb-score {
   color: #f59e0b;
   margin: 10px 0;
 }
+
+/* ==========================================================================
+   TIMER SELECTOR CHIPS (LOBBY)
+   ========================================================================== */
+.lobby-timer-selector-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow-sm);
+  max-width: 620px;
+  width: 100%;
+}
+
+.timer-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.timer-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.timer-sublabel {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.timer-chips-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.timer-chip {
+  background: var(--bg-main);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 8px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-secondary);
+}
+
+.timer-chip:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.15);
+}
+
+.timer-chip.active {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.18), rgba(245, 158, 11, 0.08));
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+}
+
+.timer-chip .chip-sec {
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+}
+
+.timer-chip .chip-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   CLASS RESPONSE DISTRIBUTION BAR CHART (REVEAL)
+   ========================================================================== */
+.class-distribution-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.distrib-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.distrib-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.3px;
+}
+
+.distrib-total {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-main);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+}
+
+.distrib-bars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  height: 170px;
+  align-items: end;
+}
+
+.distrib-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 6px;
+  position: relative;
+}
+
+.bar-count-tag {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.bar-fill-track {
+  width: 100%;
+  max-width: 52px;
+  height: 105px;
+  background: var(--bg-main);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill-inner {
+  width: 100%;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-height: 4px;
+}
+
+.distrib-bar-col.opt-0 .bar-fill-inner { background: var(--kahoot-red); }
+.distrib-bar-col.opt-1 .bar-fill-inner { background: var(--kahoot-blue); }
+.distrib-bar-col.opt-2 .bar-fill-inner { background: var(--kahoot-yellow); }
+.distrib-bar-col.opt-3 .bar-fill-inner { background: var(--kahoot-green); }
+
+.bar-fill-pct {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  pointer-events: none;
+}
+
+.bar-letter-tag {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.distrib-bar-col.opt-0 .bar-letter-tag { background: var(--kahoot-red); }
+.distrib-bar-col.opt-1 .bar-letter-tag { background: var(--kahoot-blue); }
+.distrib-bar-col.opt-2 .bar-letter-tag { background: var(--kahoot-yellow); }
+.distrib-bar-col.opt-3 .bar-letter-tag { background: var(--kahoot-green); }
+
+.distrib-bar-col.is-correct-bar .bar-fill-track {
+  border: 2px solid #10b981;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
+}
+
+.distrib-bar-col.is-correct-bar::after {
+  content: "✓";
+  position: absolute;
+  top: -18px;
+  color: #10b981;
+  font-size: 1.1rem;
+  font-weight: 900;
+  animation: bounceCorrect 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceCorrect {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   STREAK & COMBO BADGES (LEADERBOARD & MOBILE)
+   ========================================================================== */
+.lb-streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 8px;
+}
+
+.lb-streak-badge.on-fire {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(245, 158, 11, 0.3));
+  color: #ef4444;
+  border-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+  animation: flameGlow 1.5s infinite alternate;
+}
+
+@keyframes flameGlow {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px #ef4444); }
+  100% { transform: scale(1.05); filter: drop-shadow(0 0 8px #f59e0b); }
+}
+
+.mobile-streak-callout {
+  margin-top: 14px;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ef4444, #f59e0b);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+  animation: zoomStreak 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes zoomStreak {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

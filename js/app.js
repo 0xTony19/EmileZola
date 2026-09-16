@@ -904,6 +904,18 @@ function initQuizController() {
       this.engine.advanceNext();
     },
 
+    setTimeLimit: function(seconds, btn) {
+      if (this.engine) {
+        this.engine.timeLimit = seconds;
+        this.engine.timeLeft = seconds;
+      }
+      document.querySelectorAll('.timer-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const startBtn = document.getElementById('lobby-start-btn');
+      if (startBtn) startBtn.textContent = `Avvia la Sessione (${seconds}s per Domanda)`;
+      SFX.playTone(550, 'sine', 0.06, 0.05);
+    },
+
     restartGame: function() {
       this.engine.startLobby();
       this.detectServerIP();
@@ -1196,15 +1208,20 @@ function renderStudentMobileView(initialRoomCode) {
 
     if (p && p.isCorrect) {
       document.getElementById('feedback-content').innerHTML = `
-        <h2 class="correct-text">Risposta Corretta</h2>
+        <h2 class="correct-text">Risposta Corretta!</h2>
         <div class="pts-earned">+${p.lastPoints} pt</div>
-        <p>Punteggio Totale: <strong>${p.score} pt</strong></p>
-        ${p.streak > 1 ? `<div style="color: var(--accent-gold); font-weight: 700; margin-top: 6px;">Serie Consecutiva: ${p.streak}</div>` : ''}
+        ${p.streak > 1 ? `
+          <div class="mobile-streak-callout ${p.streak >= 3 ? 'on-fire' : ''}">
+            ${p.streak >= 3 ? '🔥 ' : '⚡ '}Serie di ${p.streak} Risposte Esatte! ${p.streakMultiplier > 1 ? `(${p.streakMultiplier}x Bonus)` : ''}
+          </div>
+        ` : ''}
+        <p style="margin-top: 10px;">Punteggio Totale: <strong>${p.score} pt</strong></p>
       `;
       SFX.correct();
     } else {
       document.getElementById('feedback-content').innerHTML = `
         <h2 class="wrong-text">Risposta Errata o Tempo Scaduto</h2>
+        ${p && p.streak > 1 ? `<div style="color: #ef4444; font-size: 0.9rem; margin-top: 4px;">Serie interrotta!</div>` : ''}
         <p style="margin-top: 8px;">Punteggio Attuale: <strong>${p ? p.score : 0} pt</strong></p>
       `;
       SFX.wrong();
