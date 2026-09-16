@@ -673,26 +673,49 @@ function renderStudentMobileView(initialRoomCode) {
 
       <div id="student-join-screen" class="student-screen active">
         <div class="join-card">
-          <h2>Partecipa al Quiz</h2>
-          <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 8px;">Scegli il tuo personaggio avatar e inserisci il tuo nome:</p>
+          <h2>Crea il tuo Personaggio</h2>
+          <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 12px;">Scegli il tuo cucciolo, personalizza l'accessorio e il colore:</p>
           
-          <div class="avatar-picker">
-            ${(window.QUIZ_AVATARS || []).map((av, i) => `
-              <button class="btn-avatar-card ${i === 0 ? 'selected' : ''}" onclick="window.pickAvatar(this, '${av.id}')">
-                <div class="avatar-badge-circle" style="background: ${av.color}; color: #ffffff;">${av.badge}</div>
-                <div class="avatar-card-info">
-                  <span class="avatar-card-name">${av.name}</span>
-                  <small class="avatar-card-desc">${av.desc}</small>
-                </div>
+          <!-- Live Preview Avatar -->
+          <div class="avatar-preview-box">
+            <div id="live-avatar-preview"></div>
+            <div id="live-avatar-label" class="avatar-preview-tag">Gattino Naturale</div>
+          </div>
+
+          <!-- Step 1: Scegli Animale -->
+          <div class="avatar-section-title">1. Scegli il Personaggio / Animale</div>
+          <div class="avatar-picker animals-grid">
+            ${(window.AVATAR_CHARACTERS || []).map((char, i) => `
+              <button type="button" class="btn-avatar-card ${i === 0 ? 'selected' : ''}" onclick="window.selectAvatarChar('${char.id}')" data-char="${char.id}">
+                <div class="avatar-thumb">${window.renderAvatarSVG(char.id, 'none', char.bg, 44)}</div>
+                <span class="avatar-card-name">${char.name}</span>
               </button>
             `).join('')}
           </div>
 
+          <!-- Step 2: Scegli Accessorio -->
+          <div class="avatar-section-title">2. Scegli l'Accessorio</div>
+          <div class="avatar-picker accessories-grid">
+            ${(window.AVATAR_ACCESSORIES || []).map((acc, i) => `
+              <button type="button" class="btn-acc-card ${i === 0 ? 'selected' : ''}" onclick="window.selectAvatarAcc('${acc.id}')" data-acc="${acc.id}">
+                <span class="acc-badge">${acc.name}</span>
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- Step 3: Scegli Colore Sfondo -->
+          <div class="avatar-section-title">3. Colore Sfondo</div>
+          <div class="avatar-color-palette">
+            ${(window.AVATAR_COLORS || []).map((col, i) => `
+              <button type="button" class="btn-color-circle ${i === 0 ? 'selected' : ''}" style="background: ${col.color};" onclick="window.selectAvatarBg('${col.color}')" data-color="${col.color}" title="${col.name}"></button>
+            `).join('')}
+          </div>
+
           ${!initialRoomCode ? `
-            <input type="text" id="student-room-input" class="join-input" placeholder="PIN Stanza (es. ZOLA-1885)" value="${activeRoom}" style="margin-bottom: 10px; font-weight: 700;">
+            <input type="text" id="student-room-input" class="join-input" placeholder="PIN Stanza (es. ZOLA-1885)" value="${activeRoom}" style="margin-top: 14px; margin-bottom: 10px; font-weight: 700;">
           ` : ''}
 
-          <input type="text" id="student-nickname" class="join-input" placeholder="Inserisci Nome..." maxlength="15" value="Studente_${playerId.slice(7)}">
+          <input type="text" id="student-nickname" class="join-input" placeholder="Il tuo Nome..." maxlength="15" value="Studente_${playerId.slice(7)}" style="margin-top: 12px;">
           
           <button class="btn-primary-action btn-join-game" onclick="window.studentJoinGame('${playerId}')">
             Entra nella Sessione
@@ -704,7 +727,7 @@ function renderStudentMobileView(initialRoomCode) {
         <div class="waiting-card">
           <div id="student-active-avatar-holder" style="margin-bottom: 14px;"></div>
           <h2>Sei Connesso</h2>
-          <p style="margin: 10px 0;">Osserva lo schermo del proiettore in classe.<br>La sessione inizierà a breve.</p>
+          <p style="margin: 10px 0;">Ora osserva lo schermo della LIM.<br>La sessione inizierà a breve.</p>
           <div style="display: inline-block; padding: 6px 14px; background: rgba(16,185,129,0.15); color: #10b981; border-radius: 9999px; font-weight: 700; font-size: 0.85rem;">
             In attesa dell'avvio...
           </div>
@@ -744,14 +767,53 @@ function renderStudentMobileView(initialRoomCode) {
     </div>
   `;
 
-  let currentAvatar = 'zola';
+  let selectedChar = 'cat';
+  let selectedAcc = 'none';
+  let selectedBg = (window.AVATAR_COLORS && window.AVATAR_COLORS[0]) ? window.AVATAR_COLORS[0].color : '#f43f5e';
   let questionStartTime = 0;
 
-  window.pickAvatar = function(btn, avId) {
-    document.querySelectorAll('.btn-avatar-card').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    currentAvatar = avId;
-    SFX.playTone(550, 'triangle', 0.06, 0.06);
+  function updatePreview() {
+    const prevEl = document.getElementById('live-avatar-preview');
+    const labelEl = document.getElementById('live-avatar-label');
+    if (prevEl) {
+      prevEl.innerHTML = window.renderAvatarSVG(selectedChar, selectedAcc, selectedBg, 84);
+    }
+    if (labelEl) {
+      const charObj = (window.AVATAR_CHARACTERS || []).find(c => c.id === selectedChar);
+      const accObj = (window.AVATAR_ACCESSORIES || []).find(a => a.id === selectedAcc);
+      const charName = charObj ? charObj.name : 'Gattino';
+      const accName = (accObj && accObj.id !== 'none') ? ` con ${accObj.name}` : '';
+      labelEl.textContent = `${charName}${accName}`;
+    }
+  }
+
+  updatePreview();
+
+  window.selectAvatarChar = function(charId) {
+    selectedChar = charId;
+    document.querySelectorAll('.btn-avatar-card').forEach(b => {
+      b.classList.toggle('selected', b.getAttribute('data-char') === charId);
+    });
+    updatePreview();
+    SFX.playTone(520, 'triangle', 0.05, 0.05);
+  };
+
+  window.selectAvatarAcc = function(accId) {
+    selectedAcc = accId;
+    document.querySelectorAll('.btn-acc-card').forEach(b => {
+      b.classList.toggle('selected', b.getAttribute('data-acc') === accId);
+    });
+    updatePreview();
+    SFX.playTone(620, 'triangle', 0.05, 0.05);
+  };
+
+  window.selectAvatarBg = function(color) {
+    selectedBg = color;
+    document.querySelectorAll('.btn-color-circle').forEach(b => {
+      b.classList.toggle('selected', b.getAttribute('data-color') === color);
+    });
+    updatePreview();
+    SFX.playTone(720, 'triangle', 0.05, 0.05);
   };
 
   window.studentJoinGame = function(pId) {
@@ -765,19 +827,28 @@ function renderStudentMobileView(initialRoomCode) {
     }
 
     const nick = document.getElementById('student-nickname').value.trim() || 'Studente';
+    
+    // Avatar composito serializzato (personaggio + accessorio + sfondo)
+    const avatarData = {
+      char: selectedChar,
+      acc: selectedAcc,
+      bg: selectedBg
+    };
+
     sync.broadcast('PLAYER_JOIN', {
       id: pId,
       name: nick,
-      avatar: currentAvatar
+      avatar: avatarData
     });
 
-    const avObj = (window.QUIZ_AVATARS || []).find(a => a.id === currentAvatar) || { badge: 'EZ', color: '#be123c', name: 'Zola' };
     const avHolder = document.getElementById('student-active-avatar-holder');
     if (avHolder) {
       avHolder.innerHTML = `
-        <div class="avatar-badge-circle" style="background: ${avObj.color}; color: #ffffff; width: 56px; height: 56px; font-size: 1.3rem; margin: 0 auto; box-shadow: 0 0 15px ${avObj.color}88;">${avObj.badge}</div>
-        <div style="margin-top: 8px; font-weight: 700; color: #f8fafc;">${avObj.name}</div>
-        <small style="color: #94a3b8;">${avObj.desc}</small>
+        <div class="avatar-active-circle" style="display: flex; justify-content: center; margin-bottom: 8px;">
+          ${window.renderAvatarSVG(selectedChar, selectedAcc, selectedBg, 74)}
+        </div>
+        <div style="margin-top: 4px; font-weight: 700; color: #f8fafc; font-size: 1.1rem;">${nick}</div>
+        <small style="color: #94a3b8;">${document.getElementById('live-avatar-label').textContent}</small>
       `;
     }
 

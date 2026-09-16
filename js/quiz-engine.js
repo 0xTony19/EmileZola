@@ -173,24 +173,60 @@ class QuizEngine {
     });
   }
 
-  getAvatarData(avatarKey) {
-    const list = window.QUIZ_AVATARS || [];
-    const found = list.find(a => a.id === avatarKey || a.badge === avatarKey);
-    if (found) return found;
+  parseAvatar(avatar) {
+    if (typeof avatar === 'object' && avatar !== null) {
+      return {
+        char: avatar.char || 'cat',
+        acc: avatar.acc || 'none',
+        bg: avatar.bg || null,
+        name: avatar.name || 'Gattino'
+      };
+    }
+    if (typeof avatar === 'string' && avatar.includes(':')) {
+      const parts = avatar.split(':');
+      return {
+        char: parts[0] || 'cat',
+        acc: parts[1] || 'none',
+        bg: parts[2] || null
+      };
+    }
     return {
-      id: 'custom',
-      badge: typeof avatarKey === 'string' && avatarKey ? avatarKey.slice(0, 2).toUpperCase() : 'ST',
-      color: '#475569',
-      name: 'Studente'
+      char: typeof avatar === 'string' ? avatar : 'cat',
+      acc: 'none',
+      bg: null
     };
   }
 
-  addPlayer(id, name, avatar = 'zola') {
+  getAvatarData(avatarKey) {
+    const parsed = this.parseAvatar(avatarKey);
+    const char = (window.AVATAR_CHARACTERS || []).find(c => c.id === parsed.char) || { id: parsed.char, name: 'Studente', bg: '#3b82f6', species: 'Personaggio' };
+    const bg = parsed.bg || char.bg;
+    return {
+      id: char.id,
+      name: char.name,
+      badge: char.species ? char.species.slice(0, 2).toUpperCase() : 'ST',
+      color: bg,
+      char: parsed.char,
+      acc: parsed.acc,
+      bg: bg
+    };
+  }
+
+  renderAvatarHTML(avatar, size = 44) {
+    const parsed = this.parseAvatar(avatar);
+    if (typeof window.renderAvatarSVG === 'function') {
+      return window.renderAvatarSVG(parsed.char, parsed.acc, parsed.bg, size);
+    }
+    const av = this.getAvatarData(avatar);
+    return `<span class="player-avatar-badge" style="background: ${av.color}; width: ${size}px; height: ${size}px; font-size: ${size * 0.4}px; color: #ffffff;">${av.badge}</span>`;
+  }
+
+  addPlayer(id, name, avatar = 'cat') {
     if (!this.players.has(id)) {
       this.players.set(id, {
         id,
         name: name || `Studente_${id.slice(0, 4)}`,
-        avatar: avatar || 'zola',
+        avatar: avatar || 'cat',
         score: 0,
         streak: 0,
         answered: false,
@@ -203,13 +239,15 @@ class QuizEngine {
   }
 
   addDemoBots() {
-    const demoNames = [
-      { name: "Chiara (Liceo)", avatar: "zola" },
-      { name: "Marco (Voreux)", avatar: "minatore" },
-      { name: "Elena (Médan)", avatar: "giornalista" },
-      { name: "Giacomo (Dreyfus)", avatar: "tribuno" }
+    const demoBots = [
+      { name: "Chiara (Liceo)", avatar: { char: "cat", acc: "glasses", bg: "#f43f5e" } },
+      { name: "Marco (Germinal)", avatar: { char: "bear", acc: "miner_hat", bg: "#b45309" } },
+      { name: "Elena (Médan)", avatar: { char: "bunny", acc: "bow", bg: "#ec4899" } },
+      { name: "Giacomo (Dreyfus)", avatar: { char: "fox", acc: "tophat", bg: "#ea580c" } },
+      { name: "Sofia (Arte)", avatar: { char: "panda", acc: "beret", bg: "#059669" } },
+      { name: "Luca (Pro)", avatar: { char: "frog", acc: "headset", bg: "#10b981" } }
     ];
-    demoNames.forEach((bot, idx) => {
+    demoBots.forEach((bot, idx) => {
       this.addPlayer(`bot_${idx}`, bot.name, bot.avatar);
     });
     this.renderLobbyPlayers();
@@ -279,10 +317,9 @@ class QuizEngine {
     }
 
     container.innerHTML = list.map(p => {
-      const av = this.getAvatarData(p.avatar);
       return `
         <div class="lobby-player-pill animate-pop">
-          <span class="player-avatar-badge" style="background: ${av.color}; color: #ffffff;">${av.badge}</span>
+          <div class="lobby-avatar-wrap">${this.renderAvatarHTML(p.avatar, 36)}</div>
           <span class="player-name">${this.escapeHtml(p.name)}</span>
           ${this.isHost ? `
             <button class="btn-kick-player" onclick="event.stopPropagation(); window.quizApp.kickPlayer('${p.id}')" title="Espelli ${this.escapeHtml(p.name)}">&times;</button>
@@ -548,11 +585,10 @@ class QuizEngine {
 
         <div class="leaderboard-list">
           ${sorted.slice(0, 5).map((p, idx) => {
-            const av = this.getAvatarData(p.avatar);
             return `
               <div class="leaderboard-row rank-${idx + 1} animate-slide-up" style="animation-delay: ${idx * 0.1}s">
                 <span class="lb-rank">#${idx + 1}</span>
-                <span class="lb-avatar-badge" style="background: ${av.color}; color: #ffffff;">${av.badge}</span>
+                <div class="lb-avatar-wrap">${this.renderAvatarHTML(p.avatar, 40)}</div>
                 <span class="lb-name">${this.escapeHtml(p.name)}</span>
                 ${p.streak > 1 ? `<span class="lb-streak">Serie: ${p.streak}</span>` : ''}
                 <span class="lb-score">${p.score} pt</span>
@@ -582,14 +618,10 @@ class QuizEngine {
   endGame() {
     this.gameState = 'PODIUM';
     const sorted = Array.from(this.players.values()).sort((a, b) => b.score - a.score);
-    const winner = sorted[0] || { name: "Nessun Partecipante", score: 0, avatar: "zola" };
+    const winner = sorted[0] || { name: "Nessun Partecipante", score: 0, avatar: "cat" };
     const p1 = sorted[0];
     const p2 = sorted[1];
     const p3 = sorted[2];
-
-    const av1 = p1 ? this.getAvatarData(p1.avatar) : { badge: 'EZ', color: '#be123c' };
-    const av2 = p2 ? this.getAvatarData(p2.avatar) : null;
-    const av3 = p3 ? this.getAvatarData(p3.avatar) : null;
 
     this.syncHub.broadcast('GAME_OVER', {
       podium: sorted.slice(0, 3),
@@ -607,7 +639,7 @@ class QuizEngine {
         <div class="podium-stage">
           ${p2 ? `
             <div class="podium-column silver animate-slide-up" style="animation-delay: 0.3s">
-              <div class="podium-avatar-badge" style="background: ${av2.color}; color: #ffffff;">${av2.badge}</div>
+              <div class="podium-avatar-wrap">${this.renderAvatarHTML(p2.avatar, 60)}</div>
               <div class="podium-name">${this.escapeHtml(p2.name)}</div>
               <div class="podium-score">${p2.score} pt</div>
               <div class="podium-block step-2">2° Posto</div>
@@ -615,7 +647,7 @@ class QuizEngine {
           ` : ''}
 
           <div class="podium-column gold animate-slide-up" style="animation-delay: 0.1s">
-            <div class="podium-avatar-badge winner-avatar" style="background: ${av1.color}; color: #ffffff;">${av1.badge}</div>
+            <div class="podium-avatar-wrap winner-wrap">${this.renderAvatarHTML(p1 ? p1.avatar : winner.avatar, 78)}</div>
             <div class="podium-name winner-name">${this.escapeHtml(p1 ? p1.name : winner.name)}</div>
             <div class="podium-score winner-score">${p1 ? p1.score : winner.score} pt</div>
             <div class="podium-block step-1">1° Posto</div>
@@ -623,7 +655,7 @@ class QuizEngine {
 
           ${p3 ? `
             <div class="podium-column bronze animate-slide-up" style="animation-delay: 0.5s">
-              <div class="podium-avatar-badge" style="background: ${av3.color}; color: #ffffff;">${av3.badge}</div>
+              <div class="podium-avatar-wrap">${this.renderAvatarHTML(p3.avatar, 56)}</div>
               <div class="podium-name">${this.escapeHtml(p3.name)}</div>
               <div class="podium-score">${p3.score} pt</div>
               <div class="podium-block step-3">3° Posto</div>

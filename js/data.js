@@ -266,20 +266,469 @@ const ZOLA_DATA = {
   ]
 };
 
-// Catalogo Avatar Stylized Kahoot-Style (Zero Emoji, Massima Eleganza & Riconoscibilità)
-const QUIZ_AVATARS = [
-  { id: 'zola', name: 'Zola', badge: 'EZ', color: '#be123c', desc: 'Il Maestro' },
-  { id: 'scienziato', name: 'Scienziato', badge: 'SC', color: '#1d4ed8', desc: 'Laboratorio' },
-  { id: 'minatore', name: 'Minatore', badge: 'MN', color: '#b45309', desc: 'Germinal' },
-  { id: 'giornalista', name: 'Giornalista', badge: 'GI', color: '#047857', desc: 'J\'accuse' },
-  { id: 'artista', name: 'Artista', badge: 'AR', color: '#7c3aed', desc: 'L\'Œuvre' },
-  { id: 'dottore', name: 'Dottore', badge: 'DR', color: '#0e7490', desc: 'Pascal' },
-  { id: 'macchinista', name: 'Macchinista', badge: 'MC', color: '#c2410c', desc: 'La Bête' },
-  { id: 'filosofo', name: 'Filosofo', badge: 'FI', color: '#4338ca', desc: 'Determinismo' },
-  { id: 'fotografo', name: 'Fotografo', badge: 'FO', color: '#475569', desc: 'Médan' },
-  { id: 'tribuno', name: 'Dreyfusard', badge: 'TR', color: '#991b1b', desc: 'Verità' },
-  { id: 'esploratore', name: 'Documentarista', badge: 'DO', color: '#065f46', desc: 'Dossier' },
-  { id: 'accademico', name: 'Accademico', badge: 'AC', color: '#6d28d9', desc: 'Panthéon' }
+// =========================================================================
+// SISTEMA AVATAR ULTRA-CARINI KAHOOT-STYLE CON ANIMALI & ACCESSORI (SVG VETTORIALI)
+// =========================================================================
+
+const AVATAR_CHARACTERS = [
+  { id: 'cat', name: 'Gattino', species: 'Gatto', bg: '#f43f5e' },
+  { id: 'dog', name: 'Cagnolino', species: 'Cane', bg: '#3b82f6' },
+  { id: 'bear', name: 'Orsetto', species: 'Orso', bg: '#d97706' },
+  { id: 'panda', name: 'Panda', species: 'Panda', bg: '#059669' },
+  { id: 'fox', name: 'Volpe', species: 'Volpe', bg: '#ea580c' },
+  { id: 'koala', name: 'Koala', species: 'Koala', bg: '#8b5cf6' },
+  { id: 'bunny', name: 'Coniglietto', species: 'Coniglio', bg: '#ec4899' },
+  { id: 'lion', name: 'Leoncino', species: 'Leone', bg: '#eab308' },
+  { id: 'owl', name: 'Gufetto', species: 'Gufo', bg: '#6366f1' },
+  { id: 'frog', name: 'Ranocchia', species: 'Rana', bg: '#10b981' },
+  { id: 'penguin', name: 'Pinguino', species: 'Pinguino', bg: '#0284c7' },
+  { id: 'zola_cat', name: 'Émile Cat', species: 'Zola Feline', bg: '#be123c' }
 ];
 
+const AVATAR_ACCESSORIES = [
+  { id: 'none', name: 'Naturale', label: 'Nessuno' },
+  { id: 'glasses', name: 'Occhiali Tondi Zola', label: 'Occhiali Zola' },
+  { id: 'sunglasses', name: 'Occhiali Cool', label: 'Occhiali da Sole' },
+  { id: 'tophat', name: 'Cilindro Ottocentesco', label: 'Cilindro 1800' },
+  { id: 'crown', name: 'Corona d\'Oro', label: 'Corona Reale' },
+  { id: 'bow', name: 'Fiocchetto Rosso', label: 'Fiocco Chic' },
+  { id: 'headset', name: 'Cuffie Gamer', label: 'Cuffie Pro' },
+  { id: 'beret', name: 'Basco Parigino', label: 'Basco Francese' },
+  { id: 'flower', name: 'Fiorellino', label: 'Fiore Magico' },
+  { id: 'miner_hat', name: 'Casco da Minatore', label: 'Casco Germinal' }
+];
+
+const AVATAR_COLORS = [
+  { id: 'rose', name: 'Rosa Vivo', color: '#f43f5e' },
+  { id: 'blue', name: 'Blu Reale', color: '#2563eb' },
+  { id: 'purple', name: 'Viola Chic', color: '#7c3aed' },
+  { id: 'emerald', name: 'Verde Smeraldo', color: '#059669' },
+  { id: 'amber', name: 'Ambra Dorata', color: '#d97706' },
+  { id: 'crimson', name: 'Rosso Zola', color: '#be123c' },
+  { id: 'cyan', name: 'Ciano Brillante', color: '#0891b2' },
+  { id: 'indigo', name: 'Indaco Notte', color: '#4338ca' }
+];
+
+// Generatore Vettoriale SVG per Avatar Animali Super-Carini & Accessori
+function renderAvatarSVG(charId = 'cat', accId = 'none', bgColor = null, size = 64) {
+  const char = AVATAR_CHARACTERS.find(c => c.id === charId) || AVATAR_CHARACTERS[0];
+  const bg = bgColor || char.bg;
+
+  let faceElements = '';
+  let accessoryElements = '';
+
+  // Base Musetti Animali Carini Kahoot-Style (forme geometriche morbide e occhi luccicanti)
+  switch (charId) {
+    case 'cat':
+      faceElements = `
+        <!-- Orecchie Gatto -->
+        <polygon points="26,34 16,14 38,24" fill="#fbcfe8" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+        <polygon points="74,34 84,14 62,24" fill="#fbcfe8" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+        <polygon points="27,31 20,18 35,24" fill="#f43f5e" />
+        <polygon points="73,31 80,18 65,24" fill="#f43f5e" />
+        <!-- Testa -->
+        <circle cx="50" cy="56" r="32" fill="#fed7aa" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Guanciotte Rosate -->
+        <ellipse cx="32" cy="62" rx="5" ry="3" fill="#fca5a5" opacity="0.8"/>
+        <ellipse cx="68" cy="62" rx="5" ry="3" fill="#fca5a5" opacity="0.8"/>
+        <!-- Baffetti -->
+        <line x1="20" y1="56" x2="32" y2="58" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="64" x2="32" y2="62" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="56" x2="68" y2="58" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="64" x2="68" y2="62" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+        <!-- Occhi Grandi Kawaii -->
+        <ellipse cx="38" cy="52" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="36.5" cy="50" r="1.8" fill="#ffffff"/>
+        <ellipse cx="62" cy="52" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="60.5" cy="50" r="1.8" fill="#ffffff"/>
+        <!-- Nasino e Bocca -->
+        <polygon points="50,59 47,56 53,56" fill="#f43f5e"/>
+        <path d="M46,62 Q50,65 54,62" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+      `;
+      break;
+
+    case 'dog':
+      faceElements = `
+        <!-- Orecchie Pendenti Cane -->
+        <ellipse cx="20" cy="48" rx="9" ry="16" fill="#92400e" transform="rotate(-15 20 48)" stroke="#ffffff" stroke-width="2"/>
+        <ellipse cx="80" cy="48" rx="9" ry="16" fill="#92400e" transform="rotate(15 80 48)" stroke="#ffffff" stroke-width="2"/>
+        <!-- Testa -->
+        <circle cx="50" cy="54" r="31" fill="#fde68a" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Macchia Occhio -->
+        <ellipse cx="38" cy="48" rx="9" ry="11" fill="#d97706" opacity="0.6"/>
+        <!-- Occhi -->
+        <ellipse cx="38" cy="50" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="36.5" cy="48.5" r="1.8" fill="#ffffff"/>
+        <ellipse cx="62" cy="50" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="60.5" cy="48.5" r="1.8" fill="#ffffff"/>
+        <!-- Guanciotte -->
+        <ellipse cx="30" cy="60" rx="5" ry="3" fill="#fca5a5" opacity="0.7"/>
+        <ellipse cx="70" cy="60" rx="5" ry="3" fill="#fca5a5" opacity="0.7"/>
+        <!-- Musetto e Linguetta Felice -->
+        <ellipse cx="50" cy="62" rx="9" ry="7" fill="#ffffff"/>
+        <ellipse cx="50" cy="58" rx="4" ry="2.5" fill="#0f172a"/>
+        <path d="M50,60 L50,64 M47,64 Q50,67 53,64" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M48,65 Q50,71 52,65" fill="#f43f5e"/>
+      `;
+      break;
+
+    case 'bear':
+      faceElements = `
+        <!-- Orecchie Orsetto -->
+        <circle cx="25" cy="28" r="11" fill="#b45309" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="25" cy="28" r="6" fill="#fde68a"/>
+        <circle cx="75" cy="28" r="11" fill="#b45309" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="75" cy="28" r="6" fill="#fde68a"/>
+        <!-- Testa -->
+        <circle cx="50" cy="55" r="32" fill="#b45309" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Musetto Beige -->
+        <ellipse cx="50" cy="63" rx="14" ry="11" fill="#fde68a"/>
+        <!-- Occhi -->
+        <ellipse cx="37" cy="48" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="35.5" cy="46.5" r="1.8" fill="#ffffff"/>
+        <ellipse cx="63" cy="48" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="61.5" cy="46.5" r="1.8" fill="#ffffff"/>
+        <!-- Guance -->
+        <ellipse cx="28" cy="56" rx="4.5" ry="3" fill="#fca5a5" opacity="0.6"/>
+        <ellipse cx="72" cy="56" rx="4.5" ry="3" fill="#fca5a5" opacity="0.6"/>
+        <!-- Nasino e Bocca -->
+        <ellipse cx="50" cy="58" rx="5" ry="3.5" fill="#0f172a"/>
+        <path d="M46,65 Q50,68 54,65" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+      `;
+      break;
+
+    case 'panda':
+      faceElements = `
+        <!-- Orecchie Panda Nere -->
+        <circle cx="24" cy="28" r="11" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="76" cy="28" r="11" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+        <!-- Testa Bianca -->
+        <circle cx="50" cy="55" r="32" fill="#ffffff" stroke="#e2e8f0" stroke-width="2.5"/>
+        <!-- Macchie Nere Occhi -->
+        <ellipse cx="36" cy="49" rx="8" ry="10" fill="#0f172a" transform="rotate(-15 36 49)"/>
+        <ellipse cx="64" cy="49" rx="8" ry="10" fill="#0f172a" transform="rotate(15 64 49)"/>
+        <!-- Occhi Lucidi -->
+        <circle cx="36" cy="49" r="3" fill="#ffffff"/>
+        <circle cx="37" cy="50" r="1.5" fill="#0f172a"/>
+        <circle cx="64" cy="49" r="3" fill="#ffffff"/>
+        <circle cx="63" cy="50" r="1.5" fill="#0f172a"/>
+        <!-- Guanciotte Rosa -->
+        <ellipse cx="26" cy="62" rx="5" ry="3" fill="#fca5a5"/>
+        <ellipse cx="74" cy="62" rx="5" ry="3" fill="#fca5a5"/>
+        <!-- Nasino e Sorriso -->
+        <ellipse cx="50" cy="60" rx="4" ry="2.5" fill="#0f172a"/>
+        <path d="M46,65 Q50,68 54,65" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+      `;
+      break;
+
+    case 'fox':
+      faceElements = `
+        <!-- Orecchie Volpe -->
+        <polygon points="20,38 12,12 40,24" fill="#ea580c" stroke="#ffffff" stroke-width="2.5"/>
+        <polygon points="80,38 88,12 60,24" fill="#ea580c" stroke="#ffffff" stroke-width="2.5"/>
+        <polygon points="21,34 16,17 36,25" fill="#ffffff"/>
+        <polygon points="79,34 84,17 64,25" fill="#ffffff"/>
+        <!-- Testa Arancione -->
+        <circle cx="50" cy="56" r="32" fill="#ea580c" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Maschera Bianca Musetto -->
+        <path d="M22,54 Q50,86 78,54 Q65,48 50,56 Q35,48 22,54 Z" fill="#ffffff"/>
+        <!-- Occhi Furbetti -->
+        <ellipse cx="36" cy="49" rx="4" ry="5.5" fill="#0f172a"/>
+        <circle cx="35" cy="47.5" r="1.6" fill="#ffffff"/>
+        <ellipse cx="64" cy="49" rx="4" ry="5.5" fill="#0f172a"/>
+        <circle cx="63" cy="47.5" r="1.6" fill="#ffffff"/>
+        <!-- Guance Rosate -->
+        <ellipse cx="28" cy="62" rx="4" ry="2.5" fill="#fca5a5"/>
+        <ellipse cx="72" cy="62" rx="4" ry="2.5" fill="#fca5a5"/>
+        <!-- Naso Nero -->
+        <ellipse cx="50" cy="66" rx="4" ry="3" fill="#0f172a"/>
+      `;
+      break;
+
+    case 'koala':
+      faceElements = `
+        <!-- Orecchie Pelose Koala -->
+        <circle cx="18" cy="38" r="14" fill="#94a3b8" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="18" cy="38" r="8" fill="#e2e8f0"/>
+        <circle cx="82" cy="38" r="14" fill="#94a3b8" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="82" cy="38" r="8" fill="#e2e8f0"/>
+        <!-- Testa Grigia -->
+        <circle cx="50" cy="56" r="31" fill="#94a3b8" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Occhi Neri Dolcezza -->
+        <ellipse cx="34" cy="50" rx="4" ry="5" fill="#0f172a"/>
+        <circle cx="33" cy="48.5" r="1.6" fill="#ffffff"/>
+        <ellipse cx="66" cy="50" rx="4" ry="5" fill="#0f172a"/>
+        <circle cx="65" cy="48.5" r="1.6" fill="#ffffff"/>
+        <!-- Guance -->
+        <ellipse cx="27" cy="62" rx="5" ry="3" fill="#fca5a5" opacity="0.8"/>
+        <ellipse cx="73" cy="62" rx="5" ry="3" fill="#fca5a5" opacity="0.8"/>
+        <!-- Gran Nasone Ovale Nero Tipico -->
+        <ellipse cx="50" cy="58" rx="8.5" ry="12" fill="#1e293b"/>
+        <ellipse cx="48" cy="53" rx="2.5" ry="4" fill="#475569"/>
+      `;
+      break;
+
+    case 'bunny':
+      faceElements = `
+        <!-- Orecchie Lunghe Coniglio -->
+        <ellipse cx="32" cy="18" rx="7" ry="20" fill="#ffffff" stroke="#f472b6" stroke-width="2"/>
+        <ellipse cx="32" cy="18" rx="4" ry="14" fill="#fbcfe8"/>
+        <ellipse cx="68" cy="18" rx="7" ry="20" fill="#ffffff" stroke="#f472b6" stroke-width="2"/>
+        <ellipse cx="68" cy="18" rx="4" ry="14" fill="#fbcfe8"/>
+        <!-- Testa Coniglietto -->
+        <circle cx="50" cy="58" r="30" fill="#ffffff" stroke="#e2e8f0" stroke-width="2.5"/>
+        <!-- Guanciotte Rosatissime -->
+        <ellipse cx="30" cy="64" rx="6" ry="3.5" fill="#fca5a5"/>
+        <ellipse cx="70" cy="64" rx="6" ry="3.5" fill="#fca5a5"/>
+        <!-- Occhioni Grandissimi -->
+        <ellipse cx="38" cy="52" rx="5" ry="6.5" fill="#0f172a"/>
+        <circle cx="36.5" cy="50" r="2.2" fill="#ffffff"/>
+        <circle cx="40" cy="54" r="1" fill="#ffffff"/>
+        <ellipse cx="62" cy="52" rx="5" ry="6.5" fill="#0f172a"/>
+        <circle cx="60.5" cy="50" r="2.2" fill="#ffffff"/>
+        <circle cx="64" cy="54" r="1" fill="#ffffff"/>
+        <!-- Nasino Rosa a Cuoricino -->
+        <polygon points="50,62 47,59 53,59" fill="#ec4899"/>
+        <path d="M46,65 Q50,68 54,65" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+      `;
+      break;
+
+    case 'lion':
+      faceElements = `
+        <!-- Criniera Leoncino -->
+        <circle cx="50" cy="54" r="38" fill="#d97706" stroke="#ffffff" stroke-width="2"/>
+        <!-- Orecchie -->
+        <circle cx="24" cy="30" r="9" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+        <circle cx="76" cy="30" r="9" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+        <!-- Testa Gialla -->
+        <circle cx="50" cy="56" r="28" fill="#fde68a" stroke="#ffffff" stroke-width="2"/>
+        <!-- Occhi -->
+        <ellipse cx="39" cy="50" rx="4" ry="5" fill="#0f172a"/>
+        <circle cx="38" cy="48.5" r="1.6" fill="#ffffff"/>
+        <ellipse cx="61" cy="50" rx="4" ry="5" fill="#0f172a"/>
+        <circle cx="60" cy="48.5" r="1.6" fill="#ffffff"/>
+        <!-- Musetto Bianco -->
+        <ellipse cx="50" cy="62" rx="10" ry="7" fill="#ffffff"/>
+        <ellipse cx="50" cy="58" rx="4" ry="2.5" fill="#b45309"/>
+        <path d="M46,64 Q50,67 54,64" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round"/>
+        <!-- Guance -->
+        <ellipse cx="32" cy="62" rx="4" ry="2.5" fill="#fca5a5" opacity="0.8"/>
+        <ellipse cx="68" cy="62" rx="4" ry="2.5" fill="#fca5a5" opacity="0.8"/>
+      `;
+      break;
+
+    case 'owl':
+      faceElements = `
+        <!-- Ciuffi Piume Orecchie Gufo -->
+        <polygon points="26,30 18,16 36,24" fill="#4338ca"/>
+        <polygon points="74,30 82,16 64,24" fill="#4338ca"/>
+        <!-- Corpo/Testa Viola -->
+        <circle cx="50" cy="55" r="32" fill="#6366f1" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Cerchi Occhi Enormi Tipici da Gufo -->
+        <circle cx="37" cy="50" r="11" fill="#ffffff"/>
+        <circle cx="63" cy="50" r="11" fill="#ffffff"/>
+        <!-- Iridi e Pupille -->
+        <circle cx="37" cy="50" r="6" fill="#f59e0b"/>
+        <circle cx="37" cy="50" r="3.5" fill="#0f172a"/>
+        <circle cx="35.5" cy="48.5" r="1.5" fill="#ffffff"/>
+        <circle cx="63" cy="50" r="6" fill="#f59e0b"/>
+        <circle cx="63" cy="50" r="3.5" fill="#0f172a"/>
+        <circle cx="61.5" cy="48.5" r="1.5" fill="#ffffff"/>
+        <!-- Becco Arancione -->
+        <polygon points="50,64 45,54 55,54" fill="#ea580c"/>
+        <!-- Petto Piumoso -->
+        <path d="M42,72 Q50,75 58,72 M44,77 Q50,80 56,77" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+      `;
+      break;
+
+    case 'frog':
+      faceElements = `
+        <!-- Occhioni Sporgenti in Alto Ranocchia -->
+        <circle cx="30" cy="32" r="12" fill="#10b981" stroke="#ffffff" stroke-width="2.5"/>
+        <circle cx="70" cy="32" r="12" fill="#10b981" stroke="#ffffff" stroke-width="2.5"/>
+        <circle cx="30" cy="32" r="6" fill="#0f172a"/>
+        <circle cx="28" cy="30" r="2.2" fill="#ffffff"/>
+        <circle cx="70" cy="32" r="6" fill="#0f172a"/>
+        <circle cx="68" cy="30" r="2.2" fill="#ffffff"/>
+        <!-- Testa Ovale Ranocchia -->
+        <ellipse cx="50" cy="58" rx="34" ry="26" fill="#10b981" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Guance Rosa Fuoco -->
+        <ellipse cx="26" cy="60" rx="6" ry="3.5" fill="#f43f5e" opacity="0.85"/>
+        <ellipse cx="74" cy="60" rx="6" ry="3.5" fill="#f43f5e" opacity="0.85"/>
+        <!-- Grandissimo Sorriso Felice da Ranocchia -->
+        <path d="M28,58 Q50,78 72,58" fill="none" stroke="#064e3b" stroke-width="3" stroke-linecap="round"/>
+        <!-- Narici a Puntini -->
+        <circle cx="47" cy="54" r="1.2" fill="#064e3b"/>
+        <circle cx="53" cy="54" r="1.2" fill="#064e3b"/>
+      `;
+      break;
+
+    case 'penguin':
+      faceElements = `
+        <!-- Testa Pinguino Ovale Nera -->
+        <ellipse cx="50" cy="55" rx="30" ry="32" fill="#0f172a" stroke="#ffffff" stroke-width="2"/>
+        <!-- Pancia / Faccia a Cuore Bianca -->
+        <path d="M50,42 Q32,32 28,54 Q28,78 50,82 Q72,78 72,54 Q68,32 50,42 Z" fill="#ffffff"/>
+        <!-- Occhi -->
+        <ellipse cx="40" cy="50" rx="4" ry="5.5" fill="#0f172a"/>
+        <circle cx="38.5" cy="48.5" r="1.6" fill="#ffffff"/>
+        <ellipse cx="60" cy="50" rx="4" ry="5.5" fill="#0f172a"/>
+        <circle cx="58.5" cy="48.5" r="1.6" fill="#ffffff"/>
+        <!-- Guance -->
+        <ellipse cx="32" cy="60" rx="4.5" ry="3" fill="#fca5a5"/>
+        <ellipse cx="68" cy="60" rx="4.5" ry="3" fill="#fca5a5"/>
+        <!-- Becco Giallo/Arancio -->
+        <polygon points="50,64 43,56 57,56" fill="#f59e0b"/>
+      `;
+      break;
+
+    case 'zola_cat':
+    default:
+      faceElements = `
+        <!-- Émile Zola Cat (Gattino con Barba Elegante Ottocentesca) -->
+        <polygon points="26,32 16,14 38,24" fill="#fbcfe8" stroke="#ffffff" stroke-width="2"/>
+        <polygon points="74,32 84,14 62,24" fill="#fbcfe8" stroke="#ffffff" stroke-width="2"/>
+        <circle cx="50" cy="54" r="31" fill="#fed7aa" stroke="#ffffff" stroke-width="2.5"/>
+        <!-- Barbetta Zola Bianca -->
+        <path d="M36,60 Q50,84 64,60 Q50,70 36,60 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+        <!-- Occhioni -->
+        <ellipse cx="38" cy="48" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="36.5" cy="46.5" r="1.8" fill="#ffffff"/>
+        <ellipse cx="62" cy="48" rx="4.5" ry="5.5" fill="#0f172a"/>
+        <circle cx="60.5" cy="46.5" r="1.8" fill="#ffffff"/>
+        <!-- Nasino -->
+        <polygon points="50,56 47,53 53,53" fill="#f43f5e"/>
+      `;
+      break;
+  }
+
+  // Layer Accessori Personalizzabili
+  switch (accId) {
+    case 'glasses':
+      accessoryElements = `
+        <!-- Occhiali Tondi Zola Dorati -->
+        <circle cx="37" cy="50" r="10" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+        <circle cx="63" cy="50" r="10" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+        <line x1="47" y1="50" x2="53" y2="50" stroke="#f59e0b" stroke-width="2.5"/>
+        <!-- Lenti Riflesso Lucido -->
+        <path d="M33,45 L38,45" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+        <path d="M59,45 L64,45" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+      `;
+      break;
+
+    case 'sunglasses':
+      accessoryElements = `
+        <!-- Occhiali da Sole Cool Neri -->
+        <polygon points="26,44 48,44 45,58 29,58" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <polygon points="52,44 74,44 71,58 55,58" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+        <line x1="48" y1="46" x2="52" y2="46" stroke="#0f172a" stroke-width="2.5"/>
+        <!-- Riflessi Azzurri sulle lenti -->
+        <line x1="31" y1="48" x2="43" y2="54" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+        <line x1="57" y1="48" x2="69" y2="54" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+      `;
+      break;
+
+    case 'tophat':
+      accessoryElements = `
+        <!-- Cilindro Ottocentesco Elegante -->
+        <rect x="34" y="8" width="32" height="22" rx="2" fill="#1e293b" stroke="#ffffff" stroke-width="1.5"/>
+        <rect x="34" y="24" width="32" height="6" fill="#be123c"/>
+        <ellipse cx="50" cy="30" rx="24" ry="4.5" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>
+      `;
+      break;
+
+    case 'crown':
+      accessoryElements = `
+        <!-- Corona d'Oro Reale con Gemme -->
+        <polygon points="32,24 30,12 40,18 50,10 60,18 70,12 68,24" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
+        <circle cx="50" cy="18" r="2" fill="#ef4444"/>
+        <circle cx="38" cy="20" r="1.5" fill="#3b82f6"/>
+        <circle cx="62" cy="20" r="1.5" fill="#10b981"/>
+      `;
+      break;
+
+    case 'bow':
+      accessoryElements = `
+        <!-- Fiocco Rosso Carino -->
+        <polygon points="50,22 38,15 38,29" fill="#f43f5e" stroke="#ffffff" stroke-width="1.5"/>
+        <polygon points="50,22 62,15 62,29" fill="#f43f5e" stroke="#ffffff" stroke-width="1.5"/>
+        <circle cx="50" cy="22" r="3.5" fill="#ffe4e6" stroke="#f43f5e" stroke-width="1.5"/>
+      `;
+      break;
+
+    case 'headset':
+      accessoryElements = `
+        <!-- Cuffie Gamer E-Sport -->
+        <path d="M22,50 A28,28 0 0,1 78,50" fill="none" stroke="#38bdf8" stroke-width="4.5" stroke-linecap="round"/>
+        <rect x="16" y="44" width="8" height="16" rx="4" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"/>
+        <rect x="76" y="44" width="8" height="16" rx="4" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"/>
+        <path d="M20,56 Q24,72 36,68" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="36" cy="68" r="2.5" fill="#f43f5e"/>
+      `;
+      break;
+
+    case 'beret':
+      accessoryElements = `
+        <!-- Basco Parigino Bohemien -->
+        <ellipse cx="48" cy="24" rx="26" ry="10" fill="#991b1b" transform="rotate(-10 48 24)" stroke="#ffffff" stroke-width="1.5"/>
+        <circle cx="48" cy="14" r="2" fill="#991b1b"/>
+      `;
+      break;
+
+    case 'flower':
+      accessoryElements = `
+        <!-- Fiorellino Magico -->
+        <circle cx="70" cy="22" r="4" fill="#fbcfe8"/>
+        <circle cx="76" cy="26" r="4" fill="#fbcfe8"/>
+        <circle cx="70" cy="30" r="4" fill="#fbcfe8"/>
+        <circle cx="64" cy="26" r="4" fill="#fbcfe8"/>
+        <circle cx="70" cy="26" r="3" fill="#f59e0b"/>
+      `;
+      break;
+
+    case 'miner_hat':
+      accessoryElements = `
+        <!-- Casco da Minatore di Germinal -->
+        <path d="M28,26 Q50,14 72,26 L76,30 L24,30 Z" fill="#b45309" stroke="#ffffff" stroke-width="1.5"/>
+        <!-- Lampada a Carburo Luminosa -->
+        <ellipse cx="50" cy="24" rx="5" ry="5" fill="#fbbf24" stroke="#ffffff" stroke-width="1.5"/>
+        <circle cx="50" cy="24" r="2" fill="#ffffff"/>
+      `;
+      break;
+
+    case 'none':
+    default:
+      break;
+  }
+
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="${size}" height="${size}" class="avatar-svg-icon" style="background: ${bg}; border-radius: 50%; overflow: visible; display: inline-block; vertical-align: middle;">
+      <!-- Sfondo circolare con bordo -->
+      <circle cx="50" cy="50" r="46" fill="${bg}" stroke="#ffffff" stroke-width="3"/>
+      <!-- Ombra morbida del personaggio -->
+      <ellipse cx="50" cy="85" rx="28" ry="7" fill="rgba(0,0,0,0.18)"/>
+      <!-- Elementi del Faccino -->
+      ${faceElements}
+      <!-- Elementi Accessorio -->
+      ${accessoryElements}
+    </svg>
+  `.trim();
+}
+
+// Catalogo Avatar Retrocompatibile per il motore di gioco
+const QUIZ_AVATARS = AVATAR_CHARACTERS.map(c => ({
+  id: c.id,
+  name: c.name,
+  badge: c.species.slice(0, 2).toUpperCase(),
+  color: c.bg,
+  desc: c.species,
+  charId: c.id,
+  accId: 'none'
+}));
+
+window.AVATAR_CHARACTERS = AVATAR_CHARACTERS;
+window.AVATAR_ACCESSORIES = AVATAR_ACCESSORIES;
+window.AVATAR_COLORS = AVATAR_COLORS;
+window.renderAvatarSVG = renderAvatarSVG;
 window.QUIZ_AVATARS = QUIZ_AVATARS;
+
