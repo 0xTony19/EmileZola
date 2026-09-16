@@ -283,6 +283,7 @@ function renderBiography() {
 
   const bio = ZOLA_DATA.biografia;
   bioGrid.innerHTML = `
+    <!-- Passaporto Anagrafico Ufficiale -->
     <div class="bio-card passport-card animate-fade-in">
       <div class="passport-header">
         <span class="passport-stamp">RÉPUBLIQUE FRANÇAISE</span>
@@ -313,6 +314,36 @@ function renderBiography() {
           <label>Corrente Letteraria</label>
           <div class="val gold-text">${bio.corrente}</div>
         </div>
+        <div class="passport-field" style="grid-column: 1 / -1;">
+          <label>Luogo di Sepoltura</label>
+          <div class="val">${bio.sepoltura}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schede di Esposizione e Approfondimento Dettagliato -->
+    <div style="margin-top: 36px;">
+      <div class="section-header" style="margin-bottom: 20px;">
+        <span class="section-category">QUADRO NARRATIVO ED ESPOSITIVO</span>
+        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--text-primary);">Tappe Fondamentali per l'Esposizione</h3>
+        <p class="section-lead">Punti chiave ordinati cronologicamente e concettualmente per una presentazione chiara ed esaustiva.</p>
+      </div>
+
+      <div class="bio-exposition-grid">
+        ${bio.schedeEsposizione.map((card, idx) => `
+          <div class="bio-expo-card animate-slide-up" style="animation-delay: ${idx * 0.08}s">
+            <div class="expo-card-header">
+              <span class="expo-tag">${card.tag}</span>
+              <h4 class="expo-title">${card.titolo}</h4>
+            </div>
+            <ul class="expo-points-list">
+              ${card.punti.map(pt => `<li>${pt}</li>`).join('')}
+            </ul>
+            <div class="expo-speech-hint">
+              <strong>Focus Esposizione:</strong> ${card.focusOrale}
+            </div>
+          </div>
+        `).join('')}
       </div>
     </div>
   `;
@@ -526,21 +557,36 @@ function renderContext() {
 
   const ctx = ZOLA_DATA.contestoStorico;
   container.innerHTML = `
-    <div class="context-box-card animate-fade-in">
-      <div class="context-main-text">
-        <p style="font-size: 1.15rem; font-weight: 600; color: var(--text-primary); margin-bottom: 16px;">
-          Zola scrive nella <strong>Francia dell'industrializzazione avanzata</strong>, segnata da:
-        </p>
-        <ul class="context-bullets-list">
-          ${ctx.punti.map(p => `<li>${p}</li>`).join('')}
-        </ul>
-        <div class="context-quote-banner" style="margin-top: 24px; padding: 18px; background: var(--bg-main); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm);">
-          <strong style="color: var(--accent-navy); font-size: 1.05rem;">"Histoire naturelle et sociale d'une famille sous le Second Empire"</strong>
-          <p style="margin-top: 6px; color: var(--text-secondary); font-size: 0.95rem;">
-            Ogni romanzo segue un ramo della famiglia (i <strong>Rougon</strong>, ambiziosi e arrivisti; i <strong>Macquart</strong>, segnati da alcolismo ed ereditarietà degenerativa) per esplorare un ambiente sociale diverso (miniere, mercati, ferrovie, arte, politica, Chiesa).
-          </p>
-        </div>
+    <div class="context-master-container animate-fade-in">
+      
+      <!-- Quadro Generale Introduttivo -->
+      <div class="context-lead-banner">
+        <span class="context-lead-tag">QUADRO STORICO & SOCIALE</span>
+        <p class="context-lead-text">${ctx.quadroGenerale}</p>
       </div>
+
+      <!-- I 4 Grandi Pilastri del Contesto -->
+      <div class="context-pillars-grid">
+        ${ctx.pilastriContesto.map((p, i) => `
+          <div class="context-pillar-card animate-slide-up" style="animation-delay: ${i * 0.08}s">
+            <div class="pillar-card-top">
+              <span class="pillar-icon-badge">${p.icon}</span>
+              <h4 class="pillar-card-title">${p.titolo}</h4>
+            </div>
+            <p class="pillar-card-text">${p.desc}</p>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Progetto Sociologico dei Rougon-Macquart -->
+      <div class="context-focus-card">
+        <div class="focus-card-header">
+          <span class="focus-card-badge">LA METODOLOGIA DEL CICLO</span>
+          <h4>"Histoire naturelle et sociale d'une famille sous le Second Empire"</h4>
+        </div>
+        <p class="focus-card-desc">${ctx.progettoRougonMacquart}</p>
+      </div>
+
     </div>
   `;
 }
@@ -564,8 +610,8 @@ function renderGerminal() {
       <!-- Trama Essenziale Box -->
       <div class="germinal-card-panel synopsis-panel">
         <div class="panel-header-tag">
-          <span class="panel-tag-icon">TRAMA</span>
-          <h4>Trama Essenziale</h4>
+          <span class="panel-tag-icon">TRAMA ESSENZIALE</span>
+          <h4>Sintesi Narrativa per l'Esposizione</h4>
         </div>
         <p class="germinal-synopsis-text">${g.tramaEssenziale}</p>
       </div>
@@ -573,7 +619,7 @@ function renderGerminal() {
       <!-- Perché è l'opera più rappresentativa (6 Pilastri) -->
       <div class="germinal-section-heading">
         <span class="heading-accent-line"></span>
-        <h4>Perché è l'opera più rappresentativa</h4>
+        <h4>Perché è l'opera più rappresentativa (6 Chiavi di Lettura)</h4>
         <span class="heading-accent-line"></span>
       </div>
 
@@ -592,8 +638,8 @@ function renderGerminal() {
       <!-- Il Titolo come Chiave Simbolica -->
       <div class="germinal-card-panel symbolic-panel">
         <div class="panel-header-tag">
-          <span class="panel-tag-icon">SIMBOLOGIA</span>
-          <h4>Il Titolo come Chiave Simbolica</h4>
+          <span class="panel-tag-icon">SIGNIFICATO SIMBOLICO</span>
+          <h4>Il Titolo come Chiave Simbolica ed Epilogo di Speranza</h4>
         </div>
         <p class="germinal-symbolic-text">${g.chiaveSimbolicaTitolo}</p>
       </div>
@@ -609,21 +655,42 @@ function renderExile() {
 
   const ex = ZOLA_DATA.esilioInghilterra;
   container.innerHTML = `
-    <div class="passport-card animate-fade-in" style="border-color: var(--accent-crimson);">
-      <div class="passport-header">
-        <span class="passport-stamp" style="color: var(--accent-crimson); border-color: var(--accent-crimson);">LONDRA — SURREY (${ex.anni})</span>
-        <span class="passport-title">L'ESILIO IN INGHILTERRA DOPO J'ACCUSE...!</span>
+    <div class="exile-master-wrapper animate-fade-in">
+      
+      <!-- Banner Introduttivo Esilio -->
+      <div class="exile-intro-card">
+        <div class="exile-stamp-badge">LONDRA & SURREY (1898–1899)</div>
+        <h3 class="exile-main-title">${ex.titolo}</h3>
+        <p class="exile-lead-text">${ex.sintesi}</p>
       </div>
-      <div class="exile-body">
-        <ul class="exile-timeline-list">
-          ${ex.punti.map(pt => `
-            <li class="exile-timeline-item">
-              <span class="exile-dot"></span>
-              <p>${pt}</p>
-            </li>
+
+      <!-- Timeline Cronologica Tappe -->
+      <div class="exile-timeline-container">
+        <div class="section-header" style="margin-bottom: 20px;">
+          <span class="section-category">CRONOLOGIA DEGLI EVENTI</span>
+          <h4 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-primary); margin: 0;">Le 4 Tappe Fondamentali</h4>
+        </div>
+        <div class="exile-timeline-grid">
+          ${ex.tappeCronologiche.map((t, i) => `
+            <div class="exile-step-card animate-slide-up" style="animation-delay: ${i * 0.08}s">
+              <div class="step-card-header">
+                <span class="step-date-badge">${t.data}</span>
+                <h5 class="step-title">${t.titolo}</h5>
+              </div>
+              <p class="step-desc">${t.desc}</p>
+            </div>
           `).join('')}
-        </ul>
+        </div>
       </div>
+
+      <!-- Eredità Civile ed Etica -->
+      <div class="exile-legacy-box">
+        <div class="legacy-header">
+          <strong>Valore Civile e Storico:</strong>
+        </div>
+        <p class="legacy-text">${ex.ereditaCivile}</p>
+      </div>
+
     </div>
   `;
 }

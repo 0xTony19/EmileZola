@@ -7,7 +7,51 @@ const ZOLA_DATA = {
     nazionalita: "Francese (padre italiano, ingegnere)",
     periodo: "Seconda metà dell'Ottocento — Secondo Impero e Terza Repubblica francese (1860–1902)",
     corrente: "Naturalismo francese (fondatore e teorico)",
-    sepoltura: "Traslato nel 1908 al Panthéon di Parigi (riconoscimento ufficiale del suo ruolo letterario e civile)"
+    sepoltura: "Traslato nel 1908 al Panthéon di Parigi (riconoscimento ufficiale del suo ruolo letterario e civile)",
+    
+    // Punti chiave organizzati per una perfetta esposizione orale (facili da esporre e ricchi di dettagli)
+    schedeEsposizione: [
+      {
+        tag: "ORIGINI E FORMAZIONE",
+        titolo: "Origini italo-francesi e infanzia ad Aix",
+        punti: [
+          "Figlio di Francesco Zola (ingegnere e militare veneziano) e di Émilie Aubert (donna borghese francese).",
+          "Cresce ad Aix-en-Provence, dove stringe una storica e fraterna amicizia con il futuro pittore Paul Cézanne.",
+          "La morte improvvisa del padre (1847) fa piombare la famiglia in gravi difficoltà finanziarie."
+        ],
+        focusOrale: "Zola porta con sé la determinazione dell'autodidatta: il fallimento del baccalauréat lo costringe a lavorare presto a Parigi."
+      },
+      {
+        tag: "INIZI LETTERARI",
+        titolo: "Dall'editoria Hachette al Giornalismo d'Assalto",
+        punti: [
+          "Lavora come addetto alla pubblicità presso la prestigiosa libreria parigina Hachette, comprendendo le dinamiche editoriali moderne.",
+          "Inizia l'attività di giornalista e critico d'arte, difendendo gli Impressionisti (Édouard Manet e Cézanne) contro il conformismo accademico.",
+          "Nel 1867 pubblica *Thérèse Raquin*, il suo primo grande romanzo naturalista basato su studio clinico dei temperamenti."
+        ],
+        focusOrale: "Usa la stampa come laboratorio: il giornalismo gli fornisce l'oggettività e l'occhio acuto dell'inchiesta sociale."
+      },
+      {
+        tag: "RUOLO CIVILE",
+        titolo: "L'Affaire Dreyfus e la Nascita dell'Intellettuale Engagé",
+        punti: [
+          "Il 13 gennaio 1898 pubblica la celebre lettera aperta *J'accuse...!* sul giornale *L'Aurore* per difendere l'ufficiale Alfred Dreyfus.",
+          "Denuncia lo Stato Maggiore dell'esercito francese di complotto antisemita e depistaggio.",
+          "Condannato a 1 anno di carcere, sceglie l'esilio volontario a Londra prima della revisione del processo."
+        ],
+        focusOrale: "Con Zola nasce l'intellettuale moderno: la letteratura non è intrattenimento ma impegno morale e civile."
+      },
+      {
+        tag: "FINE E RICONOSCIMENTO",
+        titolo: "La Morte Misteriosa e l'Apoteosi al Panthéon",
+        punti: [
+          "Muore il 29 settembre 1902 nella sua casa di Parigi, asfissiato da fumi di monossido di carbonio dovuti a un comignolo ostruito.",
+          "I sospetti di attentato da parte di fazioni nazionaliste e antidreyfusarde sono rimasti vivi nella storiografia.",
+          "Nel 1908 le sue ceneri vengono traslate al Panthéon di Parigi: celebre l'orazione di Anatole France: *'Egli fu un momento della coscienza umana'*. "
+        ],
+        focusOrale: "La consacrazione al Panthéon suggella la vittoria morale delle sue battaglie democratiche e laiche."
+      }
+    ]
   },
 
   pilastriPoetica: [
@@ -100,13 +144,31 @@ const ZOLA_DATA = {
   ],
 
   contestoStorico: {
-    titolo: "Analisi del contesto delle opere",
-    punti: [
-      "Francia dell'industrializzazione avanzata.",
-      "Urbanizzazione accelerata e nascita di un proletariato urbano.",
-      "Conflitti di classe, alcolismo, prostituzione, criminalità come temi sociali emergenti.",
-      "Fiducia positivista nella scienza come chiave di lettura della realtà."
-    ]
+    titolo: "Analisi del Contesto Storico e Sociale",
+    quadroGenerale: "Zola opera nel cuore della Seconda Rivoluzione Industriale, attraversando il Secondo Impero di Napoleone III (1852–1870) e la Terza Repubblica (1870–1940). È l'epoca della trasformazione radicale di Parigi ad opera del barone Haussmann, dell'ascesa della finanza e della nascita delle masse proletarie.",
+    pilastriContesto: [
+      {
+        titolo: "Industrializzazione e Urbanesimo",
+        icon: "FABBRICA",
+        desc: "Spostamento massiccio dalle campagne ai sobborghi industriali. Nascita del proletariato di fabbrica e di miniera, costretto a ritmi massacranti, salari di sussistenza e alloggi insalubri."
+      },
+      {
+        titolo: "Emergenza della Questione Sociale",
+        icon: "CONFLITTO",
+        desc: "Conflitti di classe, primi grandi scioperi e nascita della coscienza operaia. Emergenza di piaghe sociali sistemiche come l'alcolismo, la prostituzione, la tubercolosi e la criminalità nei quartieri operai."
+      },
+      {
+        titolo: "Positivismo e Fede Scientifica",
+        icon: "SCIENZA",
+        desc: "Trionfo dell'epistemologia positivista (Auguste Comte, Claude Bernard, Prosper Lucas). La scienza, la medicina e l'evoluzionismo darwiniano diventano gli unici strumenti per spiegare l'uomo e la società."
+      },
+      {
+        titolo: "La Speculazione e il Capitalismo Finanziario",
+        icon: "FINANZA",
+        desc: "Nascita delle grandi banche d'affari, speculazione edilizia, borsa e grandi magazzini parigini (esplorati da Zola in *La Curée*, *L'Argent* e *Au Bonheur des Dames*)."
+      }
+    ],
+    progettoRougonMacquart: "Nel ciclo dei *Rougon-Macquart*, con il programmatico sottotitolo *'Histoire naturelle et sociale d'une famille sous le Second Empire'*, Zola adotta una duplice prospettiva: genetica-ereditaria (due rami familiari con le loro tare) e sociologica (ogni romanzo attraversa una specifica classe sociale o ambiente di lavoro)."
   },
 
   romanziRougonMacquart: [
@@ -162,13 +224,31 @@ const ZOLA_DATA = {
 
   esilioInghilterra: {
     anni: "1898–1899",
-    punti: [
-      "Condannato il 23 febbraio 1898 a 1 anno di reclusione e 3.000 franchi di multa per diffamazione dopo J'accuse...!.",
-      "Fugge dalla Francia nella notte tra il 18 e il 19 luglio 1898, quasi senza bagagli.",
-      "Vive circa 11 mesi in Inghilterra (Londra, Surrey), spesso sotto falso nome, isolato e senza parlare inglese.",
-      "Continua a scrivere: avvia il ciclo Les Quatre Évangiles.",
-      "Rientra in Francia nel giugno 1899, dopo la concessione della revisione del processo Dreyfus."
-    ]
+    titolo: "L'Esilio in Inghilterra dopo J'accuse...! e l'Affaire Dreyfus",
+    sintesi: "A seguito della pubblicazione di J'accuse...! (13 gennaio 1898), Zola viene processato per diffamazione delle forze armate. Per non scontare il carcere e mantenere la libertà di parola, accetta la fuga all'estero, trasformando il suo esilio in un simbolo internazionale di lotta per la giustizia.",
+    tappeCronologiche: [
+      {
+        data: "23 Febbraio 1898",
+        titolo: "La Condanna al Carcere",
+        desc: "La Corte d'Assise di Parigi condanna Zola al massimo della pena: 1 anno di reclusione e 3.000 franchi di ammenda per diffamazione."
+      },
+      {
+        data: "18-19 Luglio 1898",
+        titolo: "La Fuga Notturna",
+        desc: "Su consiglio dei suoi avvocati e amici (tra cui Georges Clemenceau), parte segretamente dalla stazione di Parigi-Nord per Londra, senza bagagli e sotto falso nome."
+      },
+      {
+        data: "1898–1899",
+        titolo: "11 Mesi di Isolamento a Londra e Surrey",
+        desc: "Vive in clandestinità sotto vari pseudonimi (tra cui 'M. Pascal'), isolato e senza parlare inglese. Nonostante lo sconforto, continua a lavorare alacremente avviando il ciclo *Les Quatre Évangiles* (iniziando con *Fécondité*)."
+      },
+      {
+        data: "4 Giugno 1899",
+        titolo: "Il Rientro Trionfale a Parigi",
+        desc: "La Corte di Cassazione accoglie l'istanza di revisione del processo per l'ufficiale Alfred Dreyfus. Zola può fare ritorno in patria a testa alta."
+      }
+    ],
+    ereditaCivile: "L'esilio dimostrò al mondo che l'autorità morale di uno scrittore poteva piegare l'apparato repressivo dello Stato. Zola non fuggì per paura, ma per continuare a guidare la battaglia per la verità democratica."
   },
 
   curiosita: [

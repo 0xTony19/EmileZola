@@ -2207,3 +2207,374 @@ body.lim-mode .nav-item-link {
   max-width: 700px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
+
+/* ==========================================================================
+   ENRICHED BIOGRAPHY, CONTEXT & EXILE STRUCTURED CARDS (EXPOSITION DESIGN)
+   ========================================================================== */
+
+/* Biography Exposition Cards */
+.bio-exposition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.bio-expo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--accent-gold);
+  border-radius: var(--radius-md);
+  padding: 24px 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+}
+
+.bio-expo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-gold);
+}
+
+.expo-card-header {
+  margin-bottom: 14px;
+}
+
+.expo-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent-gold);
+  background: var(--accent-gold-light);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  border: 1px solid rgba(179, 126, 25, 0.2);
+}
+
+.expo-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.expo-points-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  flex: 1;
+}
+
+.expo-points-list li {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+}
+
+.expo-points-list li::before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+  top: 0;
+  color: var(--accent-gold);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.expo-speech-hint {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-navy);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+body[data-theme="dark"] .expo-speech-hint {
+  border-left-color: var(--accent-gold);
+}
+
+.expo-speech-hint strong {
+  color: var(--accent-navy);
+  display: inline;
+}
+
+body[data-theme="dark"] .expo-speech-hint strong {
+  color: var(--accent-gold);
+}
+
+/* Context Master Layout */
+.context-master-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.context-lead-banner {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-gold);
+  border-radius: var(--radius-md);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.context-lead-tag {
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent-gold);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.context-lead-text {
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.context-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+
+.context-pillar-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  box-shadow: var(--shadow-sm);
+  border-top: 3px solid var(--accent-gold);
+  transition: all var(--transition-normal);
+}
+
+.context-pillar-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-gold);
+}
+
+.pillar-card-top {
+  margin-bottom: 10px;
+}
+
+.pillar-icon-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent-navy);
+  background: var(--bg-main);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  margin-bottom: 8px;
+}
+
+body[data-theme="dark"] .pillar-icon-badge {
+  color: var(--accent-gold);
+}
+
+.pillar-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.pillar-card-text {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.context-focus-card {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-gold);
+  border-radius: var(--radius-md);
+  padding: 28px 30px;
+  box-shadow: var(--shadow-md);
+  outline: 1px solid var(--border-color-strong);
+  outline-offset: -5px;
+}
+
+.focus-card-header {
+  margin-bottom: 12px;
+}
+
+.focus-card-badge {
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent-gold);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.focus-card-header h4 {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--accent-navy);
+  margin: 0;
+}
+
+body[data-theme="dark"] .focus-card-header h4 {
+  color: #e2d9cc;
+}
+
+.focus-card-desc {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Exile Master Layout */
+.exile-master-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.exile-intro-card {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-crimson);
+  border-radius: var(--radius-md);
+  padding: 30px 32px;
+  box-shadow: var(--shadow-md);
+}
+
+.exile-stamp-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent-crimson);
+  border: 2px solid var(--accent-crimson);
+  padding: 4px 14px;
+  margin-bottom: 12px;
+  background: var(--bg-card);
+}
+
+.exile-main-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin: 0 0 10px;
+}
+
+.exile-lead-text {
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.exile-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+
+.exile-step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--accent-crimson);
+  border-radius: var(--radius-md);
+  padding: 22px 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+}
+
+.exile-step-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-crimson);
+}
+
+.step-card-header {
+  margin-bottom: 10px;
+}
+
+.step-date-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--accent-crimson);
+  background: var(--accent-crimson-light);
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.step-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.step-desc {
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.exile-legacy-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-crimson);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+}
+
+.legacy-header strong {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  letter-spacing: 1px;
+  color: var(--accent-crimson);
+  text-transform: uppercase;
+}
+
+.legacy-text {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 6px 0 0;
+}
