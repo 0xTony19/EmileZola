@@ -6,22 +6,20 @@
  * 3. BroadcastChannel & LocalStorage (per testing multi-scheda sullo stesso computer)
  */
 
-// Generatore QR Code ISO standard
+// Generatore QR Code ISO standard + Fallback Ultra-Robusto
 const QRCodeGenerator = {
-  instance: null,
+  generate: function(text, elementId = 'qr-canvas-holder', size = 200) {
+    let target = document.getElementById(elementId) || 
+                 document.getElementById('qr-canvas-holder') || 
+                 document.getElementById('qr-canvas') ||
+                 document.querySelector('.qr-canvas-holder');
+    
+    if (!target) return;
 
-  generate: function(text, canvasId, size = 220) {
-    const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
+    target.innerHTML = ''; // Pulisci QR precedente
 
-    // Pulisci canvas precedente
-    const parent = canvas.parentElement;
-    if (!parent) return;
-
-    parent.innerHTML = '<div id="qr-container-target" style="display:inline-block; padding:8px; background:#ffffff; border-radius:8px;"></div>';
-    const target = document.getElementById('qr-container-target');
-
-    if (window.QRCode && target) {
+    let success = false;
+    if (window.QRCode) {
       try {
         new window.QRCode(target, {
           width: size,
@@ -31,9 +29,22 @@ const QRCodeGenerator = {
           colorLight: "#ffffff",
           correctLevel: window.QRCode.CorrectLevel.M
         });
+        success = true;
       } catch (e) {
-        console.error("Errore generazione QR Code:", e);
+        console.warn("Errore generazione QRCode.js:", e);
       }
+    }
+
+    if (!success || target.children.length === 0) {
+      const img = document.createElement('img');
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}`;
+      img.alt = 'Codice QR di Partecipazione';
+      img.style.width = `${size}px`;
+      img.style.height = `${size}px`;
+      img.style.display = 'block';
+      img.style.margin = '0 auto';
+      img.style.borderRadius = '4px';
+      target.appendChild(img);
     }
   }
 };

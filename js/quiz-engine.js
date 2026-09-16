@@ -230,7 +230,7 @@ class QuizEngine {
     const joinUrl = `${baseUrl}?mode=player&room=${this.roomCode}`;
     
     // Genera QR Code
-    QRCodeGenerator.generate(joinUrl, 'qr-canvas', 200);
+    QRCodeGenerator.generate(joinUrl, 'qr-canvas-holder', 200);
 
     const roomPinEl = document.getElementById('room-pin-display');
     if (roomPinEl) roomPinEl.textContent = this.roomCode;

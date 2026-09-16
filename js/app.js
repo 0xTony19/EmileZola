@@ -559,7 +559,7 @@ function initQuizController() {
       }
 
       this.currentJoinUrl = targetUrl;
-      QRCodeGenerator.generate(targetUrl, 'qr-canvas', 200);
+      QRCodeGenerator.generate(targetUrl, 'qr-canvas-holder', 200);
       if (urlEl) urlEl.textContent = targetUrl;
     },
 
