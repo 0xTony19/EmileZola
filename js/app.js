@@ -857,13 +857,38 @@ function initQuizController() {
         }).catch(() => {});
       } else {
         prompt("Copia questo link:", url);
-      }
-    },
-
     openLocalPlayerTab: function() {
-      const baseUrl = window.location.href.split('?')[0];
-      const playerUrl = `${baseUrl}?mode=player&room=${this.engine.roomCode}`;
-      window.open(playerUrl, '_blank');
+      const room = this.engine.roomCode;
+      let playerUrl = '';
+      
+      if (window.location.protocol.startsWith('http')) {
+        // Quando eseguito su GitHub Pages o Server Locale HTTP
+        const baseUrl = window.location.origin + window.location.pathname;
+        playerUrl = `${baseUrl}?mode=player&room=${room}`;
+      } else {
+        // Quando aperto direttamente con doppio click da file://
+        const baseHref = window.location.href.split('?')[0].split('#')[0];
+        playerUrl = `${baseHref}?mode=player&room=${room}`;
+      }
+
+      // Apri in una nuova finestra/scheda con dimensioni ideali per simulare uno smartphone
+      const width = 440;
+      const height = 820;
+      const left = window.screen.width ? (window.screen.width - width) / 2 : 100;
+      const top = window.screen.height ? (window.screen.height - height) / 2 : 50;
+      
+      const newWin = window.open(
+        playerUrl,
+        '_blank',
+        `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
+      );
+
+      if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+        // Se il browser blocca i popup, esegui fallback su nuova scheda standard
+        window.open(playerUrl, '_blank');
+      }
+
+      SFX.playTone(600, 'sine', 0.08, 0.05);
     },
 
     setCustomIP: function() {
@@ -940,10 +965,18 @@ function initQuizController() {
 // 10. Controllo modalità Smartphone
 function checkUrlMode() {
   const urlParams = new URLSearchParams(window.location.search);
-  const mode = urlParams.get('mode');
-  const room = urlParams.get('room');
+  let mode = urlParams.get('mode');
+  let room = urlParams.get('room');
 
-  if (mode === 'player' || (window.innerWidth < 600 && urlParams.has('room'))) {
+  // Fallback: Controlla se i parametri sono passati dopo l'hash (es. #home?mode=player&room=XXX)
+  if (!mode && window.location.hash.includes('?')) {
+    const hashQuery = window.location.hash.split('?')[1];
+    const hashParams = new URLSearchParams(hashQuery);
+    mode = hashParams.get('mode');
+    room = hashParams.get('room');
+  }
+
+  if (mode === 'player' || (window.innerWidth < 600 && (urlParams.has('room') || (window.location.hash.includes('room='))))) {
     document.body.classList.add('student-mobile-mode');
     renderStudentMobileView(room);
   }
