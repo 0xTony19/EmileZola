@@ -500,6 +500,20 @@ function initQuizController() {
       const hintEl = document.getElementById('qr-scan-instruction');
       const badgeEl = document.getElementById('network-mode-badge');
 
+      // URL Ufficiale Online su GitHub Pages
+      const githubPagesUrl = `https://0xtony19.github.io/EmileZola/?mode=player&room=${this.engine.roomCode}`;
+      this.githubPagesUrl = githubPagesUrl;
+
+      // Se aperto direttamente da GitHub Pages
+      if (window.location.hostname.includes('github.io')) {
+        if (warnBox) warnBox.style.display = 'none';
+        const currentUrl = `${window.location.origin}${window.location.pathname}?mode=player&room=${this.engine.roomCode}`;
+        this.publicJoinUrl = currentUrl;
+        this.setNetworkMode('github');
+        return;
+      }
+
+      // Se aperto tramite server locale Node.js
       if (window.location.protocol.startsWith('http')) {
         if (warnBox) warnBox.style.display = 'none';
         fetch('/api/server-info')
@@ -511,27 +525,19 @@ function initQuizController() {
                 : `${window.location.origin}?mode=player&room=${this.engine.roomCode}`;
               
               this.localJoinUrl = localUrl;
-              this.publicJoinUrl = info.publicUrl ? `${info.publicUrl}?mode=player&room=${this.engine.roomCode}` : null;
-
-              if (this.publicJoinUrl) {
-                this.setNetworkMode('public');
-              } else {
-                this.setNetworkMode('local');
-              }
+              this.publicJoinUrl = info.publicUrl ? `${info.publicUrl}?mode=player&room=${this.engine.roomCode}` : githubPagesUrl;
+              this.setNetworkMode('github');
             }
           })
           .catch(() => {
-            const fallbackUrl = `${window.location.origin}?mode=player&room=${this.engine.roomCode}`;
-            this.localJoinUrl = fallbackUrl;
-            this.setNetworkMode('local');
+            this.localJoinUrl = `${window.location.origin}?mode=player&room=${this.engine.roomCode}`;
+            this.setNetworkMode('github');
           });
       } else {
-        // Modalità file:// (apertura diretta senza server)
-        if (warnBox) warnBox.style.display = 'block';
-        if (hintEl) hintEl.textContent = "Per far connettere tutta la classe da 4G/5G, avvia 'avvia_presentazione.bat'!";
-        const localUrl = `${window.location.href.split('?')[0]}?mode=player&room=${this.engine.roomCode}`;
-        this.localJoinUrl = localUrl;
-        this.setNetworkMode('local');
+        // Modalità file:// (apertura diretta offline)
+        if (warnBox) warnBox.style.display = 'none';
+        this.localJoinUrl = `${window.location.href.split('?')[0]}?mode=player&room=${this.engine.roomCode}`;
+        this.setNetworkMode('github');
       }
     },
 
@@ -542,10 +548,10 @@ function initQuizController() {
       const badgeEl = document.getElementById('network-mode-badge');
 
       let targetUrl = '';
-      if (mode === 'public' && this.publicJoinUrl) {
-        targetUrl = this.publicJoinUrl;
-        if (badgeEl) badgeEl.textContent = "MODALITA: 4G / 5G ONLINE (COME KAHOOT)";
-        if (hintEl) hintEl.textContent = "Inquadra con la fotocamera di QUALSIASI telefono (4G, 5G, Wi-Fi)";
+      if (mode === 'github' || mode === 'public') {
+        targetUrl = this.publicJoinUrl || this.githubPagesUrl || `https://0xtony19.github.io/EmileZola/?mode=player&room=${this.engine.roomCode}`;
+        if (badgeEl) badgeEl.textContent = "ONLINE: GITHUB PAGES (4G / 5G / QUALSIASI DISPOSITIVO)";
+        if (hintEl) hintEl.textContent = "Inquadra con la fotocamera di QUALSIASI smartphone (4G, 5G, Wi-Fi)";
       } else {
         targetUrl = this.localJoinUrl || `${window.location.origin}?mode=player&room=${this.engine.roomCode}`;
         if (badgeEl) badgeEl.textContent = "MODALITA: RETE LOCALE / WI-FI / HOTSPOT";
