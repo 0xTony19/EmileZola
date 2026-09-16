@@ -313,9 +313,20 @@ class QuizEngine {
             </div>
           </div>
 
+          <!-- Selettore Durata Timer per Domanda -->
+          <div class="lobby-timer-selector-card">
+            <span class="timer-selector-label">DURATA TIMER PER DOMANDA:</span>
+            <div class="timer-chips-group">
+              <button type="button" class="timer-chip ${this.timeLimit === 5 ? 'active' : ''}" onclick="window.quizApp.setTimeLimit(5, this)"><span class="chip-sec">5s</span> <span class="chip-name">Flash</span></button>
+              <button type="button" class="timer-chip ${this.timeLimit === 10 ? 'active' : ''}" onclick="window.quizApp.setTimeLimit(10, this)"><span class="chip-sec">10s</span> <span class="chip-name">Standard</span></button>
+              <button type="button" class="timer-chip ${this.timeLimit === 15 ? 'active' : ''}" onclick="window.quizApp.setTimeLimit(15, this)"><span class="chip-sec">15s</span> <span class="chip-name">Riflessivo</span></button>
+              <button type="button" class="timer-chip ${this.timeLimit === 20 ? 'active' : ''}" onclick="window.quizApp.setTimeLimit(20, this)"><span class="chip-sec">20s</span> <span class="chip-name">Esteso</span></button>
+            </div>
+          </div>
+
           <div class="lobby-actions">
-            <button class="btn-primary-action" onclick="window.quizApp.startGame()">
-              Avvia la Sessione (10s per Domanda)
+            <button id="lobby-start-btn" class="btn-primary-action" onclick="window.quizApp.startGame()">
+              Avvia la Sessione (${this.timeLimit}s per Domanda)
             </button>
           </div>
         </div>
@@ -508,6 +519,7 @@ class QuizEngine {
     const isCorrect = (answerIdx === currentQ.corretta);
     player.answered = true;
     player.isCorrect = isCorrect;
+    player.lastAnswerIdx = answerIdx;
     player.lastAnswerTime = timeTaken;
 
     if (isCorrect) {
@@ -640,34 +652,54 @@ class QuizEngine {
     if (!container) return;
 
     const kahootColors = ['var(--kahoot-red)', 'var(--kahoot-blue)', 'var(--kahoot-yellow)', 'var(--kahoot-green)'];
-    const kahootIcons = ['[A]', '[B]', '[C]', '[D]'];
-    const totalAnswers = distribution.reduce((a, b) => a + b, 0) || 1;
+    const kahootIcons = ['A', 'B', 'C', 'D'];
+    const totalAnswers = distribution.reduce((a, b) => a + b, 0);
+    const totalCountForPct = totalAnswers > 0 ? totalAnswers : 1;
 
     container.innerHTML = `
       <div class="quiz-reveal-view animate-pop">
         <div class="reveal-header">
-          <span class="reveal-badge">Tempo Scaduto — Esito Domanda</span>
+          <div class="reveal-badge-wrap">
+            <span class="reveal-badge">Riepilogo Turno ${this.currentQuestionIdx + 1} / ${this.currentQuestions.length}</span>
+            <span class="reveal-players-badge">${totalAnswers} risposte registrate</span>
+          </div>
           <h2 class="reveal-question">${this.escapeHtml(q.domanda)}</h2>
         </div>
 
         <!-- 2. Grafico a Barre delle Risposte della Classe in Tempo Reale -->
         <div class="class-distribution-box animate-slide-up">
           <div class="distrib-header">
-            <h4>Distribuzione delle Risposte della Classe (${totalAnswers} Partecipanti):</h4>
+            <div class="distrib-title">
+              <span class="distrib-icon">📊</span>
+              <span>Distribuzione Risposte della Classe</span>
+            </div>
+            <div class="distrib-total">
+              ${totalAnswers > 0 ? `<strong>${totalAnswers}</strong> studenti hanno risposto` : 'Nessuna risposta ricevuta nel tempo'}
+            </div>
           </div>
           <div class="distrib-bars-grid">
             ${distribution.map((count, idx) => {
-              const pct = Math.round((count / totalAnswers) * 100);
+              const pct = Math.round((count / totalCountForPct) * 100);
               const isCorrect = (idx === q.corretta);
+              const optText = q.opzioni[idx] || '';
               return `
-                <div class="distrib-bar-col ${isCorrect ? 'is-correct-bar' : ''}">
-                  <div class="bar-count-tag">${count} risposte (${pct}%)</div>
+                <div class="distrib-bar-col opt-${idx} ${isCorrect ? 'is-correct-bar' : ''}">
+                  <div class="bar-header-info">
+                    <span class="bar-count-tag">${count}</span>
+                    <span class="bar-pct-tag">${pct}%</span>
+                  </div>
                   <div class="bar-fill-track">
-                    <div class="bar-fill-inner" style="height: ${Math.max(12, pct)}%; background: ${kahootColors[idx]};">
-                      <span class="bar-letter">${kahootIcons[idx]}</span>
+                    <div class="bar-fill-inner" style="height: ${count > 0 ? Math.max(16, pct) : 0}%;">
+                      ${count > 0 ? `<span class="bar-inner-num">${count}</span>` : ''}
                     </div>
                   </div>
-                  <div class="bar-label-preview">${isCorrect ? 'Esatta' : 'Opzione ' + kahootIcons[idx]}</div>
+                  <div class="bar-footer-badge">
+                    <span class="bar-letter-tag">${kahootIcons[idx]}</span>
+                    <span class="bar-status-text">${isCorrect ? 'Corretta ✓' : 'Opzione ' + kahootIcons[idx]}</span>
+                  </div>
+                  <div class="bar-opt-tooltip" title="${this.escapeHtml(optText)}">
+                    ${this.escapeHtml(optText.length > 30 ? optText.slice(0, 30) + '...' : optText)}
+                  </div>
                 </div>
               `;
             }).join('')}
@@ -677,9 +709,9 @@ class QuizEngine {
         <div class="quiz-options-grid reveal-mode">
           ${q.opzioni.map((opt, i) => `
             <div class="quiz-option-btn opt-${i} ${i === q.corretta ? 'is-correct-reveal' : 'is-wrong-reveal'}" style="--btn-color: ${kahootColors[i]}">
-              <span class="opt-icon">${kahootIcons[i]}</span>
+              <span class="opt-icon">[${kahootIcons[i]}]</span>
               <span class="opt-text">${this.escapeHtml(opt)}</span>
-              ${i === q.corretta ? '<span class="check-mark">CORRETTA</span>' : '<span class="cross-mark">ERRATA</span>'}
+              ${i === q.corretta ? '<span class="check-mark">ESATTA ✓</span>' : '<span class="cross-mark">ERRATA ✗</span>'}
             </div>
           `).join('')}
         </div>
