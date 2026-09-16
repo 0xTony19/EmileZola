@@ -564,7 +564,7 @@ function renderCuriosities() {
   container.innerHTML = ZOLA_DATA.curiosita.map(c => `
     <div class="curiosity-card ${c.immagine ? 'curiosity-card-featured' : ''} animate-slide-up">
       ${c.immagine ? `
-        <div class="curiosity-img-container" onclick="window.openImageLightbox('${c.immagine}', '${c.titolo}', '${(c.didascalia || c.titolo).replace(/'/g, "\\'")}')" title="Clicca per ingrandire la fotografia">
+        <div class="curiosity-img-container" data-img="${c.immagine}" data-title="${encodeURIComponent(c.titolo)}" data-caption="${encodeURIComponent(c.didascalia || c.titolo)}" title="Clicca per ingrandire la fotografia">
           <img src="${c.immagine}" alt="${c.titolo}" class="curiosity-photo-img" loading="lazy">
           <div class="curiosity-zoom-badge">🔍 Ingrandisci</div>
           ${c.didascalia ? `<span class="curiosity-img-caption">${c.didascalia}</span>` : ''}
@@ -577,6 +577,16 @@ function renderCuriosities() {
       </div>
     </div>
   `).join('');
+
+  // Event delegation per l'apertura del lightbox in modo sicuro con qualsiasi carattere/apostrofo
+  container.querySelectorAll('.curiosity-img-container').forEach(el => {
+    el.addEventListener('click', () => {
+      const src = el.getAttribute('data-img');
+      const title = decodeURIComponent(el.getAttribute('data-title') || '');
+      const caption = decodeURIComponent(el.getAttribute('data-caption') || '');
+      window.openImageLightbox(src, title, caption);
+    });
+  });
 }
 
 // 9. Controller per la Gestione del Quiz
