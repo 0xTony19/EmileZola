@@ -670,7 +670,6 @@ class QuizEngine {
         <div class="class-distribution-box animate-slide-up">
           <div class="distrib-header">
             <div class="distrib-title">
-              <span class="distrib-icon">📊</span>
               <span>Distribuzione Risposte della Classe</span>
             </div>
             <div class="distrib-total">
@@ -695,7 +694,7 @@ class QuizEngine {
                   </div>
                   <div class="bar-footer-badge">
                     <span class="bar-letter-tag">${kahootIcons[idx]}</span>
-                    <span class="bar-status-text">${isCorrect ? 'Corretta ✓' : 'Opzione ' + kahootIcons[idx]}</span>
+                    <span class="bar-status-text">${isCorrect ? 'Corretta' : 'Opzione ' + kahootIcons[idx]}</span>
                   </div>
                   <div class="bar-opt-tooltip" title="${this.escapeHtml(optText)}">
                     ${this.escapeHtml(optText.length > 30 ? optText.slice(0, 30) + '...' : optText)}
@@ -711,7 +710,7 @@ class QuizEngine {
             <div class="quiz-option-btn opt-${i} ${i === q.corretta ? 'is-correct-reveal' : 'is-wrong-reveal'}" style="--btn-color: ${kahootColors[i]}">
               <span class="opt-icon">[${kahootIcons[i]}]</span>
               <span class="opt-text">${this.escapeHtml(opt)}</span>
-              ${i === q.corretta ? '<span class="check-mark">ESATTA ✓</span>' : '<span class="cross-mark">ERRATA ✗</span>'}
+              ${i === q.corretta ? '<span class="check-mark">ESATTA</span>' : '<span class="cross-mark">ERRATA</span>'}
             </div>
           `).join('')}
         </div>
@@ -754,7 +753,7 @@ class QuizEngine {
                 <span class="lb-name">${this.escapeHtml(p.name)}</span>
                 ${p.streak > 1 ? `
                   <span class="lb-streak-badge ${p.streak >= 3 ? 'on-fire' : ''}">
-                    ${p.streak >= 3 ? '🔥 ' : '⚡ '}${p.streak} di Fila ${p.streakMultiplier > 1 ? `(${p.streakMultiplier}x)` : ''}
+                    ${p.streak} di Fila ${p.streakMultiplier > 1 ? `(${p.streakMultiplier}x)` : ''}
                   </span>
                 ` : ''}
                 <span class="lb-score">${p.score} pt</span>

@@ -728,7 +728,7 @@ function renderCuriosities() {
       ${c.immagine ? `
         <div class="curiosity-img-container" data-img="${c.immagine}" data-title="${encodeURIComponent(c.titolo)}" data-caption="${encodeURIComponent(c.didascalia || c.titolo)}" title="Clicca per ingrandire la fotografia">
           <img src="${c.immagine}" alt="${c.titolo}" class="curiosity-photo-img" loading="lazy">
-          <div class="curiosity-zoom-badge">🔍 Ingrandisci</div>
+          <div class="curiosity-zoom-badge">Ingrandisci</div>
           ${c.didascalia ? `<span class="curiosity-img-caption">${c.didascalia}</span>` : ''}
         </div>
       ` : ''}
@@ -1245,7 +1245,7 @@ function renderStudentMobileView(initialRoomCode) {
         <div class="pts-earned">+${p.lastPoints} pt</div>
         ${p.streak > 1 ? `
           <div class="mobile-streak-callout ${p.streak >= 3 ? 'on-fire' : ''}">
-            ${p.streak >= 3 ? '🔥 ' : '⚡ '}Serie di ${p.streak} Risposte Esatte! ${p.streakMultiplier > 1 ? `(${p.streakMultiplier}x Bonus)` : ''}
+            Serie di ${p.streak} Risposte Esatte! ${p.streakMultiplier > 1 ? `(${p.streakMultiplier}x Bonus)` : ''}
           </div>
         ` : ''}
         <p style="margin-top: 10px;">Punteggio Totale: <strong>${p.score} pt</strong></p>
