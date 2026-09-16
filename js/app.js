@@ -1067,16 +1067,15 @@ function renderStudentMobileView(initialRoomCode) {
 
       <div id="student-buttons-screen" class="student-screen">
         <div class="student-game-top">
-          <span id="student-q-num" class="student-q-badge">Domanda 1 di 10</span>
+          <span id="student-q-num" class="student-q-badge">Domanda 1</span>
           <span id="student-score-tag" class="student-score-badge">0 pt</span>
         </div>
 
-        <!-- Scheda Domanda per Smartphone (Visibile chiaramente da telefono) -->
-        <div class="student-question-box">
-          <div id="student-question-text" class="student-question-title">Caricamento domanda...</div>
+        <!-- Casella Domanda Visibile anche su Smartphone -->
+        <div class="student-question-box animate-pop">
+          <h2 id="student-question-text" class="student-q-title">Caricamento domanda...</h2>
         </div>
 
-        <!-- Opzioni con Lettera e Testo Completo -->
         <div class="student-kahoot-grid">
           <button class="s-btn red" onclick="window.studentSendAnswer('${playerId}', 0)">
             <span class="s-btn-letter">[A]</span>
@@ -1245,19 +1244,16 @@ function renderStudentMobileView(initialRoomCode) {
     const btnScreen = document.getElementById('student-buttons-screen');
     if (btnScreen) {
       btnScreen.classList.add('active');
-      
       const qNumEl = document.getElementById('student-q-num');
-      if (qNumEl) qNumEl.textContent = `Domanda ${payload.idx} di ${payload.total}`;
-
       const qTextEl = document.getElementById('student-question-text');
-      if (qTextEl && payload.domanda) {
-        qTextEl.textContent = payload.domanda;
-      }
+      
+      if (qNumEl) qNumEl.textContent = `Domanda ${payload.idx} di ${payload.total}`;
+      if (qTextEl) qTextEl.textContent = payload.domanda || '';
 
-      if (payload.opzioni && Array.isArray(payload.opzioni)) {
-        payload.opzioni.forEach((opt, idx) => {
+      if (Array.isArray(payload.opzioni)) {
+        payload.opzioni.forEach((optText, idx) => {
           const optEl = document.getElementById(`student-opt-${idx}`);
-          if (optEl) optEl.textContent = opt;
+          if (optEl) optEl.textContent = optText;
         });
       }
     }
