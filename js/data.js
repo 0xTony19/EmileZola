@@ -271,7 +271,7 @@ const ZOLA_DATA = {
 // =========================================================================
 
 const AVATAR_CHARACTERS = [
-  { id: 'cat', name: 'Gattino', species: 'Gatto', bg: '#f43f5e' },
+  { id: 'cat', name: 'Gatto', species: 'Gatto', bg: '#f43f5e' },
   { id: 'dog', name: 'Cagnolino', species: 'Cane', bg: '#3b82f6' },
   { id: 'bear', name: 'Orsetto', species: 'Orso', bg: '#d97706' },
   { id: 'panda', name: 'Panda', species: 'Panda', bg: '#059669' },
@@ -282,7 +282,6 @@ const AVATAR_CHARACTERS = [
   { id: 'owl', name: 'Gufetto', species: 'Gufo', bg: '#6366f1' },
   { id: 'frog', name: 'Ranocchia', species: 'Rana', bg: '#10b981' },
   { id: 'penguin', name: 'Pinguino', species: 'Pinguino', bg: '#0284c7' },
-  { id: 'zola_cat', name: 'Émile Cat', species: 'Zola Feline', bg: '#be123c' }
 ];
 
 const AVATAR_ACCESSORIES = [
@@ -585,7 +584,7 @@ function renderAvatarSVG(charId = 'cat', accId = 'none', bgColor = null, size = 
     case 'zola_cat':
     default:
       faceElements = `
-        <!-- Émile Zola Cat (Gattino con Barba Elegante Ottocentesca) -->
+        <!-- Émile Zola Cat (Gatto con Barba Elegante Ottocentesca) -->
         <polygon points="26,32 16,14 38,24" fill="#fbcfe8" stroke="#ffffff" stroke-width="2"/>
         <polygon points="74,32 84,14 62,24" fill="#fbcfe8" stroke="#ffffff" stroke-width="2"/>
         <circle cx="50" cy="54" r="31" fill="#fed7aa" stroke="#ffffff" stroke-width="2.5"/>

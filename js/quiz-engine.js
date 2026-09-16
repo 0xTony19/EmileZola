@@ -179,7 +179,7 @@ class QuizEngine {
         char: avatar.char || 'cat',
         acc: avatar.acc || 'none',
         bg: avatar.bg || null,
-        name: avatar.name || 'Gattino'
+        name: avatar.name || 'Gatto'
       };
     }
     if (typeof avatar === 'string' && avatar.includes(':')) {
@@ -274,7 +274,7 @@ class QuizEngine {
         <div class="quiz-lobby-view animate-fade-in">
           <div class="lobby-top">
             <h1>Inquadra il Codice QR per Partecipare</h1>
-            <p class="lobby-subtitle">Tutti i 21 compagni possono partecipare dal proprio smartphone usando 4G, 5G o Wi-Fi!</p>
+            <p class="lobby-subtitle">Tutti possono partecipare dal proprio smartphone usando 4G, 5G o Wi-Fi!</p>
             <span class="local-network-badge" id="network-mode-badge">MODALITA LIVE: 4G / 5G & WI-FI (COME KAHOOT)</span>
           </div>
 

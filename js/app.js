@@ -551,7 +551,7 @@ function initQuizController() {
       if (mode === 'github' || mode === 'public') {
         targetUrl = this.publicJoinUrl || this.githubPagesUrl || `https://0xtony19.github.io/EmileZola/?mode=player&room=${this.engine.roomCode}`;
         if (badgeEl) badgeEl.textContent = "ONLINE: GITHUB PAGES (4G / 5G / QUALSIASI DISPOSITIVO)";
-        if (hintEl) hintEl.textContent = "Inquadra con la fotocamera di QUALSIASI smartphone (4G, 5G, Wi-Fi)";
+        if (hintEl) hintEl.textContent = "Inquadra con la fotocamera di QUALSIASI smartphone";
       } else {
         targetUrl = this.localJoinUrl || `${window.location.origin}?mode=player&room=${this.engine.roomCode}`;
         if (badgeEl) badgeEl.textContent = "MODALITA: RETE LOCALE / WI-FI / HOTSPOT";
@@ -756,10 +756,10 @@ function renderStudentMobileView(initialRoomCode) {
       </div>
 
       <div id="student-kicked-screen" class="student-screen">
-        <div class="feedback-card" style="border: 1px solid var(--accent-crimson);">
-          <h2 style="color: var(--accent-crimson); margin-bottom: 10px;">Sei stato rimosso dalla sessione</h2>
-          <p style="color: var(--text-secondary); margin-bottom: 20px;">L'host ti ha espulso dalla stanza del quiz.</p>
-          <button class="btn-secondary-action" onclick="window.location.reload()" style="background: var(--bg-main); color: #ffffff;">
+        <div class="feedback-card" style="border: 2px solid var(--accent-crimson); background: #1e293b; color: #ffffff;">
+          <h2 style="color: #f43f5e; margin-bottom: 12px; font-size: 1.4rem;">Sei stato rimosso dalla sessione</h2>
+          <p style="color: #cbd5e1; margin-bottom: 24px; font-size: 1rem;">L'host ti ha espulso dalla stanza del quiz.</p>
+          <button class="btn-primary-action" onclick="window.location.reload()" style="background: linear-gradient(135deg, #be123c, #9f1239); color: #ffffff; width: 100%; max-width: 320px; font-weight: 700; font-size: 1.05rem; padding: 14px 20px; box-shadow: 0 4px 14px rgba(190, 18, 60, 0.4);">
             Rientra con un altro Nickname
           </button>
         </div>
