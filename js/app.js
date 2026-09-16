@@ -7,10 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollSpy();
   initMobileNavbar();
   initKeyboardNavigation();
-  renderBiographicalData();
-  renderPoeticsLab();
-  renderFamilyTree();
-  renderNovelsExplorer();
+  renderBiography();
+  renderPoetics();
+  renderCyclesAndNovels();
+  renderContext();
+  renderGerminal();
+  renderExile();
   renderCuriosities();
   initQuizController();
   checkUrlMode();
@@ -161,17 +163,17 @@ function initThemeAndSettings() {
   }
 }
 
-// 4. Render Dati Biografici
-function renderBiographicalData() {
-  const bio = ZOLA_DATA.biografia;
+// 4. Sezione Dati Biografici Essenziali
+function renderBiography() {
   const bioGrid = document.getElementById('bio-identity-grid');
   if (!bioGrid) return;
 
+  const bio = ZOLA_DATA.biografia;
   bioGrid.innerHTML = `
-    <div class="bio-card passport-card">
+    <div class="bio-card passport-card animate-fade-in">
       <div class="passport-header">
         <span class="passport-stamp">RÉPUBLIQUE FRANÇAISE</span>
-        <span class="passport-title">DOSSIER D'IDENTITÉ</span>
+        <span class="passport-title">DATI BIOGRAFICI ESSENZIALI</span>
       </div>
       <div class="passport-body">
         <div class="passport-field">
@@ -179,279 +181,322 @@ function renderBiographicalData() {
           <div class="val">${bio.nomeCompleto}</div>
         </div>
         <div class="passport-field">
-          <label>Data e Luogo di Nascita</label>
+          <label>Nascita</label>
           <div class="val">${bio.nascita}</div>
         </div>
         <div class="passport-field">
-          <label>Data e Circostanze della Morte</label>
-          <div class="val highlight-val">${bio.morte} <br><small class="text-muted">(${bio.causaMorte})</small></div>
+          <label>Morte</label>
+          <div class="val highlight-val">${bio.morte}</div>
         </div>
         <div class="passport-field">
-          <label>Nazionalità e Radici</label>
+          <label>Nazionalità</label>
           <div class="val">${bio.nazionalita}</div>
         </div>
         <div class="passport-field">
-          <label>Ruolo Storico-Letterario</label>
-          <div class="val gold-text">${bio.ruolo}</div>
+          <label>Periodo di Appartenenza</label>
+          <div class="val">${bio.periodo}</div>
         </div>
         <div class="passport-field">
-          <label>Riconoscimento Ufficiale</label>
-          <div class="val">${bio.sepoltura}</div>
+          <label>Corrente Letteraria</label>
+          <div class="val gold-text">${bio.corrente}</div>
         </div>
       </div>
     </div>
   `;
 }
 
-// 5. Laboratorio Scientifico & Metodo Sperimentale Interattivo
-function renderPoeticsLab() {
-  const labContainer = document.getElementById('determinism-simulator');
-  if (!labContainer) return;
-
-  const characters = [
-    {
-      nome: "Étienne Lantier (Germinal)",
-      eredita: "Alcolismo ancestrale della nonna Adélaïde + istinto di rivolta",
-      milieu: "Miniera di Montsou (sottosuolo, buio, miseria estrema)",
-      risultato: "Leader dello sciopero operaio; pulsione aggressiva sublimata nella coscienza di classe e nella speranza per l'avvenire.",
-      opera: "Germinal (1885)"
-    },
-    {
-      nome: "Gervaise Macquart (L'Assommoir)",
-      eredita: "Fragilità nervosa, inclinazione all'indolenza affettiva",
-      milieu: "Sobborghi operai di Parigi, botteghe di liquori e sfruttamento",
-      risultato: "Iniziale riscatto con la lavanderia, poi rovina economica, infortunio del marito e morte per fame e alcol.",
-      opera: "L'Assommoir (1877)"
-    },
-    {
-      nome: "Nana (Nana)",
-      eredita: "Degenerazione fisica e morale dei Macquart trasformata in bellezza erotica",
-      milieu: "I teatri parigini, i bordelli dorati e i palazzi della decadente alta nobiltà",
-      risultato: "Vendetta inconscia del popolo: consuma e manda in bancarotta ministri e banchieri prima di morire di vaiolo.",
-      opera: "Nana (1880)"
-    },
-    {
-      nome: "Jacques Lantier (La Bête humaine)",
-      eredita: "Follia criminale ereditaria insita nel sangue (pulsione omicida)",
-      milieu: "Le moderne ferrovie, macchine a vapore e binari metallici",
-      risultato: "Incapacità di frenare il mostro interiore: diventa omicida a bordo di un treno in corsa verso la catastrofe.",
-      opera: "La Bête humaine (1890)"
-    },
-    {
-      nome: "Dottor Pascal Rougon (Le Docteur Pascal)",
-      eredita: "Intelligenza lucida e rigore di ricerca scientifica della stirpe",
-      milieu: "Laboratorio medico a Plassans, isolamento filosofico",
-      risultato: "Compila l'albero genealogico della famiglia e dimostra la vittoria della vita e della scienza sulla fatalità.",
-      opera: "Le Docteur Pascal (1893)"
-    }
-  ];
-
-  window.simulateDeterminism = function(idx) {
-    const c = characters[idx];
-    const out = document.getElementById('determinism-output');
-    if (!out) return;
-
-    out.innerHTML = `
-      <div class="result-box animate-pop">
-        <div class="result-header">
-          <span class="formula-badge">EQUAZIONE DETERMINISTICA: ${c.nome}</span>
-          <span class="book-tag">${c.opera}</span>
-        </div>
-        <div class="formula-grid">
-          <div class="formula-col eredita-col">
-            <h4>Eredità Biologica (Geni)</h4>
-            <p>${c.eredita}</p>
-          </div>
-          <div class="formula-plus">+</div>
-          <div class="formula-col milieu-col">
-            <h4>Ambiente (Milieu Sociale)</h4>
-            <p>${c.milieu}</p>
-          </div>
-          <div class="formula-equals">=</div>
-          <div class="formula-col result-col">
-            <h4>Diagnosi Clinica e Destino</h4>
-            <p>${c.risultato}</p>
-          </div>
-        </div>
-      </div>
-    `;
-    SFX.playTone(490, 'sine', 0.1, 0.08);
-  };
-
-  labContainer.innerHTML = `
-    <div class="simulator-controls">
-      <label>Seleziona un personaggio dei Rougon-Macquart per verificare l'analisi:</label>
-      <div class="char-buttons-row">
-        ${characters.map((c, i) => `
-          <button class="btn-char-select ${i === 0 ? 'active' : ''}" onclick="window.selectCharBtn(this, ${i})">
-            ${c.nome.split(' ')[0]} ${c.nome.split(' ')[1]}
-          </button>
-        `).join('')}
-      </div>
-    </div>
-    <div id="determinism-output"></div>
-  `;
-
-  window.selectCharBtn = function(btn, idx) {
-    document.querySelectorAll('.btn-char-select').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    window.simulateDeterminism(idx);
-  };
-
-  window.simulateDeterminism(0);
-}
-
-// 6. Albero Genealogico Interattivo Rougon-Macquart
-function renderFamilyTree() {
-  const treeContainer = document.getElementById('family-tree-visualizer');
-  if (!treeContainer) return;
-
-  const branches = [
-    {
-      tipo: "rougon",
-      nomeRamo: "I ROUGON — Il Ramo Legittimo",
-      caratteristiche: "Arrivismo, sete implacabile di potere politico, accumulo di capitale e rispettabilità borghese.",
-      personaggi: [
-        { nome: "Pierre Rougon", ruolo: "Capostipite", note: "Brama di arricchimento a Plassans, sfrutta il colpo di stato del 1851 per impadronirsi della città." },
-        { nome: "Eugène Rougon", ruolo: "Ministro di Napoleone III", note: "Protagonista di 'Son Excellence Eugène Rougon', cinico manipolatore di corte." },
-        { nome: "Aristide Saccard", ruolo: "Speculatore Edilizio e Finanziario", note: "Protagonista de 'La Curée' e 'L'Argent', sventra Parigi e fonda una banca speculativa." },
-        { nome: "Dottor Pascal Rougon", ruolo: "Scienziato e Medico", note: "Protagonista de 'Le Docteur Pascal', redige la mappa genetica dell'intera dinastia." }
-      ]
-    },
-    {
-      tipo: "macquart",
-      nomeRamo: "I MACQUART — Il Ramo Illegittimo",
-      caratteristiche: "Tare degenerative, alcolismo cronico, nevrosi, degradazione operaia e ribellione sociale.",
-      personaggi: [
-        { nome: "Antoine Macquart", ruolo: "Capostipite del ramo", note: "Pigro, alcolizzato, invidioso dei Rougon, avvia la catena degenerativa biologica." },
-        { nome: "Gervaise Macquart", ruolo: "Lavandaia a Parigi", note: "Protagonista de 'L'Assommoir', sprofonda nella miseria e nell'alcolismo." },
-        { nome: "Étienne Lantier", ruolo: "Minatore e Guida dello Sciopero", note: "Protagonista del capolavoro 'Germinal', guida la riscossa dei lavoratori." },
-        { nome: "Nana (Anna Coupeau)", ruolo: "Cortigiana dell'Alta Società", note: "Protagonista di 'Nana', personifica la distruzione corruttrice della borghesia." },
-        { nome: "Jacques Lantier", ruolo: "Macchinista Ferroviario", note: "Protagonista de 'La Bête humaine', affetto da pulsione omicida inconscia." }
-      ]
-    }
-  ];
-
-  treeContainer.innerHTML = `
-    <div class="tree-root-box animate-fade-in">
-      <div class="root-ancestor">
-        <span class="ancestor-tag">[CAPOSTIPITE COMUNE]</span>
-        <h3>Adélaïde Fouque ("Zia Dide")</h3>
-        <p>Origine comune di entrambi i rami. Affetta da nevrosi ereditaria, muore ultranovantenne nel manicomio di Tuettes.</p>
-      </div>
-      <div class="tree-branches-split">
-        ${branches.map(b => `
-          <div class="tree-branch-card branch-${b.tipo}">
-            <div class="branch-badge">${b.tipo === 'rougon' ? 'RAMO BORGHESE' : 'RAMO PROLETARIO'}</div>
-            <h3 class="branch-title">${b.nomeRamo}</h3>
-            <p class="branch-desc">${b.caratteristiche}</p>
-            <div class="branch-members">
-              ${b.personaggi.map(p => `
-                <div class="member-pill">
-                  <strong>${p.nome}</strong> <span class="role-tag">(${p.ruolo})</span>
-                  <small>${p.note}</small>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
-}
-
-// 7. Esploratore Interattivo dei 20 Romanzi con Modale Dettagli
-function renderNovelsExplorer() {
-  const container = document.getElementById('novels-grid');
-  const filtersContainer = document.getElementById('novels-filters');
+// 5. Sezione Pensiero e Poetica
+function renderPoetics() {
+  const container = document.getElementById('poetics-grid');
   if (!container) return;
 
-  const novels = ZOLA_DATA.romanziRougonMacquart;
-  const categories = [
-    { label: "Tutti (20)", key: "all" },
-    { label: "Miniere & Proletariato", key: "proletariato" },
-    { label: "Borsa & Commercio", key: "commercio" },
-    { label: "Arte & Spettacolo", key: "arte" },
-    { label: "Politica & Nobiltà", key: "politica" },
-    { label: "Ferrovie & Tecnologia", key: "ferrovia" }
-  ];
+  container.innerHTML = `
+    <div class="poetics-columns-container">
+      ${ZOLA_DATA.pilastriPoetica.map((p, idx) => `
+        <div class="poetic-block-card animate-slide-up" style="animation-delay: ${idx * 0.08}s">
+          <div class="poetic-card-header">
+            <span class="poetic-source-badge">${p.fonte}</span>
+            <h3 class="poetic-block-title">${p.titolo}</h3>
+          </div>
+          <p class="poetic-block-desc">${p.descrizione}</p>
+          
+          ${p.fasi ? `
+            <div class="poetic-steps-box">
+              <div class="steps-heading">I Tre Momenti del Romanziere-Scienziato:</div>
+              <div class="steps-grid">
+                ${p.fasi.map(f => `
+                  <div class="step-item">
+                    <span class="step-num">${f.passo}</span>
+                    <div class="step-content">
+                      <strong>${f.nome}</strong>
+                      <p>${f.testo}</p>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
 
-  if (filtersContainer) {
-    filtersContainer.innerHTML = categories.map((cat, idx) => `
-      <button class="filter-btn ${idx === 0 ? 'active' : ''}" onclick="window.filterNovels('${cat.key}', this)">
-        ${cat.label}
-      </button>
-    `).join('');
-  }
+          ${p.fattori ? `
+            <div class="poetic-factors-box">
+              <div class="factors-grid">
+                ${p.fattori.map(f => `
+                  <div class="factor-pill">
+                    <strong>${f.nome}</strong>
+                    <p>${f.desc}</p>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
 
-  window.filterNovels = function(category, btn) {
-    if (btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    let filtered = novels;
-    if (category === 'proletariato') {
-      filtered = novels.filter(n => [7, 13, 15].includes(n.n));
-    } else if (category === 'commercio') {
-      filtered = novels.filter(n => [2, 3, 11, 19].includes(n.n));
-    } else if (category === 'arte') {
-      filtered = novels.filter(n => [9, 14].includes(n.n));
-    } else if (category === 'politica') {
-      filtered = novels.filter(n => [1, 4, 6].includes(n.n));
-    } else if (category === 'ferrovia') {
-      filtered = novels.filter(n => [18].includes(n.n));
-    }
-
-    container.innerHTML = filtered.map(n => `
-      <div class="novel-card ${n.n === 13 ? 'featured-novel' : ''} animate-pop" onclick="window.openNovelModal(${n.n - 1})">
-        <div class="novel-card-top">
-          <span class="novel-number">#${n.n}</span>
-          <span class="novel-year">${n.anno}</span>
+          ${p.esempi ? `
+            <div class="poetic-investigation-box">
+              <div class="investigation-heading">Inchieste sul campo (Dossiers Préparatoires):</div>
+              <div class="investigation-tags">
+                ${p.esempi.map(e => `
+                  <span class="inv-tag"><strong>${e.ambiente}</strong> → <em>${e.opera}</em></span>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
         </div>
-        <h3 class="novel-title">${n.titolo}</h3>
-        <div class="novel-env">Ambiente: ${n.ambiente}</div>
-        <p class="novel-theme">${n.tema}</p>
-        ${n.n === 13 ? '<div class="crown-badge">Capolavoro del Ciclo</div>' : ''}
-      </div>
-    `).join('');
-  };
-
-  window.openNovelModal = function(idx) {
-    const n = novels[idx];
-    if (!n) return;
-
-    const modal = document.getElementById('novel-modal');
-    const content = document.getElementById('novel-modal-content');
-    if (!modal || !content) return;
-
-    content.innerHTML = `
-      <div class="novel-modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 18px;">
-        <span class="novel-number" style="font-size: 1.1rem; font-weight: 700; color: var(--accent-gold);">Romanzo #${n.n} dei Rougon-Macquart (${n.anno})</span>
-        <h2 style="font-family: var(--font-serif); font-size: 1.9rem; margin-top: 4px;">${n.titolo}</h2>
-      </div>
-      <div class="novel-modal-body">
-        <p style="font-size: 1.05rem; margin-bottom: 14px;"><strong>Ambiente Sociale Esplorato:</strong> ${n.ambiente}</p>
-        <p style="font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 18px;"><strong>Trama & Tematiche Chiave:</strong> ${n.tema}</p>
-        <div style="background: var(--bg-main); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-          <small style="color: var(--text-muted); font-size: 0.85rem;">Questo romanzo costituisce uno dei 20 tasselli fondamentali attraverso cui Zola ha costruito il quadro analitico e sociale della Francia del Secondo Impero.</small>
-        </div>
-      </div>
-    `;
-
-    modal.classList.add('active');
-    SFX.playTone(450, 'sine', 0.08, 0.05);
-  };
-
-  window.closeNovelModal = function() {
-    const modal = document.getElementById('novel-modal');
-    if (modal) modal.classList.remove('active');
-  };
-
-  window.filterNovels('all');
+      `).join('')}
+    </div>
+  `;
 }
 
-// 8. Curiosità e Approfondimenti
+// 6. Sezione Opere Composte & Cicli Principali
+function renderCyclesAndNovels() {
+  const cyclesContainer = document.getElementById('cycles-summary-grid');
+  const novelsContainer = document.getElementById('novels-grid');
+  const filtersContainer = document.getElementById('novels-filters');
+  const notableContainer = document.getElementById('notable-titles-grid');
+
+  if (cyclesContainer) {
+    cyclesContainer.innerHTML = `
+      <div class="cycles-table-card animate-fade-in">
+        <table class="tech-sheet-table">
+          <thead>
+            <tr>
+              <th>Ciclo</th>
+              <th>Anni</th>
+              <th>N. Opere</th>
+              <th>Contenuto</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${ZOLA_DATA.cicliLetterari.map(c => `
+              <tr>
+                <td><strong>${c.titolo}</strong></td>
+                <td><span class="table-badge-year">${c.anni}</span></td>
+                <td><span class="table-badge-vol">${c.volumi}</span></td>
+                <td>
+                  ${c.contenuto}
+                  ${c.elenco ? `<br><small class="text-muted">(${c.elenco})</small>` : ''}
+                  ${c.rami ? `
+                    <div class="rami-split-inline">
+                      <span class="ramo-r"><strong>Rougon:</strong> ${c.rami.rougon}</span>
+                      <span class="ramo-m"><strong>Macquart:</strong> ${c.rami.macquart}</span>
+                    </div>
+                  ` : ''}
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  // Esploratore dei 20 Romanzi Rougon-Macquart
+  if (novelsContainer) {
+    const novels = ZOLA_DATA.romanziRougonMacquart;
+    const categories = [
+      { label: "Tutti i 20 Romanzi", key: "all" },
+      { label: "Miniere & Proletariato", key: "proletariato" },
+      { label: "Commercio & Finanza", key: "commercio" },
+      { label: "Arte & Spettacolo", key: "arte" },
+      { label: "Politica & Chiesa", key: "politica" },
+      { label: "Ferrovie & Tecnologia", key: "ferrovia" }
+    ];
+
+    if (filtersContainer) {
+      filtersContainer.innerHTML = categories.map((cat, idx) => `
+        <button class="filter-btn ${idx === 0 ? 'active' : ''}" onclick="window.filterNovels('${cat.key}', this)">
+          ${cat.label}
+        </button>
+      `).join('');
+    }
+
+    window.filterNovels = function(category, btn) {
+      if (btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+
+      let filtered = novels;
+      if (category === 'proletariato') {
+        filtered = novels.filter(n => [7, 13, 15].includes(n.n));
+      } else if (category === 'commercio') {
+        filtered = novels.filter(n => [2, 3, 11, 19].includes(n.n));
+      } else if (category === 'arte') {
+        filtered = novels.filter(n => [9, 14].includes(n.n));
+      } else if (category === 'politica') {
+        filtered = novels.filter(n => [1, 4, 6].includes(n.n));
+      } else if (category === 'ferrovia') {
+        filtered = novels.filter(n => [18].includes(n.n));
+      }
+
+      novelsContainer.innerHTML = filtered.map(n => `
+        <div class="novel-card ${n.n === 13 ? 'featured-novel' : ''} animate-pop" onclick="window.openNovelModal(${n.n - 1})">
+          <div class="novel-card-top">
+            <span class="novel-number">N. ${n.n}</span>
+            <span class="novel-year">${n.anno}</span>
+          </div>
+          <h3 class="novel-title">${n.titolo}</h3>
+          <div class="novel-env"><strong>Ambiente esplorato:</strong> ${n.ambiente}</div>
+          ${n.n === 13 ? '<div class="crown-badge">Capolavoro Assoluto</div>' : ''}
+        </div>
+      `).join('');
+    };
+
+    window.openNovelModal = function(idx) {
+      const n = novels[idx];
+      if (!n) return;
+
+      const modal = document.getElementById('novel-modal');
+      const content = document.getElementById('novel-modal-content');
+      if (!modal || !content) return;
+
+      content.innerHTML = `
+        <div class="novel-modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 18px;">
+          <span class="novel-number" style="font-size: 1.1rem; font-weight: 700; color: var(--accent-gold);">Romanzo N. ${n.n} dei Rougon-Macquart (${n.anno})</span>
+          <h2 style="font-family: var(--font-serif); font-size: 1.9rem; margin-top: 4px;">${n.titolo}</h2>
+        </div>
+        <div class="novel-modal-body">
+          <p style="font-size: 1.05rem; margin-bottom: 14px;"><strong>Ambiente Esplorato:</strong> ${n.ambiente}</p>
+          <p style="font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 18px;"><strong>Tema & Sintesi del Ciclo:</strong> ${n.tema}</p>
+        </div>
+      `;
+
+      modal.classList.add('active');
+      SFX.playTone(450, 'sine', 0.08, 0.05);
+    };
+
+    window.closeNovelModal = function() {
+      const modal = document.getElementById('novel-modal');
+      if (modal) modal.classList.remove('active');
+    };
+
+    window.filterNovels('all');
+  }
+
+  // Titoli Più Noti
+  if (notableContainer) {
+    notableContainer.innerHTML = ZOLA_DATA.titoliPiuNoti.map(t => `
+      <div class="notable-title-card animate-slide-up">
+        <div class="notable-top">
+          <span class="notable-name">${t.titolo}</span>
+          <span class="notable-year">(${t.anno})</span>
+        </div>
+        <p class="notable-desc">${t.desc}</p>
+      </div>
+    `).join('');
+  }
+}
+
+// 7. Sezione Contesto delle Opere
+function renderContext() {
+  const container = document.getElementById('context-grid');
+  if (!container) return;
+
+  const ctx = ZOLA_DATA.contestoStorico;
+  container.innerHTML = `
+    <div class="context-box-card animate-fade-in">
+      <div class="context-main-text">
+        <p style="font-size: 1.15rem; font-weight: 600; color: var(--text-primary); margin-bottom: 16px;">
+          Zola scrive nella <strong>Francia dell'industrializzazione avanzata</strong>, segnata da:
+        </p>
+        <ul class="context-bullets-list">
+          ${ctx.punti.map(p => `<li>${p}</li>`).join('')}
+        </ul>
+        <div class="context-quote-banner" style="margin-top: 24px; padding: 18px; background: var(--bg-main); border-left: 4px solid var(--accent-gold); border-radius: var(--radius-sm);">
+          <strong style="color: var(--accent-navy); font-size: 1.05rem;">"Histoire naturelle et sociale d'une famille sous le Second Empire"</strong>
+          <p style="margin-top: 6px; color: var(--text-secondary); font-size: 0.95rem;">
+            Ogni romanzo segue un ramo della famiglia (i <strong>Rougon</strong>, ambiziosi e arrivisti; i <strong>Macquart</strong>, segnati da alcolismo ed ereditarietà degenerativa) per esplorare un ambiente sociale diverso (miniere, mercati, ferrovie, arte, politica, Chiesa).
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// 8. Sezione Analisi Approfondita: Germinal (1885)
+function renderGerminal() {
+  const container = document.getElementById('germinal-deep-dive');
+  if (!container) return;
+
+  const g = ZOLA_DATA.focusGerminal;
+  container.innerHTML = `
+    <div class="germinal-hero-card animate-fade-in">
+      <div class="germinal-top-badge">TREDICESIMO ROMANZO DEI ROUGON-MACQUART — CAPOLAVORO ASSOLUTO</div>
+      <h3 class="germinal-title">${g.titolo}</h3>
+      <p class="germinal-lead-subtitle">${g.sottotitolo}</p>
+      
+      <div class="germinal-synopsis-box">
+        <h4 style="font-size: 1.15rem; color: var(--accent-gold); margin-bottom: 8px;">Trama Essenziale:</h4>
+        <p class="germinal-synopsis">${g.tramaEssenziale}</p>
+      </div>
+
+      <div class="germinal-section-divider">
+        <h4>Perché è l'Opera Più Rappresentativa:</h4>
+      </div>
+
+      <div class="germinal-keys-grid">
+        ${g.puntiRappresentativi.map(p => `
+          <div class="germinal-key-box">
+            <h4>${p.titolo}</h4>
+            <p>${p.desc}</p>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="germinal-symbolic-box">
+        <h4 style="font-size: 1.1rem; color: var(--accent-navy); margin-bottom: 8px;">Il Titolo come Chiave Simbolica:</h4>
+        <p>${g.chiaveSimbolicaTitolo}</p>
+      </div>
+    </div>
+  `;
+}
+
+// 9. Sezione L'Esilio in Inghilterra (1898–1899)
+function renderExile() {
+  const container = document.getElementById('exile-grid');
+  if (!container) return;
+
+  const ex = ZOLA_DATA.esilioInghilterra;
+  container.innerHTML = `
+    <div class="passport-card animate-fade-in" style="border-color: var(--accent-crimson);">
+      <div class="passport-header">
+        <span class="passport-stamp" style="color: var(--accent-crimson); border-color: var(--accent-crimson);">LONDRA — SURREY (${ex.anni})</span>
+        <span class="passport-title">L'ESILIO IN INGHILTERRA DOPO J'ACCUSE...!</span>
+      </div>
+      <div class="exile-body">
+        <ul class="exile-timeline-list">
+          ${ex.punti.map(pt => `
+            <li class="exile-timeline-item">
+              <span class="exile-dot"></span>
+              <p>${pt}</p>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+// 10. Curiosità
 function renderCuriosities() {
   const container = document.getElementById('curiosities-grid');
   if (!container) return;

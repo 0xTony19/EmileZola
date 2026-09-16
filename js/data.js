@@ -1,55 +1,60 @@
-// Database didattico completo per Émile Zola
+// Database didattico completo per Émile Zola fedele al documento tecnico (Émile_Zola_Scheda_Tecnica.md)
 const ZOLA_DATA = {
   biografia: {
     nomeCompleto: "Émile Édouard Charles Antoine Zola",
-    nascita: "2 aprile 1840, Parigi (Francia)",
-    morte: "29 settembre 1902 (62 anni), Parigi",
-    causaMorte: "Asfissia da monossido di carbonio (circostanze controverse, forte sospetto di attentato per il caso Dreyfus)",
-    nazionalita: "Francese (padre italiano di Venezia, Francesco Zola, ingegnere costruttore del canale di Aix-en-Provence)",
-    ruolo: "Caposcuola e massimo teorico del Naturalismo francese, romanziere, giornalista, intellettuale 'engagé'",
-    periodo: "Seconda metà dell'Ottocento — Secondo Impero di Napoleone III e Terza Repubblica francese (1860–1902)",
-    sepoltura: "Traslato nel 1908 al Panthéon di Parigi accanto a Victor Hugo e Alexandre Dumas"
+    nascita: "Parigi, 2 aprile 1840",
+    morte: "Parigi, 29 settembre 1902 (asfissia da monossido di carbonio; circostanze controverse, ipotesi di attentato)",
+    nazionalita: "Francese (padre italiano, ingegnere)",
+    periodo: "Seconda metà dell'Ottocento — Secondo Impero e Terza Repubblica francese (1860–1902)",
+    corrente: "Naturalismo francese (fondatore e teorico)",
+    sepoltura: "Traslato nel 1908 al Panthéon di Parigi (riconoscimento ufficiale del suo ruolo letterario e civile)"
   },
 
   pilastriPoetica: [
     {
       id: "metodo-sperimentale",
-      titolo: "Il Metodo Sperimentale",
-      sottotitolo: "Dalla fisiologia di Claude Bernard al romanzo scientifico",
-      tag: "METODO",
-      descrizione: "Nel saggio teorico Le roman expérimental (1880), Zola applica alla letteratura il metodo del fisiologo Claude Bernard. Lo scrittore osserva i fatti sociali, predispone l'esperimento narrativo collocando i personaggi in condizioni limite, e deduce le leggi universali dei comportamenti umani.",
+      titolo: "1. Il Metodo Sperimentale applicato al romanzo",
+      fonte: "Le roman expérimental (1880) — Claude Bernard (1865)",
+      descrizione: "Zola trasferisce alla letteratura il metodo scientifico descritto dal fisiologo Claude Bernard (1865). Il romanziere non è un semplice narratore ma una sorta di 'medico legale' della società: registra, seziona, diagnostica.",
       fasi: [
-        { passo: 1, nome: "Osservazione", testo: "Studio rigoroso e inchiesta documentale diretta sul campo (i dossiers préparatoires)." },
-        { passo: 2, nome: "Sperimentazione", testo: "Immettere i personaggi in un ambiente sociale definito per osservare le reazioni causali." },
-        { passo: 3, nome: "Deduzione di Leggi", testo: "Dimostrare le leggi dell'ereditarietà e del contesto sociologico come un referto clinico." }
+        { passo: 1, nome: "Osservare", testo: "La realtà sociale con la massima oggettività, senza filtri morali o idealizzanti." },
+        { passo: 2, nome: "Sperimentare", testo: "Collocando i personaggi in situazioni-limite per verificare come le leggi dell'ereditarietà e dell'ambiente ne determinano il comportamento." },
+        { passo: 3, nome: "Dedurre", testo: "Leggi generali sul funzionamento della società, proprio come farebbe uno scienziato con i dati raccolti." }
       ]
     },
     {
       id: "determinismo",
-      titolo: "Determinismo Biologico e Sociale",
-      sottotitolo: "L'uomo come prodotto inesorabile di Geni e Ambiente",
-      tag: "SCIENZA",
-      descrizione: "L'essere umano per Zola non è dotato di libero arbitrio metafisico, ma è determinato in modo meccanicistico da due vettori fondamentali formulati attraverso le teorie di Prosper Lucas e Hippolyte Taine.",
+      titolo: "2. Determinismo biologico e sociale",
+      fonte: "Prosper Lucas (studi sull'ereditarietà)",
+      descrizione: "Alla base dell'opera di Zola c'è la convinzione che l'uomo non sia libero, ma il prodotto meccanicistico di due forze insuperabili di causa-effetto.",
       fattori: [
-        { nome: "Eredità Biologica (Hérédité)", desc: "Tare genetiche, temperamento nervoso, pulsioni ancestrali e predisposizione all'alcolismo trasmesse di padre in figlio." },
-        { nome: "Ambiente Sociale (Milieu)", desc: "Il contesto fisico, lavorativo, economico e morale in cui l'individuo vive (la miniera, la bettola, la borsa, il salotto borghese)." }
+        { nome: "L'Eredità Biologica", desc: "Temperamento, tare, pulsioni trasmesse di generazione in generazione (come l'alcolismo dei Macquart)." },
+        { nome: "Il Milieu (Ambiente)", desc: "L'ambiente fisico, sociale ed economico in cui l'individuo è immerso (la miniera, il quartiere popolare, la fabbrica, il salotto borghese)." }
       ]
     },
     {
       id: "documento-umano",
-      titolo: "Il Romanzo come Documento Umano",
-      sottotitolo: "Inchieste sul campo e dossiers préparatoires",
-      tag: "DOCUMENTO",
-      descrizione: "Prima di scrivere, Zola effettuava mesi di inchiesta dal vivo: scese nelle gallerie delle miniere di carbone ad Anzin per Germinal, esplorò i padiglioni delle Halles per Le Ventre de Paris, studiò le locomotive per La Bête humaine e visitò i grandi magazzini per Au Bonheur des Dames.",
-      pillola: "Il romanzo naturalista è un 'verbale giudiziario e scientifico' della realtà, non una fantasticheria."
+      titolo: "3. Il Romanzo come 'Documento Umano' e il lavoro d'inchiesta",
+      fonte: "Dossiers préparatoires",
+      descrizione: "Prima di scrivere, Zola conduceva vere e proprie inchieste sul campo raccogliendo appunti nei celebri dossiers préparatoires. Questa documentazione minuziosa, quasi giornalistica, garantiva al romanzo il valore di 'verbale' scientificamente attendibile della realtà, non di semplice invenzione.",
+      esempi: [
+        { ambiente: "Miniere", opera: "Germinal" },
+        { ambiente: "Mercati generali (Les Halles)", opera: "Le Ventre de Paris" },
+        { ambiente: "Ferrovie", opera: "La Bête humaine" },
+        { ambiente: "Ospedali e case popolari", opera: "L'Assommoir" }
+      ]
+    },
+    {
+      id: "pessimismo-utopia",
+      titolo: "4. Pessimismo, denuncia sociale e tensione utopica",
+      fonte: "Dai Rougon-Macquart a Les Quatre Évangiles",
+      descrizione: "Se i Rougon-Macquart restituiscono un quadro spietato e pessimista dell'umanità (degrado, violenza, autodistruzione), nella produzione più tarda — in particolare Les Quatre Évangiles — emerge uno Zola utopista e fiducioso nel progresso: scienza, lavoro e giustizia sociale possono redimere l'umanità. Il pensiero evolve da un naturalismo clinico verso un socialismo umanitario."
     },
     {
       id: "impegno-civile",
-      titolo: "L'Intellettuale 'Engagé' & J'Accuse",
-      sottotitolo: "La nascita dell'impegno civile contemporaneo",
-      tag: "DIRITTO",
-      descrizione: "Il 13 gennaio 1898 Zola pubblica sulla prima pagina del giornale L'Aurore la lettera aperta al Presidente Félix Faure intitolata 'J'accuse...!', denunciando il complotto militare e antisemita contro il capitano Alfred Dreyfus. Condannato a 1 anno di carcere, fuggì in esilio a Londra per 11 mesi prima della riabilitazione.",
-      pillola: "Mise la propria notorietà e la propria libertà a repentaglio per la verità e la giustizia universale."
+      titolo: "5. Impegno civile e intellettuale engagé",
+      fonte: "J'accuse...! (1898) & Gruppo di Médan (1880)",
+      descrizione: "Zola incarna la nascita della figura dell'intellettuale impegnato nella Francia moderna: con J'accuse...! (L'Aurore, 13 gennaio 1898) mette reputazione e libertà al servizio della verità nel caso Dreyfus. Fu inoltre guida del gruppo di Médan con Maupassant, Huysmans e Alexis (Les Soirées de Médan, 1880)."
     }
   ],
 
@@ -58,103 +63,142 @@ const ZOLA_DATA = {
       id: "rougon-macquart",
       titolo: "Les Rougon-Macquart",
       anni: "1871–1893",
-      volumi: "20 Romanzi",
-      badge: "Capolavoro monumentale",
-      descrizione: "Sottotitolo programmatico: 'Histoire naturelle et sociale d'une famille sous le Second Empire'. Segue le vicende dei due rami di una stessa famiglia originaria di Plassans attraverso 20 anni di storia francese (1851-1870).",
+      volumi: "20 romanzi",
+      sottotitolo: "Histoire naturelle et sociale d'une famille sous le Second Empire",
+      contenuto: "Storia naturale e sociale di una famiglia sotto il Secondo Impero. Segue due rami di un'unica famiglia attraverso vent'anni di Francia imperiale, ciascun romanzo dedicato a un ambiente sociale diverso.",
       rami: {
-        rougon: "Ramo legittimo: ambizioso, bramoso di potere politico, denaro e ascesa sociale nella classe dirigente borghese.",
-        macquart: "Ramo illegittimo: segnato da tare degenerative, alcolismo, nevrosi, povertà operaia e ribellione sociale."
+        rougon: "Ramo legittimo: arrivisti e ambiziosi.",
+        macquart: "Ramo illegittimo: segnati da alcolismo e tare ereditarie."
       }
     },
     {
       id: "trois-villes",
-      titolo: "Les标志Trois Villes",
+      titolo: "Les Trois Villes",
       anni: "1894–1898",
-      volumi: "3 Romanzi",
-      badge: "Trilogia sociale",
-      descrizione: "Comprende Lourdes (1894), Rome (1896) e Paris (1898). Esplora la crisi della fede cattolica nell'Ottocento scientifico e la ricerca di una nuova religione della giustizia sociale e della ragione laica attraverso il sacerdote Pierre Froment."
+      volumi: "3 romanzi",
+      elenco: "Lourdes, Rome, Paris",
+      contenuto: "Crisi religiosa e sociale di fine secolo."
     },
     {
       id: "quatre-evangiles",
       titolo: "Les Quatre Évangiles",
-      anni: "1899–1902",
-      volumi: "4 Romanzi (incompiuto)",
-      badge: "Utopia progressista",
-      descrizione: "Fase tardo-utopica: Fécondité (1899), Travail (1901), Vérité (1903, postumo sul caso Dreyfus), Justice (rimasto incompiuto per la morte). Zola passa dalla diagnosi clinica pessimistica all'ottimismo umanitario fondato su lavoro, scienza ed educazione."
+      anni: "1899–1902 (incompiuto)",
+      volumi: "3 romanzi completati",
+      elenco: "Fécondité, Travail, Vérité",
+      contenuto: "Visione utopica e sociale del futuro."
     }
   ],
 
+  titoliPiuNoti: [
+    { titolo: "Thérèse Raquin", anno: 1867, desc: "Romanzo d'esordio naturalista, ossessione e colpa." },
+    { titolo: "L'Assommoir", anno: 1877, desc: "Alcolismo e degrado nel proletariato parigino." },
+    { titolo: "Nana", anno: 1880, desc: "Prostituzione e ipocrisia borghese." },
+    { titolo: "Germinal", anno: 1885, desc: "Lotte operaie nelle miniere del Nord della Francia." },
+    { titolo: "L'Œuvre", anno: 1886, desc: "Mondo artistico, ispirato all'amicizia con Cézanne." },
+    { titolo: "La Bête humaine", anno: 1890, desc: "Pulsioni violente ed ereditarietà criminale." },
+    { titolo: "J'accuse...!", anno: 1898, desc: "Lettera aperta, capolavoro di letteratura civile." }
+  ],
+
+  contestoStorico: {
+    titolo: "Analisi del contesto delle opere",
+    punti: [
+      "Francia dell'industrializzazione avanzata.",
+      "Urbanizzazione accelerata e nascita di un proletariato urbano.",
+      "Conflitti di classe, alcolismo, prostituzione, criminalità come temi sociali emergenti.",
+      "Fiducia positivista nella scienza come chiave di lettura della realtà."
+    ]
+  },
+
   romanziRougonMacquart: [
-    { n: 1, titolo: "La Fortune des Rougon", anno: 1871, ambiente: "Provincia (Plassans) & Politica", tema: "Origine della famiglia, colpo di stato di Napoleone III del 1851, spartizione iniziale delle tare ereditarie." },
-    { n: 2, titolo: "La Curée", anno: 1871, ambiente: "Alta Finanza & Parigi Haussmanniana", tema: "Speculazione edilizia durante i grandi sventramenti di Parigi, lussuria e corruzione morale." },
-    { n: 3, titolo: "Le Ventre de Paris", anno: 1873, ambiente: "Mercati Generali (Les Halles)", tema: "Il cibo, l'abbondanza dei 'Grassi' (borghesi sazi) contro la fame dei 'Magri' (idealisti repubblicani)." },
-    { n: 4, titolo: "La Conquête de Plassans", anno: 1874, ambiente: "Clero & Provincia", tema: "Intrighi clericali e manipolazioni politiche in provincia sotto la guida dell'abate Faujas." },
-    { n: 5, titolo: "La Faute de l'Abbé Mouret", anno: 1875, ambiente: "Campagna & Natura", tema: "Conflitto tra vocazione religiosa, dogma e pulsione naturale sensuale." },
-    { n: 6, titolo: "Son Excellence Eugène Rougon", anno: 1876, ambiente: "Corte Imperiale & Potere", tema: "I meccanismi cinici del potere politico autoritario nel governo imperiale." },
-    { n: 7, titolo: "L'Assommoir", anno: 1877, ambiente: "Quartieri Popolari di Parigi", tema: "Il dramma della lavandaia Gervaise Macquart: degrado operaio, infortuni sul lavoro e caduta nell'alcolismo ('l'ammazzatoio')." },
-    { n: 8, titolo: "Une page d'amour", anno: 1878, ambiente: "Piccola Borghesia Parigina", tema: "Passione segreta e gelosia materna con sfondo panoramico su Parigi." },
-    { n: 9, titolo: "Nana", anno: 1880, ambiente: "Teatro, Alcove & Demi-monde", tema: "Nana (figlia di Gervaise), cortigiana di lusso che consuma e distrugge le fortune dei nobili e borghesi." },
-    { n: 10, titolo: "Pot-Bouille", anno: 1882, ambiente: "Condominio Borghese Parigino", tema: "Ipocrisia, adulterio e squallore celati dietro le facciate impeccabili dei palazzi perbene." },
-    { n: 11, titolo: "Au Bonheur des Dames", anno: 1883, ambiente: "I Grandi Magazzini Moderni", tema: "Nascita del commercio moderno, consumismo, marketing e declino delle antiche botteghe artigiane." },
-    { n: 12, titolo: "La Joie de vivre", anno: 1884, ambiente: "Costa della Normandia", tema: "Scontro tra pessimismo schopenhaueriano, malattia e generosità altruistica." },
-    { n: 13, titolo: "Germinal", anno: 1885, ambiente: "Miniere di Carbone del Nord (Montsou)", tema: "Capolavoro assoluto: lavoro nel sottosuolo, il mostro 'Le Voreux', il grande sciopero e la nascita della coscienza di classe." },
-    { n: 14, titolo: "L'Œuvre", anno: 1886, ambiente: "Mondo dell'Arte e Impressionismo", tema: "Il tormento creativo del pittore Claude Lantier. Ispirato all'amico Paul Cézanne, determinò la fine della loro amicizia." },
-    { n: 15, titolo: "La Terre", anno: 1887, ambiente: "Campagna della Beauce", tema: "La brama feroce di possesso della terra tra i contadini, violenza arcaica e pulsioni primordiali." },
-    { n: 16, titolo: "Le Rêve", anno: 1888, ambiente: "Mondo Ecclesiastico & Cattedrale", tema: "Spiritualismo e sogno mistico di una giovane orfana ricamatrice." },
-    { n: 17, titolo: "La Bête humaine", anno: 1890, ambiente: "Ferrovie & Linea Parigi-Le Havre", tema: "Jacques Lantier e l'omofobia della follia omicida: il treno come icona di modernità contrapposto alle pulsioni bestiali ereditarie." },
-    { n: 18, titolo: "L'Argent", anno: 1891, ambiente: "Borsa Valori di Parigi", tema: "Speculazione finanziaria capitalista, ascesa e crollo disastroso della Banca Universale." },
-    { n: 19, titolo: "La Débâcle", anno: 1892, ambiente: "Guerra Franco-Prussiana & Sedan", tema: "La disfatta militare della Francia nel 1870 e il tragico crollo del Secondo Impero." },
-    { n: 20, titolo: "Le Docteur Pascal", anno: 1893, ambiente: "Studio Medico Scientifico", tema: "Sintesi scientifica e genetica finale del ciclo: il medico raccoglie l'albero genealogico completo della famiglia." }
+    { n: 1, titolo: "La Fortune des Rougon", anno: 1871, ambiente: "Origini della famiglia, colpo di stato del 1851", tema: "Origini della famiglia, colpo di stato del 1851" },
+    { n: 2, titolo: "La Curée", anno: 1871, ambiente: "Speculazione edilizia, alta borghesia parigina", tema: "Speculazione edilizia, alta borghesia parigina" },
+    { n: 3, titolo: "Le Ventre de Paris", anno: 1873, ambiente: "I mercati generali (Les Halles)", tema: "I mercati generali (Les Halles)" },
+    { n: 4, titolo: "La Conquête de Plassans", anno: 1874, ambiente: "Clero e provincia", tema: "Clero e provincia" },
+    { n: 7, titolo: "L'Assommoir", anno: 1877, ambiente: "Proletariato urbano, alcolismo", tema: "Proletariato urbano, alcolismo" },
+    { n: 8, titolo: "Une page d'amour", anno: 1878, ambiente: "Borghesia, sentimenti", tema: "Borghesia, sentimenti" },
+    { n: 9, titolo: "Nana", anno: 1880, ambiente: "Prostituzione, mondo dello spettacolo", tema: "Prostituzione, mondo dello spettacolo" },
+    { n: 10, titolo: "Pot-Bouille", anno: 1882, ambiente: "Ipocrisia della piccola borghesia", tema: "Ipocrisia della piccola borghesia" },
+    { n: 11, titolo: "Au Bonheur des Dames", anno: 1883, ambiente: "Nascita dei grandi magazzini", tema: "Nascita dei grandi magazzini" },
+    { n: 13, titolo: "Germinal", anno: 1885, ambiente: "Miniere di carbone, lotta operaia", tema: "Miniere di carbone, lotta operaia (Capolavoro del ciclo)" },
+    { n: 14, titolo: "L'Œuvre", anno: 1886, ambiente: "Mondo artistico e pittorico", tema: "Mondo artistico e pittorico" },
+    { n: 15, titolo: "La Terre", anno: 1887, ambiente: "Mondo contadino", tema: "Mondo contadino" },
+    { n: 18, titolo: "La Bête humaine", anno: 1890, ambiente: "Ferrovie, pulsioni violente", tema: "Ferrovie, pulsioni violente" },
+    { n: 19, titolo: "L'Argent", anno: 1891, ambiente: "Speculazione finanziaria e borsa", tema: "Speculazione finanziaria e borsa" },
+    { n: 20, titolo: "Le Docteur Pascal", anno: 1893, ambiente: "Sintesi scientifica finale del ciclo", tema: "Sintesi scientifica finale del ciclo" }
   ],
 
   focusGerminal: {
-    titolo: "Germinal (1885) — Il Capolavoro Assoluto",
-    sottotitolo: "L'epopea dei minatori e la genesi del proletariato moderno",
-    protagonista: "Étienne Lantier (figlio di Gervaise de L'Assommoir)",
-    ambientazione: "Pozzo minerario 'Le Voreux' nel bacino di Montsou (Nord della Francia)",
-    tramaSintetica: "Étienne Lantier, disoccupato, viene assunto come minatore nel pozzo Le Voreux. Davanti alla miseria nera, ai salari decurtati e al pericolo costante di crolli e grisou, guida i compagni in uno storico sciopero. L'esercito reprime nel sangue la protesta e l'anarchico Souvarine sabota la galleria provocando un'alluvione. Nonostante la sconfitta e il lutto, Étienne riparte consapevole che il germe della riscossa umana è piantato e fiorirà ineluttabilmente.",
-    chiaviLettura: [
+    titolo: "Germinal (1885)",
+    sottotitolo: "Tredicesimo romanzo dei Rougon-Macquart — Capolavoro assoluto di Zola per potenza narrativa, valore storico e simbolico",
+    tramaEssenziale: "Étienne Lantier, operaio disoccupato (discendente del ramo Macquart), giunge nel villaggio minerario immaginario di Montsou, nel Nord della Francia, e trova lavoro come minatore. Testimone delle condizioni disumane di lavoro e della miseria dei minatori, diventa promotore e guida di un grande sciopero, alimentato anche da idee socialiste e proto-marxiste. Lo sciopero degenera in violenza, repressione militare e tragedia (compreso il sabotaggio della miniera da parte dell'anarchico Souvarine, che provoca un crollo con numerosi morti). Il romanzo si chiude comunque su una nota di speranza: nonostante la sconfitta immediata, Étienne intuisce che il seme della rivolta ('germinal', dal mese primaverile del calendario rivoluzionario francese) è ormai germogliato e porterà, in futuro, a un cambiamento inevitabile.",
+    puntiRappresentativi: [
       {
-        titolo: "Il Mostro 'Le Voreux'",
-        desc: "La miniera non è solo un luogo di lavoro: Zola la personifica come una bestia gigantesca e insaziabile che divora centinaia di operai ogni giorno per digerire carbone e rigurgitare profitto."
+        titolo: "Sintesi perfetta di metodo e ideologia",
+        desc: "Unisce l'inchiesta documentaria (Zola visitò realmente le miniere del bacino di Anzin nel 1884, durante uno sciopero) alla forza simbolica ed epica della narrazione."
       },
       {
-        titolo: "Simbologia del Titolo",
-        desc: "'Germinal' richiama il mese primaverile del calendario rivoluzionario (marzo-aprile), tempo della germinazione dei semi nel grembo della terra. Metafora della rivolta sociale che 'germoglia' sotto la superficie prima di esplodere."
+        titolo: "Determinismo all'opera",
+        desc: "I minatori sono ritratti come vittime di un sistema che li schiaccia biologicamente (denutrizione, malattie professionali, degrado fisico ereditario) e socialmente (sfruttamento capitalistico, alienazione)."
       },
       {
-        titolo: "Inchiesta Documentaria",
-        desc: "Nel febbraio 1884 Zola scese personalmente nei pozzi minerari di Anzin, vestito da minatore, taccuino alla mano, per documentare le condizioni fisiche, il buio, il calore e il gergo autentico dei cavatori."
+        titolo: "La miniera come organismo vivente",
+        desc: "Zola descrive il pozzo minerario 'Le Voreux' (letteralmente 'il Vorace') come una creatura mostruosa che 'divora' gli operai — una delle metafore più potenti della letteratura naturalista, che trasforma il dato tecnico-industriale in immagine mitica."
       },
       {
-        titolo: "Dimensione Corale",
-        desc: "Il vero protagonista del romanzo non è il singolo eroe, ma la folla operaia unita: una comunità intera guidata dal bisogno di dignità, pane e giustizia."
+        titolo: "Dimensione corale",
+        desc: "A differenza di molti romanzi ottocenteschi centrati su un singolo protagonista, Germinal dà voce a un'intera comunità operaia, anticipando tecniche narrative più moderne (romanzo corale, realismo sociale del Novecento)."
+      },
+      {
+        titolo: "Valore politico e storico",
+        desc: "Pur non essendo un trattato marxista (Zola resta scettico sulle ideologie rivoluzionarie rigide, incarnate criticamente nel personaggio dell'anarchico Souvarine), il romanzo è diventato un testo di riferimento per la storia del movimento operaio, tanto da essere ancora oggi citato nei dibattiti su diritti dei lavoratori e giustizia sociale."
+      },
+      {
+        titolo: "Eredità culturale",
+        desc: "Ha ispirato numerosi adattamenti cinematografici (celebre quello di Claude Berri, 1993) e resta uno dei romanzi francesi più letti e studiati al mondo, spesso indicato come il vertice massimo del Naturalismo europeo."
       }
+    ],
+    chiaveSimbolicaTitolo: "'Germinal' era il settimo mese del calendario rivoluzionario francese (corrispondente a fine marzo-aprile), il mese della germinazione. Zola sceglie questo titolo per suggerire che, come i semi germogliano sotto la terra prima di sbocciare, così la coscienza di classe e la spinta al cambiamento sociale — pur sconfitte nel breve termine nel romanzo — sono un processo naturale e inarrestabile, destinato a 'fiorire' nel futuro."
+  },
+
+  esilioInghilterra: {
+    anni: "1898–1899",
+    punti: [
+      "Condannato il 23 febbraio 1898 a 1 anno di reclusione e 3.000 franchi di multa per diffamazione dopo J'accuse...!.",
+      "Fugge dalla Francia nella notte tra il 18 e il 19 luglio 1898, quasi senza bagagli.",
+      "Vive circa 11 mesi in Inghilterra (Londra, Surrey), spesso sotto falso nome, isolato e senza parlare inglese.",
+      "Continua a scrivere: avvia il ciclo Les Quatre Évangiles.",
+      "Rientra in Francia nel giugno 1899, dopo la concessione della revisione del processo Dreyfus."
     ]
   },
 
   curiosita: [
     {
-      titolo: "L'amicizia infranta con Cézanne",
+      titolo: "L'amicizia con Cézanne",
       tag: "ARTE",
-      testo: "Cresciuto insieme a Paul Cézanne ad Aix-en-Provence, Zola si ispirò a lui per il protagonista fallito di L'Œuvre (Claude Lantier). Cézanne si sentì offeso dal ritratto e non gli rivolse mai più la parola."
+      testo: "Amico d'infanzia di Paul Cézanne ad Aix-en-Provence; l'amicizia si ruppe quando Cézanne si riconobbe nel pittore fallito di L'Œuvre."
     },
     {
-      titolo: "Pioniere della Fotografia (4.000 scatti)",
+      titolo: "Fotografo appassionato",
       tag: "FOTOGRAFIA",
-      testo: "Zola fu un fotografo appassionato e meticoloso: possedeva oltre una dozzina di macchine fotografiche e lasciò più di 4.000 lastre e foto che documentano Parigi, l'esilio londinese e la vita quotidiana."
+      testo: "Scattò oltre 4.000 fotografie, in parte pubblicate postume."
     },
     {
-      titolo: "Candidato al Nobel, mai premiato",
+      titolo: "Candidatura al Premio Nobel",
       tag: "RICONOSCIMENTI",
-      testo: "Fu nominato ripetutamente per il Premio Nobel per la Letteratura (1901 e 1902), ma l'Accademia svedese lo respinse a causa dei temi ritenuti troppo 'scandalosi, crudi e immorali' per i canoni dell'epoca."
+      testo: "Candidato al Premio Nobel per la Letteratura più volte, mai vincitore."
     },
     {
-      titolo: "Il mistero del camino & Il Panthéon",
+      titolo: "Morte e dibattito storico",
+      tag: "STORIA",
+      testo: "La sua morte resta oggetto di dibattito storico: ipotesi di omicidio legato ai suoi nemici politici nell'Affaire Dreyfus."
+    },
+    {
+      titolo: "Traslazione al Panthéon (1908)",
       tag: "MEMORIA",
-      testo: "Morì asfissiato nel sonno per il camino ostruito nella sua camera da letto. Anni dopo, uno spazzacamino nazionalista confessò in punto di morte di aver bloccato volontariamente la canna fumaria per vendicarsi di Zola. Nel 1908 le sue ceneri entrarono trionfalmente al Panthéon."
+      testo: "Nel 1908 le sue ceneri furono traslate al Panthéon di Parigi, riconoscimento ufficiale del suo ruolo letterario e civile."
     }
   ],
+
 
   // 15 Domande per il Quiz Live con Timer a 10s
   domandeQuiz: [
