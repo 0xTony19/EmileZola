@@ -175,7 +175,9 @@ const ZOLA_DATA = {
     {
       titolo: "L'amicizia con Cézanne",
       tag: "ARTE",
-      testo: "Amico d'infanzia di Paul Cézanne ad Aix-en-Provence; l'amicizia si ruppe quando Cézanne si riconobbe nel pittore fallito di L'Œuvre."
+      testo: "Amico d'infanzia di Paul Cézanne ad Aix-en-Provence; l'amicizia si ruppe quando Cézanne si riconobbe nel pittore fallito di L'Œuvre.",
+      immagine: "assets/foto/ZOLAECézanne.jpg",
+      didascalia: "Émile Zola e Paul Cézanne ad Aix-en-Provence"
     },
     {
       titolo: "Fotografo appassionato",

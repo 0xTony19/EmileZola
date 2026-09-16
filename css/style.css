@@ -266,6 +266,13 @@ body {
   box-shadow: 0 2px 8px rgba(179, 126, 25, 0.15);
 }
 
+#lim-toggle-btn.active {
+  background: var(--accent-gold);
+  color: #ffffff;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(179, 126, 25, 0.45);
+}
+
 .theme-dot {
   width: 7px;
   height: 7px;
@@ -1811,4 +1818,85 @@ body[data-theme="dark"] .steps-heading, body[data-theme="dark"] .investigation-h
 
 .animate-pop {
   animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* ==========================================================================
+   MODALITÀ LIM / AULA PROIEZIONE (Alta Leggibilità da Lontano & Font Maggiorati)
+   ========================================================================== */
+body.lim-mode {
+  font-size: 19px;
+  line-height: 1.78;
+}
+
+body.lim-mode .hero-title {
+  font-size: clamp(3.2rem, 6.5vw, 5rem);
+}
+
+body.lim-mode .hero-subtitle {
+  font-size: 1.45rem;
+  line-height: 1.8;
+}
+
+body.lim-mode .stat-number {
+  font-size: 2.6rem;
+}
+
+body.lim-mode .stat-label {
+  font-size: 0.9rem;
+}
+
+body.lim-mode .section-title {
+  font-size: 2.9rem;
+}
+
+body.lim-mode .section-lead {
+  font-size: 1.3rem;
+  line-height: 1.8;
+}
+
+body.lim-mode .passport-title {
+  font-size: 1.5rem;
+}
+
+body.lim-mode .passport-field .val {
+  font-size: 1.35rem;
+}
+
+body.lim-mode .poetic-block-title,
+body.lim-mode .pillar-title,
+body.lim-mode .curiosity-title,
+body.lim-mode .novel-title {
+  font-size: 1.6rem;
+}
+
+body.lim-mode .poetic-block-desc,
+body.lim-mode .curiosity-text,
+body.lim-mode .germinal-synopsis-text,
+body.lim-mode .germinal-symbolic-text,
+body.lim-mode .context-bullets-list li,
+body.lim-mode .exile-timeline-item p,
+body.lim-mode .tech-sheet-table td {
+  font-size: 1.2rem;
+  line-height: 1.85;
+}
+
+body.lim-mode .reason-card-title {
+  font-size: 1.35rem;
+}
+
+body.lim-mode .reason-card-desc {
+  font-size: 1.15rem;
+  line-height: 1.75;
+}
+
+body.lim-mode .germinal-title-display {
+  font-size: clamp(3rem, 6vw, 4.2rem);
+}
+
+body.lim-mode .germinal-subtitle-text {
+  font-size: 1.35rem;
+}
+
+body.lim-mode .nav-item-link {
+  font-size: 0.9rem;
 }
