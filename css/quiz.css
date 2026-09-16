@@ -141,48 +141,70 @@
 }
 
 .lobby-qr-card {
-  background: #ffffff;
-  padding: 16px 20px;
-  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  padding: 18px 22px;
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 2px solid var(--accent-gold);
+  color: var(--text-primary);
+  transition: background var(--transition-normal), border-color var(--transition-normal);
 }
 
 .qr-canvas-holder {
-  background: #ffffff;
-  padding: 8px;
-  border-radius: var(--radius-md);
+  background: #ffffff !important;
+  padding: 12px;
+  border-radius: var(--radius-sm);
   margin-bottom: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  border: 2px solid var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-canvas-holder canvas,
+.qr-canvas-holder img {
+  display: block;
 }
 
 .qr-pin-badge {
-  background: var(--accent-navy);
-  color: #ffffff;
-  font-family: var(--font-heading);
+  background: var(--accent-gold-light);
+  color: var(--accent-gold-dark);
+  font-family: var(--font-display);
   font-size: 1.25rem;
-  padding: 6px 20px;
+  font-weight: 700;
+  padding: 6px 22px;
   border-radius: var(--radius-full);
   letter-spacing: 2px;
   margin-bottom: 6px;
+  border: 1px solid rgba(179, 126, 25, 0.3);
+}
+
+body[data-theme="dark"] .qr-pin-badge {
+  background: rgba(216, 162, 72, 0.18);
+  color: #d8a248;
 }
 
 .qr-scan-hint {
-  font-size: 0.88rem;
-  color: #475569;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
   font-weight: 500;
+  text-align: center;
 }
 
 .ip-edit-btn {
-  background: var(--bg-card);
+  background: var(--bg-main);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   font-size: 0.78rem;
   font-weight: 600;
-  padding: 5px 12px;
+  font-family: var(--font-sans);
+  padding: 6px 14px;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: var(--transition-fast);
@@ -190,7 +212,7 @@
 
 .ip-edit-btn:hover {
   border-color: var(--accent-gold);
-  background: var(--bg-main);
+  color: var(--accent-gold);
   transform: translateY(-1px);
 }
 
@@ -198,6 +220,12 @@
   background: var(--accent-navy);
   color: #ffffff;
   border-color: var(--accent-navy);
+}
+
+body[data-theme="dark"] .ip-edit-btn.active-network-btn {
+  background: var(--accent-gold);
+  color: #12100e;
+  border-color: var(--accent-gold);
 }
 
 .lobby-players-box {
