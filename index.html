@@ -52,6 +52,11 @@
 
         <!-- Right Utility Controls -->
         <div class="nav-controls">
+          <div class="font-scale-controls" title="Regola Dimensione Carattere per la LIM">
+            <button id="font-dec-btn" class="font-step-btn" title="Riduci Testo [Scorciatoia: -]">&minus; A</button>
+            <span id="font-size-indicator" class="font-indicator">100%</span>
+            <button id="font-inc-btn" class="font-step-btn" title="Ingrandisci Testo [Scorciatoia: +]">+ A</button>
+          </div>
           <button id="theme-toggle-btn" class="btn-icon-control nav-pill-btn" title="Cambia Tema Visivo [Scorciatoia: T]">
             <span class="theme-dot"></span>
             <span class="theme-label">Tema</span>
@@ -71,10 +76,11 @@
 
     <!-- Barra Galleggiante con Scorciatoie da Tastiera -->
     <div class="floating-quick-bar" title="Scorciatoie da tastiera per la presentazione">
-      <span class="keyboard-hint-pill">[Q] Quiz</span>
-      <span class="keyboard-hint-pill">[T] Tema</span>
-      <span class="keyboard-hint-pill">[F] Schermo Intero</span>
-      <span class="keyboard-hint-pill">[←/→] Sezioni</span>
+      <span class="keyboard-hint-pill" onclick="window.toggleLimMode()">[L] LIM</span>
+      <span class="keyboard-hint-pill">[+/-] Font</span>
+      <span class="keyboard-hint-pill">[1-5] Schede</span>
+      <span class="keyboard-hint-pill">[←/→] Pagine</span>
+      <span class="keyboard-hint-pill" onclick="window.quizApp.openQuizModal()">[Q] Quiz</span>
     </div>
 
     <!-- Main Content Container (Divided by Pages) -->
@@ -200,25 +206,7 @@
           <h2 class="section-title">Opere Composte & Cicli Principali</h2>
           <p class="section-lead">I tre grandi cicli narrativi e l'analisi romanzo per romanzo della saga monumentale dei Rougon-Macquart.</p>
         </div>
-
         <div id="cycles-summary-grid"></div>
-
-        <div style="margin-top: 40px;">
-          <div class="section-header" style="margin-bottom: 20px;">
-            <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--text-primary);">I Rougon-Macquart, Romanzo per Romanzo</h3>
-            <p class="section-lead">Esplora i romanzi più significativi del ciclo di venti opere (1871–1893). Clicca sulle schede per i dettagli.</p>
-          </div>
-          <div id="novels-filters" class="novels-filters"></div>
-          <div id="novels-grid" class="novels-grid"></div>
-        </div>
-
-        <div style="margin-top: 40px;">
-          <div class="section-header" style="margin-bottom: 20px;">
-            <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-primary);">Titoli Più Noti</h3>
-            <p class="section-lead">Le opere cardine che hanno segnato la storia della letteratura europea e civile.</p>
-          </div>
-          <div id="notable-titles-grid" class="notable-titles-grid"></div>
-        </div>
       </section>
 
       <!-- Page 4: Analisi del Contesto delle Opere -->

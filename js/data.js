@@ -196,8 +196,74 @@ const ZOLA_DATA = {
 
   focusGerminal: {
     titolo: "Germinal (1885)",
-    sottotitolo: "Tredicesimo romanzo dei Rougon-Macquart — Capolavoro assoluto di Zola per potenza narrativa, valore storico e simbolico",
-    tramaEssenziale: "Étienne Lantier, operaio disoccupato (discendente del ramo Macquart), giunge nel villaggio minerario immaginario di Montsou, nel Nord della Francia, e trova lavoro come minatore. Testimone delle condizioni disumane di lavoro e della miseria dei minatori, diventa promotore e guida di un grande sciopero, alimentato anche da idee socialiste e proto-marxiste. Lo sciopero degenera in violenza, repressione militare e tragedia (compreso il sabotaggio della miniera da parte dell'anarchico Souvarine, che provoca un crollo con numerosi morti). Il romanzo si chiude comunque su una nota di speranza: nonostante la sconfitta immediata, Étienne intuisce che il seme della rivolta ('germinal', dal mese primaverile del calendario rivoluzionario francese) è ormai germogliato e porterà, in futuro, a un cambiamento inevitabile.",
+    sottotitolo: "Tredicesimo romanzo dei Rougon-Macquart — Capolavoro assoluto per potenza epica, inchiesta sociale e valore simbolico",
+    tramaEssenziale: "Étienne Lantier, giovane macchinista disoccupato con tara ereditaria di collera, giunge a Montsou e trova lavoro nella miniera di carbone Le Voreux. Di fronte all'incredibile miseria, alla denutrizione e ai pericoli mortali del pozzo, organizza e guida un epico sciopero di oltre due mesi. Nonostante la repressione armata dell'esercito e il sabotaggio dell'anarchico Souvarine, la sconfitta finale lascia un messaggio universale di speranza: il germe della giustizia sociale è sbocciato sotto terra e crescerà inesorabilmente.",
+    
+    // Trama strutturata in 3 Atti per la presentazione
+    treAtti: [
+      {
+        atto: "ATTO I",
+        titolo: "La Discesa negli Inferi di Montsou",
+        tag: "Inchiesta & Condizioni",
+        punti: [
+          "<strong>L'Arrivo:</strong> Étienne Lantier, licenziato dalle ferrovie per indisciplina, arriva nella gelida pianura del Nord e viene accolto dalla famiglia Maheu.",
+          "<strong>Il Pozzo 'Le Voreux':</strong> Gli operai lavorano seminudi a centinaia di metri sotto terra, tra gas mefitici (grisù), allagamenti e carichi massacranti per salari da fame.",
+          "<strong>La Presa di Coscienza:</strong> Étienne legge opuscoli socialisti, stringe legami con Catherine Maheu e comincia a predicare l'unione dei lavoratori."
+        ],
+        citazione: "«Il pozzo ingoiava uomini a venti, a trenta per volta, e il mostro sembrava non saziarsi mai.»"
+      },
+      {
+        atto: "ATTO II",
+        titolo: "Il Grande Sciopero e la Tragedia",
+        tag: "Conflitto di Classe",
+        punti: [
+          "<strong>La Rivolta:</strong> La Compagnia mineraria riduce i salari: scoppia lo sciopero a oltranza. La fame devasta le famiglie, ma la dignità prevale.",
+          "<strong>Il Raduno nella Foresta:</strong> Nel bosco di Vandame, Étienne arringa 3.000 minatori proclamando il riscatto del lavoro contro il capitale.",
+          "<strong>La Repressione e il Sangue:</strong> La borghesia chiama l'esercito: i soldati aprono il fuoco sui manifestanti uccidendo Toussaint Maheu e molti operai."
+        ],
+        citazione: "«Pane! Pane! Pane! Un urlo solo si alzava dalla folla di spettri affamati.»"
+      },
+      {
+        atto: "ATTO III",
+        titolo: "Il Sabotaggio, l'Abisso e il Seme",
+        tag: "Epilogo & Speranza",
+        punti: [
+          "<strong>L'Attentato di Souvarine:</strong> L'anarchico russo sega le travi del pozzo: la miniera si allaga inghiottendo minatori e compagni.",
+          "<strong>La Lotta nel Buio:</strong> Étienne e Catherine restano intrappolati nelle gallerie allagate. Étienne uccide il brutale rivale Chaval; Catherine muore tra le sue braccia prima dei soccorsi.",
+          "<strong>La Germinazione:</strong> Étienne lascia Montsou verso Parigi in una luminosa mattina di primavera: il seme della rivoluzione sta germogliando sotto terra."
+        ],
+        citazione: "«Uomini stavano germogliando, un esercito nero e vendicatore che sarebbe presto sbocciato per i raccolti del secolo futuro.»"
+      }
+    ],
+
+    personaggi: [
+      {
+        nome: "Étienne Lantier",
+        ruolo: "Protagonista & Guida dello Sciopero",
+        desc: "Figlio di Gervaise Macquart (da <em>L'Assommoir</em>). Intelligente, generoso ma segnato dalla tara familiare della violenza improvvisa. Rappresenta la nascita della coscienza operaia e socialista."
+      },
+      {
+        nome: "Toussaint Maheu",
+        ruolo: "Il Capofamiglia Minatore",
+        desc: "Lavoratore onesto, instancabile e saggio. Simbolo della rassegnazione secolare che si trasforma in coraggio morale; viene ucciso dal piombo dei soldati."
+      },
+      {
+        nome: "Catherine Maheu",
+        ruolo: "L'Amore Tragico",
+        desc: "Giovane minatrice legata a Étienne da un amore puro ma ostacolato dal bruto Chaval. Muore di stenti e fatica nelle gallerie allagate."
+      },
+      {
+        nome: "Souvarine",
+        ruolo: "L'Anarchico Nichilista",
+        desc: "Esule russo, macchinista freddo e silenzioso. Contrario al compromesso e alle riforme: preferisce la distruzione totale della miniera per cancellare il male alla radice."
+      },
+      {
+        nome: "La Maheude",
+        ruolo: "La Voce delle Madri",
+        desc: "Madre di sette figli: incarna il sacrificio quotidiano per la sopravvivenza e la furia disperata della fame proletaria."
+      }
+    ],
+
     puntiRappresentativi: [
       {
         titolo: "Sintesi perfetta di metodo e ideologia",

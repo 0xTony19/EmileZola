@@ -167,6 +167,78 @@ function initMobileNavbar() {
 }
 
 // 4. Comandi da Tastiera per Presentazione, Pagine e Quiz
+// 3. Gestione Modalità LIM, Dimensione Carattere e Temi
+window.currentFontScale = 1.0;
+window.activeSubtabs = {
+  biografia: 0,
+  poetica: 0,
+  opere: 0,
+  contesto: 0,
+  germinal: 0,
+  esilio: 0,
+  curiosita: 0
+};
+
+window.toggleLimMode = function() {
+  const isLim = document.body.classList.toggle('lim-mode');
+  const limBtn = document.getElementById('lim-toggle-btn');
+  if (limBtn) {
+    limBtn.classList.toggle('active', isLim);
+    limBtn.title = isLim ? 'Disattiva Modalità LIM [L]' : 'Attiva Modalità LIM / Alta Visibilità [L]';
+  }
+  SFX.playTone(isLim ? 620 : 420, 'sine', 0.08, 0.06);
+};
+
+window.adjustFontSize = function(delta) {
+  let newScale = Math.round((window.currentFontScale + delta) * 100) / 100;
+  if (newScale < 0.85) newScale = 0.85;
+  if (newScale > 1.50) newScale = 1.50;
+  window.currentFontScale = newScale;
+  document.documentElement.style.setProperty('--font-scale-factor', newScale);
+  
+  const indicator = document.getElementById('font-size-indicator');
+  if (indicator) {
+    indicator.textContent = `${Math.round(newScale * 100)}%`;
+  }
+  SFX.playTone(500 + delta * 200, 'sine', 0.03, 0.03);
+};
+
+window.switchSubtab = function(sectionId, subtabIndex) {
+  window.activeSubtabs[sectionId] = subtabIndex;
+  
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+
+  // Aggiorna pulsanti del sottomenu
+  const buttons = section.querySelectorAll('.subnav-pill-btn');
+  buttons.forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === subtabIndex);
+  });
+
+  // Aggiorna pannelli del sottomenu
+  const panes = section.querySelectorAll('.subtab-pane');
+  panes.forEach((pane, idx) => {
+    pane.classList.toggle('active', idx === subtabIndex);
+  });
+
+  SFX.playTone(540, 'sine', 0.04, 0.03);
+};
+
+window.switchSubtabRelative = function(sectionId, delta) {
+  const current = window.activeSubtabs[sectionId] || 0;
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  const panes = section.querySelectorAll('.subtab-pane');
+  const max = panes.length;
+  if (max === 0) return;
+  
+  let target = current + delta;
+  if (target < 0) target = 0;
+  if (target >= max) target = max - 1;
+  window.switchSubtab(sectionId, target);
+};
+
+// 4. Comandi da Tastiera per Presentazione, Pagine, Sottomenu e Quiz
 function initKeyboardNavigation() {
   window.addEventListener('keydown', (e) => {
     // Ignora se si sta digitando in un input
@@ -197,6 +269,22 @@ function initKeyboardNavigation() {
       return;
     }
 
+    // Tasto 'L' -> Attiva/Disattiva Modalità LIM
+    if (e.key.toLowerCase() === 'l') {
+      window.toggleLimMode();
+      return;
+    }
+
+    // Tasti '+' e '-' -> Regola Dimensione Font
+    if (e.key === '+' || e.key === '=') {
+      window.adjustFontSize(0.08);
+      return;
+    }
+    if (e.key === '-' || e.key === '_') {
+      window.adjustFontSize(-0.08);
+      return;
+    }
+
     // Tasto 'T' -> Cambia Tema
     if (e.key.toLowerCase() === 't') {
       const currentTheme = document.body.getAttribute('data-theme') || 'classic';
@@ -219,13 +307,22 @@ function initKeyboardNavigation() {
       return;
     }
 
-    // Risposta diretta quiz da tastiera quando è attiva una domanda: 1/A, 2/B, 3/C, 4/D
+    // Tasti Numerici 1..9: Se siamo nel Quiz rispondono, altrimenti cambiano sottomenu attivo!
     if (window.quizApp && window.quizApp.engine && window.quizApp.engine.gameState === 'QUESTION') {
       const keyMap = { '1': 0, 'a': 0, '2': 1, 'b': 1, '3': 2, 'c': 2, '4': 3, 'd': 3 };
       const pressed = e.key.toLowerCase();
       if (keyMap.hasOwnProperty(pressed)) {
         window.quizApp.onHostOptionClick(keyMap[pressed]);
         return;
+      }
+    } else {
+      const num = parseInt(e.key, 10);
+      if (!isNaN(num) && num >= 1 && num <= 9) {
+        const currentHash = (window.location.hash || '#home').replace('#', '');
+        if (currentHash !== 'home' && window.activeSubtabs.hasOwnProperty(currentHash)) {
+          window.switchSubtab(currentHash, num - 1);
+          return;
+        }
       }
     }
 
@@ -238,11 +335,26 @@ function initKeyboardNavigation() {
   });
 }
 
-// 3. Gestione Temi e Audio
+// 5. Gestione Temi, LIM e Audio
 function initThemeAndSettings() {
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
   const presentationBtn = document.getElementById('presentation-btn');
+  const limToggleBtn = document.getElementById('lim-toggle-btn');
+  const fontDecBtn = document.getElementById('font-dec-btn');
+  const fontIncBtn = document.getElementById('font-inc-btn');
+
+  if (limToggleBtn) {
+    limToggleBtn.addEventListener('click', () => window.toggleLimMode());
+  }
+
+  if (fontDecBtn) {
+    fontDecBtn.addEventListener('click', () => window.adjustFontSize(-0.08));
+  }
+
+  if (fontIncBtn) {
+    fontIncBtn.addEventListener('click', () => window.adjustFontSize(0.08));
+  }
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
@@ -276,419 +388,843 @@ function initThemeAndSettings() {
   }
 }
 
-// 4. Sezione Dati Biografici Essenziali
+// =========================================================================
+// RENDERERS ORGANIZZATI A SOTTOMENU / SCHEDE AD ALTA VISIBILITA
+// =================================================================// 1. Sezione Dati Biografici Essenziali
 function renderBiography() {
-  const bioGrid = document.getElementById('bio-identity-grid');
-  if (!bioGrid) return;
+  const container = document.getElementById('bio-identity-grid');
+  if (!container) return;
 
   const bio = ZOLA_DATA.biografia;
-  bioGrid.innerHTML = `
-    <!-- Passaporto Anagrafico Ufficiale -->
-    <div class="bio-card passport-card animate-fade-in">
-      <div class="passport-header">
-        <span class="passport-stamp">RÉPUBLIQUE FRANÇAISE</span>
-        <span class="passport-title">DATI BIOGRAFICI ESSENZIALI</span>
-      </div>
-      <div class="passport-body">
-        <div class="passport-field">
-          <label>Nome Completo</label>
-          <div class="val">${bio.nomeCompleto}</div>
-        </div>
-        <div class="passport-field">
-          <label>Nascita</label>
-          <div class="val">${bio.nascita}</div>
-        </div>
-        <div class="passport-field">
-          <label>Morte</label>
-          <div class="val highlight-val">${bio.morte}</div>
-        </div>
-        <div class="passport-field">
-          <label>Nazionalità</label>
-          <div class="val">${bio.nazionalita}</div>
-        </div>
-        <div class="passport-field">
-          <label>Periodo di Appartenenza</label>
-          <div class="val">${bio.periodo}</div>
-        </div>
-        <div class="passport-field">
-          <label>Corrente Letteraria</label>
-          <div class="val gold-text">${bio.corrente}</div>
-        </div>
-        <div class="passport-field" style="grid-column: 1 / -1;">
-          <label>Luogo di Sepoltura</label>
-          <div class="val">${bio.sepoltura}</div>
-        </div>
-      </div>
+  const subtabs = [
+    { label: "Passaporto Anagrafico", key: "passport" },
+    { label: "1. Origini & Cézanne", key: "origini" },
+    { label: "2. Inizi & Giornalismo", key: "inizi" },
+    { label: "3. J'accuse & Dreyfus", key: "dreyfus" },
+    { label: "4. Morte & Panthéon", key: "pantheon" }
+  ];
+
+  container.innerHTML = `
+    <!-- Sottomenu a schede ad alta visibilità -->
+    <div class="section-subnav-bar">
+      ${subtabs.map((tab, idx) => `
+        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('biografia', ${idx})">
+          <span class="subnav-num">${idx + 1}</span>
+          <span>${tab.label}</span>
+        </button>
+      `).join('')}
     </div>
 
-    <!-- Schede di Esposizione e Approfondimento Dettagliato -->
-    <div style="margin-top: 36px;">
-      <div class="section-header" style="margin-bottom: 20px;">
-        <span class="section-category">QUADRO NARRATIVO ED ESPOSITIVO</span>
-        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: var(--text-primary);">Tappe Fondamentali per l'Esposizione</h3>
-        <p class="section-lead">Punti chiave ordinati cronologicamente e concettualmente per una presentazione chiara ed esaustiva.</p>
-      </div>
-
-      <div class="bio-exposition-grid">
-        ${bio.schedeEsposizione.map((card, idx) => `
-          <div class="bio-expo-card animate-slide-up" style="animation-delay: ${idx * 0.08}s">
-            <div class="expo-card-header">
-              <span class="expo-tag">${card.tag}</span>
-              <h4 class="expo-title">${card.titolo}</h4>
+    <!-- Contenitori delle singole sotto-schede -->
+    <div class="subtabs-content-wrapper">
+      
+      <!-- Subtab 0: Passaporto Anagrafico -->
+      <div class="subtab-pane active animate-fade-in">
+        <div class="bio-card passport-card">
+          <div class="passport-header">
+            <span class="passport-stamp">RÉPUBLIQUE FRANÇAISE</span>
+            <span class="passport-title">DATI ANAGRAFICI & QUADRO ESSENZIALE</span>
+          </div>
+          <div class="passport-body">
+            <div class="passport-field">
+              <label>Nome Completo</label>
+              <div class="val">${bio.nomeCompleto}</div>
             </div>
-            <ul class="expo-points-list">
-              ${card.punti.map(pt => `<li>${pt}</li>`).join('')}
-            </ul>
-            <div class="expo-speech-hint">
-              <strong>Focus Esposizione:</strong> ${card.focusOrale}
+            <div class="passport-field">
+              <label>Nascita</label>
+              <div class="val">${bio.nascita}</div>
+            </div>
+            <div class="passport-field">
+              <label>Morte</label>
+              <div class="val highlight-val">${bio.morte}</div>
+            </div>
+            <div class="passport-field">
+              <label>Nazionalità & Origini</label>
+              <div class="val">${bio.nazionalita}</div>
+            </div>
+            <div class="passport-field">
+              <label>Periodo Storico</label>
+              <div class="val">${bio.periodo}</div>
+            </div>
+            <div class="passport-field">
+              <label>Corrente Letteraria</label>
+              <div class="val gold-text">${bio.corrente}</div>
+            </div>
+            <div class="passport-field" style="grid-column: 1 / -1;">
+              <label>Luogo di Sepoltura</label>
+              <div class="val">${bio.sepoltura}</div>
             </div>
           </div>
-        `).join('')}
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" disabled>&larr; Precedente</button>
+          <span class="subnav-step-info">Tappa 1 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('biografia', 1)">Tappa Successiva: Origini &rarr;</button>
+        </div>
       </div>
+
+      <!-- Subtabs 1..4: Schede di Esposizione Orale -->
+      ${bio.schedeEsposizione.map((card, idx) => `
+        <div class="subtab-pane animate-fade-in">
+          <div class="presentation-big-card">
+            <div class="pres-card-header">
+              <span class="pres-card-tag">${card.tag}</span>
+              <h3 class="pres-card-title">${card.titolo}</h3>
+            </div>
+
+            <div class="pres-card-body">
+              <ul class="pres-points-list">
+                ${card.punti.map(pt => `<li>${pt}</li>`).join('')}
+              </ul>
+
+              <div class="pres-focus-box">
+                <div class="pres-focus-label">DA RICORDARE</div>
+                <div class="pres-focus-text">${card.focusOrale}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="subnav-stepper-footer">
+            <button class="subnav-step-btn" onclick="window.switchSubtabRelative('biografia', -1)">&larr; Scheda Precedente</button>
+            <span class="subnav-step-info">Tappa ${idx + 2} di 5</span>
+            <button class="subnav-step-btn ${idx === bio.schedeEsposizione.length - 1 ? '' : 'primary'}" 
+              onclick="${idx === bio.schedeEsposizione.length - 1 ? 'window.navigateToPage(\'poetica\')' : 'window.switchSubtabRelative(\'biografia\', 1)'}">
+              ${idx === bio.schedeEsposizione.length - 1 ? 'Passa a Poetica &rarr;' : 'Tappa Successiva &rarr;'}
+            </button>
+          </div>
+        </div>
+      `).join('')}
+
     </div>
   `;
 }
 
-// 5. Sezione Pensiero e Poetica
+// 2. Sezione Pensiero e Poetica
 function renderPoetics() {
   const container = document.getElementById('poetics-grid');
   if (!container) return;
 
+  const pilastri = ZOLA_DATA.pilastriPoetica;
+  const subtabs = [
+    { label: "1. Metodo Sperimentale", key: "metodo" },
+    { label: "2. Determinismo & Tare", key: "determinismo" },
+    { label: "3. Documento Umano", key: "documento" },
+    { label: "4. Pessimismo & Utopia", key: "utopia" },
+    { label: "5. Intellettuale Engagé", key: "impegno" }
+  ];
+
   container.innerHTML = `
-    <div class="poetics-columns-container">
-      ${ZOLA_DATA.pilastriPoetica.map((p, idx) => `
-        <div class="poetic-block-card animate-slide-up" style="animation-delay: ${idx * 0.08}s">
-          <div class="poetic-card-header">
-            <span class="poetic-source-badge">${p.fonte}</span>
-            <h3 class="poetic-block-title">${p.titolo}</h3>
-          </div>
-          <p class="poetic-block-desc">${p.descrizione}</p>
-          
-          ${p.fasi ? `
-            <div class="poetic-steps-box">
-              <div class="steps-heading">I Tre Momenti del Romanziere-Scienziato:</div>
-              <div class="steps-grid">
-                ${p.fasi.map(f => `
-                  <div class="step-item">
-                    <span class="step-num">${f.passo}</span>
-                    <div class="step-content">
-                      <strong>${f.nome}</strong>
-                      <p>${f.testo}</p>
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-
-          ${p.fattori ? `
-            <div class="poetic-factors-box">
-              <div class="factors-grid">
-                ${p.fattori.map(f => `
-                  <div class="factor-pill">
-                    <strong>${f.nome}</strong>
-                    <p>${f.desc}</p>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-
-          ${p.esempi ? `
-            <div class="poetic-investigation-box">
-              <div class="investigation-heading">Inchieste sul campo (Dossiers Préparatoires):</div>
-              <div class="investigation-tags">
-                ${p.esempi.map(e => `
-                  <span class="inv-tag"><strong>${e.ambiente}</strong> → <em>${e.opera}</em></span>
-                `).join('')}
-              </div>
-            </div>
-          ` : ''}
-        </div>
+    <!-- Sottomenu a schede ad alta visibilità -->
+    <div class="section-subnav-bar">
+      ${subtabs.map((tab, idx) => `
+        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('poetica', ${idx})">
+          <span class="subnav-num">${idx + 1}</span>
+          <span>${tab.label}</span>
+        </button>
       `).join('')}
+    </div>
+
+    <div class="subtabs-content-wrapper">
+      
+      <!-- Subtab 0: Metodo Sperimentale -->
+      <div class="subtab-pane active animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">FONTE TEORICA: Le roman expérimental (1880) & Claude Bernard (1865)</span>
+            <h3 class="pres-card-title">${pilastri[0].titolo}</h3>
+          </div>
+          <p class="pres-lead-text">${pilastri[0].descrizione}</p>
+
+          <div class="formula-banner">
+            <span class="formula-tag">CONCETTO CARDINE:</span>
+            <span class="formula-highlight">Il Romanziere = Medico Legale & Scienziato della Società</span>
+          </div>
+
+          <div class="poetic-steps-grid-expanded">
+            ${pilastri[0].fasi.map(f => `
+              <div class="poetic-step-card-large">
+                <div class="step-badge-circle">${f.passo}</div>
+                <div class="step-card-inner">
+                  <h4>${f.nome}</h4>
+                  <p>${f.testo}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" disabled>&larr; Precedente</button>
+          <span class="subnav-step-info">Pilastro 1 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('poetica', 1)">Pilastro Successivo: Determinismo &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 1: Determinismo Biologico e Sociale -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">FONTE: Prosper Lucas & Studi sull'Ereditarietà</span>
+            <h3 class="pres-card-title">${pilastri[1].titolo}</h3>
+          </div>
+          <p class="pres-lead-text">${pilastri[1].descrizione}</p>
+
+          <div class="equation-container">
+            <div class="equation-box">
+              <span class="eq-term">Eredità Biologica <small>(Tare, Alcolismo, Impulsi)</small></span>
+              <span class="eq-op">+</span>
+              <span class="eq-term">Il Milieu <small>(Ambiente Sociale & Miniera)</small></span>
+              <span class="eq-op">=</span>
+              <span class="eq-result">Destino & Comportamento Inevitabile</span>
+            </div>
+          </div>
+
+          <div class="two-columns-feature-grid">
+            <div class="feature-card-col">
+              <h4>L'Eredità Biologica (Genetica)</h4>
+              <p>${pilastri[1].fattori[0].desc}</p>
+            </div>
+            <div class="feature-card-col">
+              <h4>Il Milieu (Ambiente Sociale)</h4>
+              <p>${pilastri[1].fattori[1].desc}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('poetica', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Pilastro 2 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('poetica', 1)">Pilastro Successivo: Documento Umano &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 2: Il Documento Umano e Inchieste -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">METODOLOGIA: Dossiers Préparatoires</span>
+            <h3 class="pres-card-title">${pilastri[2].titolo}</h3>
+          </div>
+          <p class="pres-lead-text">${pilastri[2].descrizione}</p>
+
+          <div class="investigation-showcase-grid">
+            ${pilastri[2].esempi.map(e => `
+              <div class="inv-showcase-card">
+                <div class="inv-env-details">
+                  <span class="inv-env-name">${e.ambiente}</span>
+                  <span class="inv-env-arrow">&darr;</span>
+                  <span class="inv-novel-name">${e.opera}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('poetica', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Pilastro 3 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('poetica', 1)">Pilastro Successivo: Pessimismo vs Utopia &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 3: Pessimismo vs Utopia -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">EVOLUZIONE DEL PENSIERO: Dai Rougon-Macquart ai Quattro Vangeli</span>
+            <h3 class="pres-card-title">${pilastri[3].titolo}</h3>
+          </div>
+          <p class="pres-lead-text">${pilastri[3].descrizione}</p>
+
+          <div class="two-columns-feature-grid">
+            <div class="feature-card-col contrast-dark">
+              <h4>1ª Fase: Il Pessimismo Clinico</h4>
+              <p>Nei <em>Rougon-Macquart</em> (1871-1893) domina la diagnosi spietata: degrado, violenza, alcolismo e sconfitta dell'individuo schiacciato dalle leggi deterministiche.</p>
+            </div>
+            <div class="feature-card-col contrast-gold">
+              <h4>2ª Fase: Il Socialismo Umanitario</h4>
+              <p>Nelle <em>Quatre Évangiles</em> (1899-1902) trionfa la speranza utopica: scienza, fecondità, giustizia e lavoro guidano l'umanità verso la redenzione.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('poetica', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Pilastro 4 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('poetica', 1)">Pilastro Successivo: Intellettuale Engagé &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 4: Impegno Civile -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">RUOLO STORICO: J'accuse...! & Gruppo di Médan</span>
+            <h3 class="pres-card-title">${pilastri[4].titolo}</h3>
+          </div>
+          <p class="pres-lead-text">${pilastri[4].descrizione}</p>
+
+          <div class="pres-focus-box" style="margin-top: 25px;">
+            <div class="pres-focus-label">DEFINIZIONE STORICA DELL'INTELLETTUALE ENGAGÉ</div>
+            <div class="pres-focus-text">«La verità è in marcia e nulla potrà fermarla.» — Zola mette la propria notorietà e la propria libertà a rischio per la giustizia universale.</div>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('poetica', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Pilastro 5 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.navigateToPage('opere')">Passa a Opere & Rougon-Macquart &rarr;</button>
+        </div>
+      </div>
+
     </div>
   `;
 }
 
-// 6. Sezione Opere Composte & Cicli Principali
+// 3. Sezione Opere Composte & Cicli Principali
 function renderCyclesAndNovels() {
   const cyclesContainer = document.getElementById('cycles-summary-grid');
   const novelsContainer = document.getElementById('novels-grid');
   const filtersContainer = document.getElementById('novels-filters');
   const notableContainer = document.getElementById('notable-titles-grid');
 
+  const subtabs = [
+    { label: "I 3 Grandi Cicli", key: "cicli" },
+    { label: "I Due Rami (Rougon vs Macquart)", key: "albero" },
+    { label: "I 20 Romanzi (Filtro Tematico)", key: "romanzi" },
+    { label: "I 7 Titoli Più Noti", key: "notabili" }
+  ];
+
   if (cyclesContainer) {
     cyclesContainer.innerHTML = `
-      <div class="cycles-table-card animate-fade-in">
-        <table class="tech-sheet-table">
-          <thead>
-            <tr>
-              <th>Ciclo</th>
-              <th>Anni</th>
-              <th>N. Opere</th>
-              <th>Contenuto</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div class="section-subnav-bar">
+        ${subtabs.map((tab, idx) => `
+          <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('opere', ${idx})">
+            <span class="subnav-num">${idx + 1}</span>
+            <span>${tab.label}</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="subtabs-content-wrapper">
+        
+        <!-- Subtab 0: I 3 Grandi Cicli -->
+        <div class="subtab-pane active animate-fade-in">
+          <div class="cycles-cards-grid">
             ${ZOLA_DATA.cicliLetterari.map(c => `
-              <tr>
-                <td><strong>${c.titolo}</strong></td>
-                <td><span class="table-badge-year">${c.anni}</span></td>
-                <td><span class="table-badge-vol">${c.volumi}</span></td>
-                <td>
-                  ${c.contenuto}
-                  ${c.elenco ? `<br><small class="text-muted">(${c.elenco})</small>` : ''}
-                  ${c.rami ? `
-                    <div class="rami-split-inline">
-                      <span class="ramo-r"><strong>Rougon:</strong> ${c.rami.rougon}</span>
-                      <span class="ramo-m"><strong>Macquart:</strong> ${c.rami.macquart}</span>
-                    </div>
-                  ` : ''}
-                </td>
-              </tr>
+              <div class="cycle-master-card ${c.id === 'rougon-macquart' ? 'cycle-featured' : ''}">
+                <div class="cycle-card-top">
+                  <span class="cycle-years-badge">${c.anni}</span>
+                  <span class="cycle-vol-badge">${c.volumi}</span>
+                </div>
+                <h3 class="cycle-card-title">${c.titolo}</h3>
+                ${c.sottotitolo ? `<div class="cycle-card-sub">${c.sottotitolo}</div>` : ''}
+                <p class="cycle-card-desc">${c.contenuto}</p>
+                ${c.elenco ? `<div class="cycle-card-list"><strong>Titoli:</strong> ${c.elenco}</div>` : ''}
+              </div>
             `).join('')}
-          </tbody>
-        </table>
+          </div>
+
+          <div class="subnav-stepper-footer">
+            <button class="subnav-step-btn" disabled>&larr; Precedente</button>
+            <span class="subnav-step-info">Scheda 1 di 4</span>
+            <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('opere', 1)">Scheda Successiva: Albero Genealogico &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Subtab 1: I Due Rami della Famiglia -->
+        <div class="subtab-pane animate-fade-in">
+          <div class="presentation-big-card">
+            <div class="pres-card-header">
+              <span class="pres-card-tag">SCHEMA GENEALOGICO & SOCIALE</span>
+              <h3 class="pres-card-title">I Due Rami di Adélaïde Fouque</h3>
+            </div>
+            <p class="pres-lead-text">Tutti i 20 romanzi discendono dalla capostipite Adélaïde Fouque, divisa tra matrimonio legittimo e relazione clandestina:</p>
+
+            <div class="two-branches-comparison-grid">
+              <div class="branch-card branch-rougon">
+                <div class="branch-badge">RAMO LEGITTIMO</div>
+                <h4>I ROUGON</h4>
+                <div class="branch-traits"><strong>Caratteristiche:</strong> Ambizione spietata, brama di potere, arrivismo politico e finanziario.</div>
+                <p>Scalano l'alta società del Secondo Impero: ministri, banchieri, speculatori immobiliari (es. Eugène Rougon, Aristide Saccard).</p>
+              </div>
+
+              <div class="branch-card branch-macquart">
+                <div class="branch-badge macquart-badge">RAMO ILLEGITTIMO</div>
+                <h4>I MACQUART</h4>
+                <div class="branch-traits"><strong>Caratteristiche:</strong> Tare genetiche, propensione all'alcolismo, nevrosi, impulsività.</div>
+                <p>Affondano nel popolo e nel proletariato: operai, lavandaie, prostitute, minatori (es. Gervaise in <em>L'Assommoir</em>, Nana, Étienne Lantier in <em>Germinal</em>).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="subnav-stepper-footer">
+            <button class="subnav-step-btn" onclick="window.switchSubtabRelative('opere', -1)">&larr; Precedente</button>
+            <span class="subnav-step-info">Scheda 2 di 4</span>
+            <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('opere', 1)">Scheda Successiva: I 20 Romanzi &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Subtab 2: Esploratore dei 20 Romanzi -->
+        <div class="subtab-pane animate-fade-in">
+          <div class="presentation-big-card">
+            <div class="pres-card-header">
+              <span class="pres-card-tag">I 20 ROMANZI DEI ROUGON-MACQUART (1871–1893)</span>
+              <h3 class="pres-card-title">Esploratore Romanzo per Romanzo</h3>
+            </div>
+            <p class="pres-lead-text">Seleziona una categoria tematica e clicca su qualsiasi scheda per leggere la sintesi completa.</p>
+            
+            <div id="novels-filters-inner" class="novels-filters"></div>
+            <div id="novels-grid-inner" class="novels-grid"></div>
+          </div>
+
+          <div class="subnav-stepper-footer">
+            <button class="subnav-step-btn" onclick="window.switchSubtabRelative('opere', -1)">&larr; Precedente</button>
+            <span class="subnav-step-info">Scheda 3 di 4</span>
+            <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('opere', 1)">Scheda Successiva: Titoli Più Noti &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Subtab 3: Titoli Più Noti -->
+        <div class="subtab-pane animate-fade-in">
+          <div class="presentation-big-card">
+            <div class="pres-card-header">
+              <span class="pres-card-tag">OPERE INDISPENSABILI PER L'INTERROGAZIONE</span>
+              <h3 class="pres-card-title">I 7 Titoli Cardine di Émile Zola</h3>
+            </div>
+            
+            <div class="notable-titles-grid">
+              ${ZOLA_DATA.titoliPiuNoti.map(t => `
+                <div class="notable-title-card">
+                  <div class="notable-top">
+                    <span class="notable-name">${t.titolo}</span>
+                    <span class="notable-year">(${t.anno})</span>
+                  </div>
+                  <p class="notable-desc">${t.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="subnav-stepper-footer">
+            <button class="subnav-step-btn" onclick="window.switchSubtabRelative('opere', -1)">&larr; Precedente</button>
+            <span class="subnav-step-info">Scheda 4 di 4</span>
+            <button class="subnav-step-btn primary" onclick="window.navigateToPage('contesto')">Passa a Contesto Storico &rarr;</button>
+          </div>
+        </div>
+
       </div>
     `;
+
+    // Inizializza filtri e romanzi all'interno del subtab 2
+    initNovelsExplorer();
+  }
+}
+
+function initNovelsExplorer() {
+  const novels = ZOLA_DATA.romanziRougonMacquart;
+  const categories = [
+    { label: "Tutti i 20 Romanzi", key: "all" },
+    { label: "Miniere & Proletariato", key: "proletariato" },
+    { label: "Commercio & Finanza", key: "commercio" },
+    { label: "Arte & Misticismo", key: "arte" },
+    { label: "Politica & Chiesa", key: "politica" },
+    { label: "Ferrovie & Tecnologia", key: "ferrovia" }
+  ];
+
+  const filtersContainer = document.getElementById('novels-filters-inner');
+  const novelsContainer = document.getElementById('novels-grid-inner');
+
+  if (filtersContainer) {
+    filtersContainer.innerHTML = categories.map((cat, idx) => `
+      <button class="filter-btn ${idx === 0 ? 'active' : ''}" onclick="window.filterNovels('${cat.key}', this)">
+        ${cat.label}
+      </button>
+    `).join('');
   }
 
-  // Esploratore dei 20 Romanzi Rougon-Macquart
-  if (novelsContainer) {
-    const novels = ZOLA_DATA.romanziRougonMacquart;
-    const categories = [
-      { label: "Tutti i 20 Romanzi", key: "all" },
-      { label: "Miniere & Proletariato", key: "proletariato" },
-      { label: "Commercio & Finanza", key: "commercio" },
-      { label: "Arte, Spettacolo & Misticismo", key: "arte" },
-      { label: "Politica & Chiesa", key: "politica" },
-      { label: "Ferrovie & Tecnologia", key: "ferrovia" }
-    ];
-
-    if (filtersContainer) {
-      filtersContainer.innerHTML = categories.map((cat, idx) => `
-        <button class="filter-btn ${idx === 0 ? 'active' : ''}" onclick="window.filterNovels('${cat.key}', this)">
-          ${cat.label}
-        </button>
-      `).join('');
+  window.filterNovels = function(category, btn) {
+    if (btn) {
+      document.querySelectorAll('#novels-filters-inner .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
     }
 
-    window.filterNovels = function(category, btn) {
-      if (btn) {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      }
+    let filtered = novels;
+    if (category === 'proletariato') {
+      filtered = novels.filter(n => [7, 12, 13, 15].includes(n.n));
+    } else if (category === 'commercio') {
+      filtered = novels.filter(n => [2, 3, 10, 11, 18].includes(n.n));
+    } else if (category === 'arte') {
+      filtered = novels.filter(n => [8, 9, 14, 16].includes(n.n));
+    } else if (category === 'politica') {
+      filtered = novels.filter(n => [1, 4, 5, 6, 19, 20].includes(n.n));
+    } else if (category === 'ferrovia') {
+      filtered = novels.filter(n => [17].includes(n.n));
+    }
 
-      let filtered = novels;
-      if (category === 'proletariato') {
-        filtered = novels.filter(n => [7, 12, 13, 15].includes(n.n));
-      } else if (category === 'commercio') {
-        filtered = novels.filter(n => [2, 3, 10, 11, 18].includes(n.n));
-      } else if (category === 'arte') {
-        filtered = novels.filter(n => [8, 9, 14, 16].includes(n.n));
-      } else if (category === 'politica') {
-        filtered = novels.filter(n => [1, 4, 5, 6, 19, 20].includes(n.n));
-      } else if (category === 'ferrovia') {
-        filtered = novels.filter(n => [17].includes(n.n));
-      }
-
+    if (novelsContainer) {
       novelsContainer.innerHTML = filtered.map(n => `
         <div class="novel-card ${n.n === 13 ? 'featured-novel' : ''} animate-pop" onclick="window.openNovelModal(${n.n})">
           <div class="novel-card-top">
             <span class="novel-number">N. ${n.n}</span>
             <span class="novel-year">${n.anno}</span>
           </div>
-          <h3 class="novel-title">${n.titolo}</h3>
-          <div class="novel-env"><strong>Ambiente esplorato:</strong> ${n.ambiente}</div>
+          <h4 class="novel-title">${n.titolo}</h4>
+          <div class="novel-env"><strong>Ambiente:</strong> ${n.ambiente}</div>
           ${n.n === 13 ? '<div class="crown-badge">Capolavoro Assoluto</div>' : ''}
         </div>
       `).join('');
-    };
+    }
+  };
 
-    window.openNovelModal = function(novelNum) {
-      const n = novels.find(item => item.n === novelNum);
-      if (!n) return;
+  window.openNovelModal = function(novelNum) {
+    const n = novels.find(item => item.n === novelNum);
+    if (!n) return;
 
-      const modal = document.getElementById('novel-modal');
-      const content = document.getElementById('novel-modal-content');
-      if (!modal || !content) return;
+    const modal = document.getElementById('novel-modal');
+    const content = document.getElementById('novel-modal-content');
+    if (!modal || !content) return;
 
-      content.innerHTML = `
-        <div class="novel-modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 18px;">
-          <span class="novel-number" style="font-size: 1.1rem; font-weight: 700; color: var(--accent-gold);">Romanzo N. ${n.n} dei Rougon-Macquart (${n.anno})</span>
-          <h2 style="font-family: var(--font-serif); font-size: 1.9rem; margin-top: 4px;">${n.titolo}</h2>
-        </div>
-        <div class="novel-modal-body">
-          <p style="font-size: 1.05rem; margin-bottom: 14px;"><strong>Ambiente Esplorato:</strong> ${n.ambiente}</p>
-          <p style="font-size: 1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 18px;"><strong>Tema & Sintesi del Ciclo:</strong> ${n.tema}</p>
-        </div>
-      `;
-
-      modal.classList.add('active');
-      SFX.playTone(450, 'sine', 0.08, 0.05);
-    };
-
-    window.closeNovelModal = function() {
-      const modal = document.getElementById('novel-modal');
-      if (modal) modal.classList.remove('active');
-    };
-
-    window.filterNovels('all');
-  }
-
-  // Titoli Più Noti
-  if (notableContainer) {
-    notableContainer.innerHTML = ZOLA_DATA.titoliPiuNoti.map(t => `
-      <div class="notable-title-card animate-slide-up">
-        <div class="notable-top">
-          <span class="notable-name">${t.titolo}</span>
-          <span class="notable-year">(${t.anno})</span>
-        </div>
-        <p class="notable-desc">${t.desc}</p>
+    content.innerHTML = `
+      <div class="novel-modal-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 18px;">
+        <span class="novel-number" style="font-size: 1.1rem; font-weight: 700; color: var(--accent-gold);">Romanzo N. ${n.n} dei Rougon-Macquart (${n.anno})</span>
+        <h2 style="font-family: var(--font-serif); font-size: 1.9rem; margin-top: 4px;">${n.titolo}</h2>
       </div>
-    `).join('');
-  }
+      <div class="novel-modal-body">
+        <p style="font-size: 1.15rem; margin-bottom: 14px;"><strong>Ambiente Esplorato:</strong> ${n.ambiente}</p>
+        <p style="font-size: 1.1rem; line-height: 1.7; color: var(--text-secondary); margin-bottom: 18px;"><strong>Tema & Sintesi del Ciclo:</strong> ${n.tema}</p>
+      </div>
+    `;
+
+    modal.classList.add('active');
+    SFX.playTone(450, 'sine', 0.08, 0.05);
+  };
+
+  window.closeNovelModal = function() {
+    const modal = document.getElementById('novel-modal');
+    if (modal) modal.classList.remove('active');
+  };
+
+  window.filterNovels('all');
 }
 
-// 7. Sezione Contesto delle Opere
+// 4. Sezione Contesto Storico
 function renderContext() {
   const container = document.getElementById('context-grid');
   if (!container) return;
 
   const ctx = ZOLA_DATA.contestoStorico;
+  const subtabs = [
+    { label: "Quadro Generale", key: "quadro" },
+    { label: "1. Industrializzazione", key: "industria" },
+    { label: "2. Questione Sociale", key: "questione" },
+    { label: "3. Positivismo & Scienza", key: "positivismo" },
+    { label: "4. Capitalismo & Haussmann", key: "finanza" }
+  ];
+
   container.innerHTML = `
-    <div class="context-master-container animate-fade-in">
+    <!-- Sottomenu a schede ad alta visibilità -->
+    <div class="section-subnav-bar">
+      ${subtabs.map((tab, idx) => `
+        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('contesto', ${idx})">
+          <span class="subnav-num">${idx + 1}</span>
+          <span>${tab.label}</span>
+        </button>
+      `).join('')}
+    </div>
+
+    <div class="subtabs-content-wrapper">
       
-      <!-- Quadro Generale Introduttivo -->
-      <div class="context-lead-banner">
-        <span class="context-lead-tag">QUADRO STORICO & SOCIALE</span>
-        <p class="context-lead-text">${ctx.quadroGenerale}</p>
-      </div>
-
-      <!-- I 4 Grandi Pilastri del Contesto -->
-      <div class="context-pillars-grid">
-        ${ctx.pilastriContesto.map((p, i) => `
-          <div class="context-pillar-card animate-slide-up" style="animation-delay: ${i * 0.08}s">
-            <div class="pillar-card-top">
-              <span class="pillar-icon-badge">${p.icon}</span>
-              <h4 class="pillar-card-title">${p.titolo}</h4>
-            </div>
-            <p class="pillar-card-text">${p.desc}</p>
+      <!-- Subtab 0: Quadro Generale -->
+      <div class="subtab-pane active animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">SECONDO IMPERO & TERZA REPUBBLICA (1852–1902)</span>
+            <h3 class="pres-card-title">${ctx.titolo}</h3>
           </div>
-        `).join('')}
+          <p class="pres-lead-text">${ctx.quadroGenerale}</p>
+
+          <div class="pres-focus-box" style="margin-top: 25px;">
+            <div class="pres-focus-label">LA DOPPIA PROSPETTIVA DEI ROUGON-MACQUART</div>
+            <div class="pres-focus-text">${ctx.progettoRougonMacquart}</div>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" disabled>&larr; Precedente</button>
+          <span class="subnav-step-info">Tappa 1 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('contesto', 1)">Tappa Successiva: Industrializzazione &rarr;</button>
+        </div>
       </div>
 
-      <!-- Progetto Sociologico dei Rougon-Macquart -->
-      <div class="context-focus-card">
-        <div class="focus-card-header">
-          <span class="focus-card-badge">LA METODOLOGIA DEL CICLO</span>
-          <h4>"Histoire naturelle et sociale d'une famille sous le Second Empire"</h4>
+      <!-- Subtabs 1..4: I 4 Grandi Pilastri Storici -->
+      ${ctx.pilastriContesto.map((p, idx) => `
+        <div class="subtab-pane animate-fade-in">
+          <div class="presentation-big-card">
+            <div class="pres-card-header">
+              <span class="pres-card-tag">PILASTRO STORICO N. ${idx + 1}</span>
+              <h3 class="pres-card-title">${p.titolo}</h3>
+            </div>
+
+            <div class="pillar-huge-display">
+              <p class="pillar-huge-text">${p.desc}</p>
+            </div>
+          </div>
+
+          <div class="subnav-stepper-footer">
+            <button class="subnav-step-btn" onclick="window.switchSubtabRelative('contesto', -1)">&larr; Precedente</button>
+            <span class="subnav-step-info">Tappa ${idx + 2} di 5</span>
+            <button class="subnav-step-btn ${idx === ctx.pilastriContesto.length - 1 ? '' : 'primary'}" 
+              onclick="${idx === ctx.pilastriContesto.length - 1 ? 'window.navigateToPage(\'germinal\')' : 'window.switchSubtabRelative(\'contesto\', 1)'}">
+              ${idx === ctx.pilastriContesto.length - 1 ? 'Passa al Capolavoro Germinal &rarr;' : 'Tappa Successiva &rarr;'}
+            </button>
+          </div>
         </div>
-        <p class="focus-card-desc">${ctx.progettoRougonMacquart}</p>
-      </div>
+      `).join('')}
 
     </div>
   `;
 }
 
-// 8. Sezione Analisi Approfondita: Germinal (1885)
+// 5. Sezione Capolavoro Germinal (1885)
 function renderGerminal() {
   const container = document.getElementById('germinal-deep-dive');
   if (!container) return;
 
   const g = ZOLA_DATA.focusGerminal;
+  const subtabs = [
+    { label: "Trama in 3 Atti", key: "trama" },
+    { label: "La Miniera \"Le Voreux\"", key: "miniera" },
+    { label: "Personaggi Chiave", key: "personaggi" },
+    { label: "Il Simbolo del Titolo", key: "simbolo" },
+    { label: "6 Chiavi di Lettura", key: "chiavi" }
+  ];
+
   container.innerHTML = `
-    <div class="germinal-masterpiece-wrapper animate-fade-in">
+    <!-- Sottomenu a schede ad alta visibilità -->
+    <div class="section-subnav-bar">
+      ${subtabs.map((tab, idx) => `
+        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('germinal', ${idx})">
+          <span class="subnav-num">${idx + 1}</span>
+          <span>${tab.label}</span>
+        </button>
+      `).join('')}
+    </div>
+
+    <div class="subtabs-content-wrapper">
       
-      <!-- Header Banner Germinal -->
-      <div class="germinal-main-header">
-        <div class="germinal-badge-pill">TREDICESIMO ROMANZO DEI ROUGON-MACQUART — IL CAPOLAVORO ASSOLUTO</div>
-        <h3 class="germinal-title-display">${g.titolo}</h3>
-        <p class="germinal-subtitle-text">${g.sottotitolo}</p>
-      </div>
-
-      <!-- Trama Essenziale Box -->
-      <div class="germinal-card-panel synopsis-panel">
-        <div class="panel-header-tag">
-          <span class="panel-tag-icon">TRAMA ESSENZIALE</span>
-          <h4>Sintesi Narrativa per l'Esposizione</h4>
+      <!-- Subtab 0: Trama in 3 Atti -->
+      <div class="subtab-pane active animate-fade-in">
+        <div class="germinal-main-header">
+          <div class="germinal-badge-pill">IL VERTICE DEL NATURALISMO EUROPEO (1885)</div>
+          <h2 class="germinal-title-display">Germinal — Lo Sviluppo in 3 Atti</h2>
         </div>
-        <p class="germinal-synopsis-text">${g.tramaEssenziale}</p>
-      </div>
 
-      <!-- Perché è l'opera più rappresentativa (6 Pilastri) -->
-      <div class="germinal-section-heading">
-        <span class="heading-accent-line"></span>
-        <h4>Perché è l'opera più rappresentativa (6 Chiavi di Lettura)</h4>
-        <span class="heading-accent-line"></span>
-      </div>
-
-      <div class="germinal-reasons-grid">
-        ${g.puntiRappresentativi.map((p, i) => `
-          <div class="germinal-reason-card animate-slide-up" style="animation-delay: ${i * 0.06}s">
-            <div class="reason-card-top">
-              <span class="reason-number">0${i + 1}</span>
-              <h5 class="reason-card-title">${p.titolo}</h5>
+        <div class="three-acts-grid">
+          ${(g.treAtti || []).map((atto, idx) => `
+            <div class="act-card animate-slide-up" style="animation-delay: ${idx * 0.08}s">
+              <div class="act-header">
+                <span class="act-number">${atto.atto}</span>
+                <span class="act-tag">${atto.tag}</span>
+              </div>
+              <h4 class="act-title">${atto.titolo}</h4>
+              <ul class="act-points">
+                ${atto.punti.map(pt => `<li>${pt}</li>`).join('')}
+              </ul>
+              <div class="act-quote">${atto.citazione}</div>
             </div>
-            <p class="reason-card-desc">${p.desc}</p>
-          </div>
-        `).join('')}
+          `).join('')}
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" disabled>&larr; Precedente</button>
+          <span class="subnav-step-info">Scheda 1 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: La Miniera Le Voreux &rarr;</button>
+        </div>
       </div>
 
-      <!-- Il Titolo come Chiave Simbolica -->
-      <div class="germinal-card-panel symbolic-panel">
-        <div class="panel-header-tag">
-          <span class="panel-tag-icon">SIGNIFICATO SIMBOLICO</span>
-          <h4>Il Titolo come Chiave Simbolica ed Epilogo di Speranza</h4>
+      <!-- Subtab 1: La Miniera Le Voreux come mostro vivente -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">METAFORA CENTRALE</span>
+            <h3 class="pres-card-title">Il Pozzo "Le Voreux": Il Mostro Divoratore</h3>
+          </div>
+          
+          <div class="miniera-monster-box">
+            <div class="monster-quote-highlight">
+              «Appariva come una bestia gigantesca, accovacciata nell'ombra, che inghiottiva senza sosta la carne umana dei minatori.»
+            </div>
+            <div class="monster-points-grid">
+              <div class="monster-point-item">
+                <h4>Transformazione Mitica</h4>
+                <p>Zola trasforma una struttura industriale d'acciaio in una divinità mostruosa pagana che richiede sacrifici quotidiani di corpi umani.</p>
+              </div>
+              <div class="monster-point-item">
+                <h4>Condizioni Infernali</h4>
+                <p>Caldo asfissiante a 500 metri, semioscurità, rischio perenne di allagamento, crolli e il gas silenzioso mortale: il grisù.</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <p class="germinal-symbolic-text">${g.chiaveSimbolicaTitolo}</p>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Scheda 2 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: Personaggi &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 2: Personaggi Chiave -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">I PROTAGONISTI DELLA TRAGEDIA CORALE</span>
+            <h3 class="pres-card-title">I Personaggi Chiave di Montsou</h3>
+          </div>
+
+          <div class="characters-large-grid">
+            ${(g.personaggi || []).map(p => `
+              <div class="character-card-item">
+                <div class="char-role-badge">${p.ruolo}</div>
+                <h4 class="char-name">${p.nome}</h4>
+                <p class="char-desc">${p.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Scheda 3 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: Il Titolo &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 3: Il Simbolo del Titolo -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">CALENDARIO RIVOLUZIONARIO FRANCESE</span>
+            <h3 class="pres-card-title">Il Significato Simbolico di "Germinal"</h3>
+          </div>
+
+          <div class="symbol-display-card">
+            <div class="symbol-content">
+              <h4>Mese della Germinazione (Aprile / Primavera)</h4>
+              <p>${g.chiaveSimbolicaTitolo}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Scheda 4 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: 6 Chiavi di Lettura &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 4: 6 Chiavi di Lettura -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">APPROFONDIMENTO CRITICO</span>
+            <h3 class="pres-card-title">Perché è l'opera più rappresentativa (6 Pilastri)</h3>
+          </div>
+
+          <div class="germinal-reasons-grid">
+            ${g.puntiRappresentativi.map((p, i) => `
+              <div class="germinal-reason-card">
+                <div class="reason-card-top">
+                  <span class="reason-number">0${i + 1}</span>
+                  <h5 class="reason-card-title">${p.titolo}</h5>
+                </div>
+                <p class="reason-card-desc">${p.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Scheda 5 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.navigateToPage('esilio')">Passa a Esilio in Inghilterra &rarr;</button>
+        </div>
       </div>
 
     </div>
   `;
 }
 
-// 9. Sezione L'Esilio in Inghilterra (1898–1899)
+// 6. Sezione L'Esilio in Inghilterra (1898–1899)
 function renderExile() {
   const container = document.getElementById('exile-grid');
   if (!container) return;
 
   const ex = ZOLA_DATA.esilioInghilterra;
+  const subtabs = [
+    { label: "1. La Condanna (Feb 1898)", key: "condanna" },
+    { label: "2. La Fuga Notturna (Lug 1898)", key: "fuga" },
+    { label: "3. Londra & Surrey", key: "londra" },
+    { label: "4. Il Ritorno Trionfale (Giu 1899)", key: "ritorno" },
+    { label: "Eredità Civile", key: "eredita" }
+  ];
+
   container.innerHTML = `
-    <div class="exile-master-wrapper animate-fade-in">
+    <!-- Sottomenu a schede ad alta visibilità -->
+    <div class="section-subnav-bar">
+      ${subtabs.map((tab, idx) => `
+        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('esilio', ${idx})">
+          <span class="subnav-num">${idx + 1}</span>
+          <span>${tab.label}</span>
+        </button>
+      `).join('')}
+    </div>
+
+    <div class="subtabs-content-wrapper">
       
-      <!-- Banner Introduttivo Esilio -->
-      <div class="exile-intro-card">
-        <div class="exile-stamp-badge">LONDRA & SURREY (1898–1899)</div>
-        <h3 class="exile-main-title">${ex.titolo}</h3>
-        <p class="exile-lead-text">${ex.sintesi}</p>
-      </div>
-
-      <!-- Timeline Cronologica Tappe -->
-      <div class="exile-timeline-container">
-        <div class="section-header" style="margin-bottom: 20px;">
-          <span class="section-category">CRONOLOGIA DEGLI EVENTI</span>
-          <h4 style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-primary); margin: 0;">Le 4 Tappe Fondamentali</h4>
-        </div>
-        <div class="exile-timeline-grid">
-          ${ex.tappeCronologiche.map((t, i) => `
-            <div class="exile-step-card animate-slide-up" style="animation-delay: ${i * 0.08}s">
-              <div class="step-card-header">
-                <span class="step-date-badge">${t.data}</span>
-                <h5 class="step-title">${t.titolo}</h5>
-              </div>
-              <p class="step-desc">${t.desc}</p>
+      <!-- Subtabs 0..3: Le 4 Tappe Cronologiche -->
+      ${ex.tappeCronologiche.map((t, idx) => `
+        <div class="subtab-pane ${idx === 0 ? 'active' : ''} animate-fade-in">
+          <div class="presentation-big-card">
+            <div class="pres-card-header">
+              <span class="pres-card-tag">${t.data} — TAPPA CRONOLOGICA N. ${idx + 1}</span>
+              <h3 class="pres-card-title">${t.titolo}</h3>
             </div>
-          `).join('')}
-        </div>
-      </div>
 
-      <!-- Eredità Civile ed Etica -->
-      <div class="exile-legacy-box">
-        <div class="legacy-header">
-          <strong>Valore Civile e Storico:</strong>
+            <div class="pillar-huge-display">
+              <p class="pillar-huge-text">${t.desc}</p>
+            </div>
+          </div>
+
+          <div class="subnav-stepper-footer">
+            <button class="subnav-step-btn" ${idx === 0 ? 'disabled' : `onclick="window.switchSubtabRelative('esilio', -1)"`}>&larr; Tappa Precedente</button>
+            <span class="subnav-step-info">Tappa ${idx + 1} di 5</span>
+            <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('esilio', 1)">Tappa Successiva &rarr;</button>
+          </div>
         </div>
-        <p class="legacy-text">${ex.ereditaCivile}</p>
+      `).join('')}
+
+      <!-- Subtab 4: Eredità Civile -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">VALORE STORICO E MORALE</span>
+            <h3 class="pres-card-title">L'Eredità Civile dell'Esilio Zoliano</h3>
+          </div>
+
+          <div class="pres-focus-box" style="margin-top: 25px;">
+            <div class="pres-focus-label">LA VITTORIA DELLA COSCIENZA UMANA</div>
+            <div class="pres-focus-text">${ex.ereditaCivile}</div>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('esilio', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Tappa 5 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.navigateToPage('curiosita')">Passa a Curiosità &rarr;</button>
+        </div>
       </div>
 
     </div>
@@ -718,37 +1254,133 @@ window.closeImageLightbox = function() {
   }
 };
 
-// 10. Curiosità
+// 7. Sezione Curiosità Storiche
 function renderCuriosities() {
   const container = document.getElementById('curiosities-grid');
   if (!container) return;
 
-  container.innerHTML = ZOLA_DATA.curiosita.map(c => `
-    <div class="curiosity-card ${c.immagine ? 'curiosity-card-featured' : ''} animate-slide-up">
-      ${c.immagine ? `
-        <div class="curiosity-img-container" data-img="${c.immagine}" data-title="${encodeURIComponent(c.titolo)}" data-caption="${encodeURIComponent(c.didascalia || c.titolo)}" title="Clicca per ingrandire la fotografia">
-          <img src="${c.immagine}" alt="${c.titolo}" class="curiosity-photo-img" loading="lazy">
-          <div class="curiosity-zoom-badge">Ingrandisci</div>
-          ${c.didascalia ? `<span class="curiosity-img-caption">${c.didascalia}</span>` : ''}
-        </div>
-      ` : ''}
-      <div class="curiosity-content-wrapper">
-        <div class="curiosity-tag">${c.tag}</div>
-        <h3 class="curiosity-title">${c.titolo}</h3>
-        <p class="curiosity-text">${c.testo}</p>
-      </div>
-    </div>
-  `).join('');
+  const curiositaList = ZOLA_DATA.curiosita;
+  const subtabs = [
+    { label: "Zola Fotografo (4.000+ Scatti)", key: "fotografo" },
+    { label: "Cézanne & L'Œuvre", key: "cezanne" },
+    { label: "Il Panthéon (1908)", key: "pantheon" },
+    { label: "Galleria Fotografica Storica", key: "galleria" }
+  ];
 
-  // Event delegation per l'apertura del lightbox in modo sicuro con qualsiasi carattere/apostrofo
-  container.querySelectorAll('.curiosity-img-container').forEach(el => {
-    el.addEventListener('click', () => {
-      const src = el.getAttribute('data-img');
-      const title = decodeURIComponent(el.getAttribute('data-title') || '');
-      const caption = decodeURIComponent(el.getAttribute('data-caption') || '');
-      window.openImageLightbox(src, title, caption);
-    });
-  });
+  container.innerHTML = `
+    <!-- Sottomenu a schede ad alta visibilità -->
+    <div class="section-subnav-bar">
+      ${subtabs.map((tab, idx) => `
+        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('curiosita', ${idx})">
+          <span class="subnav-num">${idx + 1}</span>
+          <span>${tab.label}</span>
+        </button>
+      `).join('')}
+    </div>
+
+    <div class="subtabs-content-wrapper">
+      
+      <!-- Subtab 0: Zola Fotografo -->
+      <div class="subtab-pane active animate-fade-in">
+        <div class="curiosity-feature-layout">
+          <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Émile Zola Fotografo', 'Émile Zola con la sua macchina fotografica (scattò oltre 4.000 foto)')">
+            <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Émile Zola Fotografo" class="curiosity-full-img">
+            <div class="curiosity-zoom-badge">Clicca per ingrandire</div>
+          </div>
+          <div class="curiosity-feature-text">
+            <span class="curiosity-tag">PASSIONE VISIVA & TECNOLOGIA</span>
+            <h3>Oltre 4.000 Fotografie Scattate</h3>
+            <p>Zola fu uno dei primissimi grandi scrittori a praticare la fotografia in modo sistematico. Possedeva dieci apparecchi fotografici diversi e allestì laboratori di sviluppo sia a Parigi che a Médan e persino durante l'esilio londinese. Considerava l'obiettivo uno strumento di indagine oggettiva del reale, analogo al taccuino dello scrittore naturalista.</p>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" disabled>&larr; Precedente</button>
+          <span class="subnav-step-info">Curiosità 1 di 4</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Cézanne &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 1: Cézanne & L'Œuvre -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="curiosity-feature-layout">
+          <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/ZOLAECézanne.jpg', 'Émile Zola e Paul Cézanne', 'Émile Zola e Paul Cézanne ad Aix-en-Provence')">
+            <img src="assets/foto/ZOLAECézanne.jpg" alt="Émile Zola e Cézanne" class="curiosity-full-img">
+            <div class="curiosity-zoom-badge">Clicca per ingrandire</div>
+          </div>
+          <div class="curiosity-feature-text">
+            <span class="curiosity-tag">AMICIZIA STORICA & ROTTURA</span>
+            <h3>L'Amicizia Fraterna con Paul Cézanne</h3>
+            <p>Amici inseparabili fin dai banchi di scuola al Collège Bourbon di Aix-en-Provence, Zola difese appassionatamente la pittura rivoluzionaria di Cézanne e degli Impressionisti nei suoi articoli di critica d'arte. Tuttavia, nel 1886 la pubblicazione del romanzo <em>L'Œuvre</em> (il cui protagonista, il pittore geniale ma fallito Claude Lantier, muore suicida davanti alla sua tela incompiuta) ferì profondamente Cézanne, portando a una tragica rottura del loro trentennale legame.</p>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Curiosità 2 di 4</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Il Panthéon &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 2: Il Panthéon (1908) -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="curiosity-feature-layout">
+          <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/PANTHEONZOLA.jpg', 'Traslazione al Panthéon 1908', 'La solenne cerimonia di traslazione di Zola al Panthéon di Parigi (1908)')">
+            <img src="assets/foto/PANTHEONZOLA.jpg" alt="Panthéon Zola" class="curiosity-full-img">
+            <div class="curiosity-zoom-badge">Clicca per ingrandire</div>
+          </div>
+          <div class="curiosity-feature-text">
+            <span class="curiosity-tag">APOTEOSI NAZIONALE</span>
+            <h3>La Traslazione al Panthéon di Parigi</h3>
+            <p>Il 4 giugno 1908, a sei anni dalla morte, le spoglie di Émile Zola vennero solennemente traslate nella cripta del Panthéon, accanto a Victor Hugo e Voltaire. Durante la cerimonia, un giornalista nazionalista antidreyfusardo sparò al colonnello Dreyfus ferendolo al braccio. Anatole France pronunciò la memorabile orazione: <em>«Invidiamolo: egli onorò la sua patria e il mondo con un'opera immensa e con un grande atto. Egli fu un momento della coscienza umana!»</em>.</p>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Curiosità 3 di 4</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Galleria Fotografica &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 3: Galleria Fotografica Completa -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">ARCHIVIO FOTOGRAFICO AD ALTA RISOLUZIONE</span>
+            <h3 class="pres-card-title">Galleria Immagini Storiche</h3>
+          </div>
+          <p class="pres-lead-text">Clicca su ciascuna foto per aprirla a schermo intero sul proiettore / LIM.</p>
+
+          <div class="gallery-photo-grid">
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/emillezola1.jpeg', 'Ritratto Ufficiale di Émile Zola', 'Émile Zola (1840–1902) in un celebre ritratto d\'epoca')">
+              <img src="assets/foto/emillezola1.jpeg" alt="Ritratto Zola" class="gallery-img">
+              <div class="gallery-label">Ritratto Ufficiale</div>
+            </div>
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Zola con Macchina Fotografica', 'Émile Zola con la sua attrezzatura fotografica')">
+              <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Zola Fotografo" class="gallery-img">
+              <div class="gallery-label">Zola Fotografo</div>
+            </div>
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAECézanne.jpg', 'Émile Zola e Paul Cézanne', 'Zola e Paul Cézanne ad Aix-en-Provence')">
+              <img src="assets/foto/ZOLAECézanne.jpg" alt="Zola e Cézanne" class="gallery-img">
+              <div class="gallery-label">Zola e Cézanne</div>
+            </div>
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/PANTHEONZOLA.jpg', 'Cerimonia al Panthéon (1908)', 'Cerimonia di traslazione al Panthéon di Parigi (1908)')">
+              <img src="assets/foto/PANTHEONZOLA.jpg" alt="Panthéon" class="gallery-img">
+              <div class="gallery-label">Cerimonia al Panthéon</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Curiosità 4 di 4</span>
+          <button class="subnav-step-btn primary" onclick="window.quizApp.openQuizModal()">Avvia Quiz Live &rarr;</button>
+        </div>
+      </div>
+
+    </div>
+  `;
 }
 
 // 9. Controller per la Gestione del Quiz
