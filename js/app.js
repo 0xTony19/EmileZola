@@ -84,15 +84,6 @@ function initKeyboardNavigation() {
       return;
     }
 
-    // Tasto 'L' -> Modalità LIM / Grandi Caratteri
-    if (e.key.toLowerCase() === 'l') {
-      const isLim = document.body.classList.toggle('lim-mode');
-      const limBtn = document.getElementById('lim-toggle-btn');
-      if (limBtn) limBtn.classList.toggle('active', isLim);
-      SFX.playTone(isLim ? 587 : 440, 'sine', 0.08, 0.05);
-      return;
-    }
-
     // Tasto 'T' -> Cambia Tema
     if (e.key.toLowerCase() === 't') {
       const currentTheme = document.body.getAttribute('data-theme') || 'classic';
@@ -138,20 +129,11 @@ function initKeyboardNavigation() {
   });
 }
 
-// 3. Gestione Temi, Audio e Modalità LIM
+// 3. Gestione Temi e Audio
 function initThemeAndSettings() {
-  const limToggleBtn = document.getElementById('lim-toggle-btn');
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
   const presentationBtn = document.getElementById('presentation-btn');
-
-  if (limToggleBtn) {
-    limToggleBtn.addEventListener('click', () => {
-      const isLim = document.body.classList.toggle('lim-mode');
-      limToggleBtn.classList.toggle('active', isLim);
-      SFX.playTone(isLim ? 587 : 440, 'sine', 0.08, 0.05);
-    });
-  }
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
