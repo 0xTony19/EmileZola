@@ -1066,15 +1066,34 @@ function renderStudentMobileView(initialRoomCode) {
       </div>
 
       <div id="student-buttons-screen" class="student-screen">
-        <div class="student-game-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <span id="student-q-num" style="font-weight: 700; color: var(--accent-gold);">Domanda 1</span>
-          <span id="student-score-tag" style="font-weight: 700; background: #334155; padding: 4px 10px; border-radius: 9999px;">0 pt</span>
+        <div class="student-game-top">
+          <span id="student-q-num" class="student-q-badge">Domanda 1 di 10</span>
+          <span id="student-score-tag" class="student-score-badge">0 pt</span>
         </div>
+
+        <!-- Scheda Domanda per Smartphone (Visibile chiaramente da telefono) -->
+        <div class="student-question-box">
+          <div id="student-question-text" class="student-question-title">Caricamento domanda...</div>
+        </div>
+
+        <!-- Opzioni con Lettera e Testo Completo -->
         <div class="student-kahoot-grid">
-          <button class="s-btn red" onclick="window.studentSendAnswer('${playerId}', 0)">[A]</button>
-          <button class="s-btn blue" onclick="window.studentSendAnswer('${playerId}', 1)">[B]</button>
-          <button class="s-btn yellow" onclick="window.studentSendAnswer('${playerId}', 2)">[C]</button>
-          <button class="s-btn green" onclick="window.studentSendAnswer('${playerId}', 3)">[D]</button>
+          <button class="s-btn red" onclick="window.studentSendAnswer('${playerId}', 0)">
+            <span class="s-btn-letter">[A]</span>
+            <span id="student-opt-0" class="s-btn-text"></span>
+          </button>
+          <button class="s-btn blue" onclick="window.studentSendAnswer('${playerId}', 1)">
+            <span class="s-btn-letter">[B]</span>
+            <span id="student-opt-1" class="s-btn-text"></span>
+          </button>
+          <button class="s-btn yellow" onclick="window.studentSendAnswer('${playerId}', 2)">
+            <span class="s-btn-letter">[C]</span>
+            <span id="student-opt-2" class="s-btn-text"></span>
+          </button>
+          <button class="s-btn green" onclick="window.studentSendAnswer('${playerId}', 3)">
+            <span class="s-btn-letter">[D]</span>
+            <span id="student-opt-3" class="s-btn-text"></span>
+          </button>
         </div>
       </div>
 
@@ -1226,7 +1245,21 @@ function renderStudentMobileView(initialRoomCode) {
     const btnScreen = document.getElementById('student-buttons-screen');
     if (btnScreen) {
       btnScreen.classList.add('active');
-      document.getElementById('student-q-num').textContent = `Domanda ${payload.idx} di ${payload.total}`;
+      
+      const qNumEl = document.getElementById('student-q-num');
+      if (qNumEl) qNumEl.textContent = `Domanda ${payload.idx} di ${payload.total}`;
+
+      const qTextEl = document.getElementById('student-question-text');
+      if (qTextEl && payload.domanda) {
+        qTextEl.textContent = payload.domanda;
+      }
+
+      if (payload.opzioni && Array.isArray(payload.opzioni)) {
+        payload.opzioni.forEach((opt, idx) => {
+          const optEl = document.getElementById(`student-opt-${idx}`);
+          if (optEl) optEl.textContent = opt;
+        });
+      }
     }
   });
 
