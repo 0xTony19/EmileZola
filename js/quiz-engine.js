@@ -258,6 +258,73 @@ class QuizEngine {
     this.isHost = true;
     this.syncHub.isHost = true;
     
+    // Resetta punteggi e stati dei giocatori esistenti per una nuova partita
+    this.players.forEach(p => {
+      p.score = 0;
+      p.streak = 0;
+      p.answered = false;
+      p.lastAnswerTime = 0;
+      p.isCorrect = false;
+      p.correctCount = 0;
+    });
+
+    const container = document.getElementById('quiz-game-container');
+    if (container) {
+      container.innerHTML = `
+        <div class="quiz-lobby-view animate-fade-in">
+          <div class="lobby-top">
+            <h1>Inquadra il Codice QR per Partecipare</h1>
+            <p class="lobby-subtitle">Tutti i 21 compagni possono partecipare dal proprio smartphone usando 4G, 5G o Wi-Fi!</p>
+            <span class="local-network-badge" id="network-mode-badge">MODALITA LIVE: 4G / 5G & WI-FI (COME KAHOOT)</span>
+          </div>
+
+          <div class="lobby-center-grid">
+            <!-- QR Code Card -->
+            <div class="lobby-qr-card">
+              <div id="qr-canvas-holder" class="qr-canvas-holder"></div>
+              <div class="qr-pin-badge">
+                PIN STANZA: <span id="room-pin-display">${this.roomCode}</span>
+              </div>
+              <p class="qr-scan-hint" id="qr-scan-instruction">Inquadra con la fotocamera di QUALSIASI telefono (4G, 5G o Wi-Fi)</p>
+              <small id="join-url-text" style="word-break: break-all; color: var(--text-muted); font-size: 0.78rem; margin: 8px 0; background: var(--bg-main); padding: 4px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);"></small>
+              
+              <div style="display: flex; gap: 6px; margin: 8px 0; justify-content: center; flex-wrap: wrap;">
+                <button class="ip-edit-btn active-network-btn" onclick="window.quizApp.setNetworkMode('github')">GitHub Pages (Online 4G/5G)</button>
+                <button class="ip-edit-btn" onclick="window.quizApp.setNetworkMode('local')">Wi-Fi Locale</button>
+                <button class="ip-edit-btn" onclick="window.quizApp.copyJoinLink()">Copia Link</button>
+              </div>
+              
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 4px;">
+                <button class="ip-edit-btn" onclick="window.quizApp.openLocalPlayerTab()">Apri Scheda Giocatore su questo PC</button>
+                <button class="ip-edit-btn" onclick="window.quizApp.setCustomIP()">Personalizza IP / Dominio</button>
+              </div>
+              <div id="file-protocol-warning" style="display: none; margin-top: 10px; font-size: 0.75rem; color: var(--accent-crimson); background: rgba(190,18,60,0.08); padding: 8px; border-radius: var(--radius-sm); border: 1px solid rgba(190,18,60,0.2);">
+                Nota: Per consentire a tutta la classe di connettersi da 4G/5G, apri da <strong>https://0xtony19.github.io/EmileZola/</strong>!
+              </div>
+            </div>
+
+            <!-- Players Lobby Grid -->
+            <div class="lobby-players-box">
+              <div class="lobby-players-header">
+                <h3>Studenti Connessi</h3>
+                <span id="lobby-player-count" class="player-count-badge">0 Partecipanti</span>
+              </div>
+              <div id="lobby-player-grid" class="lobby-player-grid"></div>
+            </div>
+          </div>
+
+          <div class="lobby-actions">
+            <button class="btn-secondary-action" onclick="window.quizApp.addBots()">
+              Aggiungi Studenti Dimostrativi
+            </button>
+            <button class="btn-primary-action" onclick="window.quizApp.startGame()">
+              Avvia la Sessione (10s per Domanda)
+            </button>
+          </div>
+        </div>
+      `;
+    }
+    
     // Inizializza WebRTC per consentire connessioni su reti diverse (4G/5G/Wi-Fi)
     this.syncHub.initWebRTC(true, (ready, id) => {
       console.log('[WebRTC Host] Connessione mesh per 21 partecipanti:', ready, id);
@@ -265,7 +332,9 @@ class QuizEngine {
 
     // Genera URL di connessione per gli studenti
     const baseUrl = window.location.href.split('?')[0].split('#')[0];
-    const joinUrl = `${baseUrl}?mode=player&room=${this.roomCode}`;
+    const joinUrl = (window.quizApp && window.quizApp.currentJoinUrl) 
+      ? window.quizApp.currentJoinUrl 
+      : `${baseUrl}?mode=player&room=${this.roomCode}`;
     
     // Genera QR Code
     QRCodeGenerator.generate(joinUrl, 'qr-canvas-holder', 200);
@@ -275,6 +344,11 @@ class QuizEngine {
     
     const joinUrlEl = document.getElementById('join-url-text');
     if (joinUrlEl) joinUrlEl.textContent = joinUrl;
+
+    // Notifica tutti i client connessi che la stanza è tornata in Lobby
+    this.syncHub.broadcast('GAME_RESET', {
+      roomCode: this.roomCode
+    });
 
     this.renderLobbyPlayers();
   }

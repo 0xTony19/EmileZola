@@ -946,4 +946,14 @@ function renderStudentMobileView(initialRoomCode) {
     `;
     SFX.fanfare();
   });
+
+  sync.on('GAME_RESET', () => {
+    document.querySelectorAll('.student-screen').forEach(s => s.classList.remove('active'));
+    const waitScreen = document.getElementById('student-waiting-screen');
+    if (waitScreen) waitScreen.classList.add('active');
+    const scoreTag = document.getElementById('student-score-tag');
+    if (scoreTag) scoreTag.textContent = '0 pt';
+    SFX.playTone(440, 'triangle', 0.1, 0.08);
+  });
 }
+
