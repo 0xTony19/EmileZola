@@ -439,33 +439,52 @@ function renderGerminal() {
 
   const g = ZOLA_DATA.focusGerminal;
   container.innerHTML = `
-    <div class="germinal-hero-card animate-fade-in">
-      <div class="germinal-top-badge">TREDICESIMO ROMANZO DEI ROUGON-MACQUART — CAPOLAVORO ASSOLUTO</div>
-      <h3 class="germinal-title">${g.titolo}</h3>
-      <p class="germinal-lead-subtitle">${g.sottotitolo}</p>
+    <div class="germinal-masterpiece-wrapper animate-fade-in">
       
-      <div class="germinal-synopsis-box">
-        <h4 style="font-size: 1.15rem; color: var(--accent-gold); margin-bottom: 8px;">Trama Essenziale:</h4>
-        <p class="germinal-synopsis">${g.tramaEssenziale}</p>
+      <!-- Header Banner Germinal -->
+      <div class="germinal-main-header">
+        <div class="germinal-badge-pill">TREDICESIMO ROMANZO DEI ROUGON-MACQUART — IL CAPOLAVORO ASSOLUTO</div>
+        <h3 class="germinal-title-display">${g.titolo}</h3>
+        <p class="germinal-subtitle-text">${g.sottotitolo}</p>
       </div>
 
-      <div class="germinal-section-divider">
-        <h4>Perché è l'Opera Più Rappresentativa:</h4>
+      <!-- Trama Essenziale Box -->
+      <div class="germinal-card-panel synopsis-panel">
+        <div class="panel-header-tag">
+          <span class="panel-tag-icon">TRAMA</span>
+          <h4>Trama Essenziale</h4>
+        </div>
+        <p class="germinal-synopsis-text">${g.tramaEssenziale}</p>
       </div>
 
-      <div class="germinal-keys-grid">
-        ${g.puntiRappresentativi.map(p => `
-          <div class="germinal-key-box">
-            <h4>${p.titolo}</h4>
-            <p>${p.desc}</p>
+      <!-- Perché è l'opera più rappresentativa (6 Pilastri) -->
+      <div class="germinal-section-heading">
+        <span class="heading-accent-line"></span>
+        <h4>Perché è l'opera più rappresentativa</h4>
+        <span class="heading-accent-line"></span>
+      </div>
+
+      <div class="germinal-reasons-grid">
+        ${g.puntiRappresentativi.map((p, i) => `
+          <div class="germinal-reason-card animate-slide-up" style="animation-delay: ${i * 0.06}s">
+            <div class="reason-card-top">
+              <span class="reason-number">0${i + 1}</span>
+              <h5 class="reason-card-title">${p.titolo}</h5>
+            </div>
+            <p class="reason-card-desc">${p.desc}</p>
           </div>
         `).join('')}
       </div>
 
-      <div class="germinal-symbolic-box">
-        <h4 style="font-size: 1.1rem; color: var(--accent-navy); margin-bottom: 8px;">Il Titolo come Chiave Simbolica:</h4>
-        <p>${g.chiaveSimbolicaTitolo}</p>
+      <!-- Il Titolo come Chiave Simbolica -->
+      <div class="germinal-card-panel symbolic-panel">
+        <div class="panel-header-tag">
+          <span class="panel-tag-icon">SIMBOLOGIA</span>
+          <h4>Il Titolo come Chiave Simbolica</h4>
+        </div>
+        <p class="germinal-symbolic-text">${g.chiaveSimbolicaTitolo}</p>
       </div>
+
     </div>
   `;
 }

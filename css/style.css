@@ -902,62 +902,213 @@ body[data-theme="dark"] .btn-char-select.active {
   letter-spacing: 0.5px;
 }
 
-/* Germinal Hero Card */
-.germinal-hero-card {
-  background: linear-gradient(135deg, #111827 0%, #1e1b4b 100%);
-  color: #f8fafc;
+/* ==========================================================================
+   GERMINAL (1885) — SEZIONE CAPOLAVORO APPROFONDITO (DESIGN PREMIUM AD ALTO CONTRASTO)
+   ========================================================================== */
+
+.germinal-masterpiece-wrapper {
+  background: var(--bg-card);
+  border: 2px solid var(--accent-gold);
   border-radius: var(--radius-lg);
-  padding: 44px;
-  box-shadow: var(--shadow-lg);
+  padding: 40px 36px;
+  box-shadow: var(--shadow-md), 0 0 35px rgba(217, 119, 6, 0.08);
+  position: relative;
+  overflow: hidden;
 }
 
-.germinal-top-badge {
-  color: #fbbf24;
-  font-family: var(--font-heading);
-  letter-spacing: 2px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.germinal-title {
-  font-family: var(--font-heading);
-  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-  margin-bottom: 16px;
-  color: #ffffff;
-}
-
-.germinal-synopsis {
-  font-size: 1.15rem;
-  line-height: 1.75;
-  color: #cbd5e1;
+.germinal-main-header {
+  text-align: center;
   margin-bottom: 32px;
 }
 
-.germinal-keys-grid {
+.germinal-badge-pill {
+  display: inline-block;
+  background: var(--accent-gold-light);
+  color: #b45309;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  margin-bottom: 12px;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+body[data-theme="dark"] .germinal-badge-pill {
+  background: rgba(217, 119, 6, 0.2);
+  color: #fbbf24;
+}
+
+.germinal-title-display {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.germinal-subtitle-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  max-width: 820px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Card Panels (Trama & Simbologia) */
+.germinal-card-panel {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 26px 30px;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-sm);
+}
+
+.germinal-card-panel.synopsis-panel {
+  border-left: 5px solid var(--accent-gold);
+}
+
+.germinal-card-panel.symbolic-panel {
+  border-left: 5px solid var(--accent-navy);
+  margin-top: 36px;
+  margin-bottom: 0;
+}
+
+body[data-theme="dark"] .germinal-card-panel.symbolic-panel {
+  border-left-color: var(--accent-gold);
+}
+
+.panel-header-tag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.panel-tag-icon {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-navy);
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .panel-tag-icon {
+  background: var(--accent-gold);
+  color: #0f172a;
+}
+
+.panel-header-tag h4 {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.germinal-synopsis-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.germinal-symbolic-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Section Divider with Accent Lines */
+.germinal-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 36px 0 24px;
+}
+
+.germinal-section-heading h4 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.heading-accent-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+  max-width: 140px;
+}
+
+/* Reasons Grid (6 Pilastri) */
+.germinal-reasons-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
 }
 
-.germinal-key-box {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.germinal-reason-card {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 22px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.germinal-key-box h4 {
-  color: #fbbf24;
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  margin-bottom: 8px;
+.germinal-reason-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-md);
 }
 
-.germinal-key-box p {
-  font-size: 0.92rem;
-  color: #e2e8f0;
+.reason-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.reason-number {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--accent-gold);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+.reason-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.reason-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0;
+  flex: 1;
 }
 
 /* Curiosities Grid */
