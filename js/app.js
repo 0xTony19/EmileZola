@@ -525,10 +525,18 @@ function renderCuriosities() {
   if (!container) return;
 
   container.innerHTML = ZOLA_DATA.curiosita.map(c => `
-    <div class="curiosity-card animate-slide-up">
-      <div class="curiosity-tag">${c.tag}</div>
-      <h3 class="curiosity-title">${c.titolo}</h3>
-      <p class="curiosity-text">${c.testo}</p>
+    <div class="curiosity-card ${c.immagine ? 'curiosity-card-featured' : ''} animate-slide-up">
+      ${c.immagine ? `
+        <div class="curiosity-img-container">
+          <img src="${c.immagine}" alt="${c.titolo}" class="curiosity-photo-img" loading="lazy">
+          ${c.didascalia ? `<span class="curiosity-img-caption">${c.didascalia}</span>` : ''}
+        </div>
+      ` : ''}
+      <div class="curiosity-content-wrapper">
+        <div class="curiosity-tag">${c.tag}</div>
+        <h3 class="curiosity-title">${c.titolo}</h3>
+        <p class="curiosity-text">${c.testo}</p>
+      </div>
     </div>
   `).join('');
 }

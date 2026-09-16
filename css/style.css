@@ -1226,7 +1226,7 @@ body[data-theme="dark"] .panel-tag-icon {
 /* Curiosities Grid */
 .curiosities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
 }
 
@@ -1238,12 +1238,54 @@ body[data-theme="dark"] .panel-tag-icon {
   box-shadow: var(--shadow-sm);
   border-top: 3px solid var(--accent-gold);
   transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  display: flex;
+  flex-direction: column;
 }
 
 .curiosity-card:hover {
   transform: translateY(-3px);
   border-color: var(--accent-gold);
   box-shadow: var(--shadow-md);
+}
+
+.curiosity-card.curiosity-card-featured {
+  border: 2px solid var(--accent-gold);
+  border-top: 4px solid var(--accent-gold);
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--accent-gold-light) 100%);
+}
+
+.curiosity-img-container {
+  margin-bottom: 16px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: var(--bg-main);
+  padding: 6px;
+}
+
+.curiosity-photo-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center 25%;
+  border-radius: calc(var(--radius-sm) - 2px);
+  display: block;
+  filter: sepia(0.08) contrast(1.05);
+  transition: transform var(--transition-normal);
+}
+
+.curiosity-card:hover .curiosity-photo-img {
+  transform: scale(1.03);
+}
+
+.curiosity-img-caption {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 6px;
 }
 
 .curiosity-title {

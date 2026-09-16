@@ -180,7 +180,9 @@ const ZOLA_DATA = {
     {
       titolo: "Fotografo appassionato",
       tag: "FOTOGRAFIA",
-      testo: "Scattò oltre 4.000 fotografie, in parte pubblicate postume."
+      testo: "Scattò oltre 4.000 fotografie, in parte pubblicate postume.",
+      immagine: "assets/foto/ZOLAFOTOGRAFO.jpg",
+      didascalia: "Émile Zola con la sua macchina fotografica"
     },
     {
       titolo: "Candidatura al Premio Nobel",
