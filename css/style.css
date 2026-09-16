@@ -3512,30 +3512,44 @@ body[data-theme="dark"] .focus-card-header h4 {
 }
 
 /* ==========================================================================
-   CURIOSITA FEATURE LAYOUT & GALLERY GRID
+   CURIOSITA FEATURE LAYOUT & MONUMENTAL PRESENTATION CARDS
    ========================================================================== */
-.curiosity-feature-layout {
-  display: grid;
-  grid-template-columns: minmax(300px, 420px) 1fr;
-  gap: 36px;
-  align-items: center;
+.curiosity-monumental-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-left: 5px solid var(--accent-gold);
   border-radius: var(--radius-lg);
-  padding: 36px 32px;
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-normal);
+  padding: 36px 36px 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.curiosity-monumental-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-gold), #d97706, var(--accent-gold-light));
+}
+
+.curiosity-feature-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 440px) 1fr;
+  gap: 40px;
+  align-items: center;
 }
 
 .curiosity-feature-photo {
   position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
   cursor: pointer;
   border: 2px solid var(--accent-gold);
-  background: #000;
+  background: #0f172a;
+  aspect-ratio: 4 / 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -3543,32 +3557,33 @@ body[data-theme="dark"] .focus-card-header h4 {
 
 .curiosity-full-img {
   width: 100%;
-  height: 320px;
+  height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease, filter 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
 
 .curiosity-feature-photo:hover .curiosity-full-img {
-  transform: scale(1.04);
-  filter: brightness(1.05);
+  transform: scale(1.06);
+  filter: brightness(1.08) contrast(1.02);
 }
 
 .curiosity-zoom-badge {
   position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background: rgba(15, 23, 42, 0.85);
-  color: #ffffff;
+  bottom: 14px;
+  right: 14px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #f8fafc;
   font-family: var(--font-sans);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-  padding: 6px 12px;
+  padding: 7px 16px;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(8px);
   pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   transition: all var(--transition-fast);
 }
 
@@ -3576,61 +3591,206 @@ body[data-theme="dark"] .focus-card-header h4 {
   background: var(--accent-gold);
   color: #ffffff;
   border-color: var(--accent-gold);
+  transform: translateY(-2px);
 }
 
 .curiosity-feature-text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 16px;
 }
 
 .curiosity-tag {
   display: inline-block;
   align-self: flex-start;
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 2px;
   color: var(--accent-gold);
   background: var(--accent-gold-light);
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: var(--radius-sm);
-  margin-bottom: 12px;
+  border: 1px solid rgba(179, 126, 25, 0.25);
   text-transform: uppercase;
 }
 
-.curiosity-feature-text h3 {
+.curiosity-main-title {
   font-family: var(--font-heading);
-  font-size: 1.85rem;
-  font-weight: 700;
+  font-size: 2.1rem;
+  font-weight: 800;
   color: var(--text-primary);
-  margin: 0 0 16px 0;
-  line-height: 1.25;
+  line-height: 1.22;
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-.curiosity-feature-text p {
+.curiosity-lead-p {
   font-family: var(--font-serif);
-  font-size: 1.18rem;
+  font-size: 1.22rem;
   line-height: 1.8;
   color: var(--text-secondary);
   margin: 0;
 }
 
-.gallery-photo-grid {
+/* Griglia Metriche / Dati di rilievo */
+.curiosity-details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 8px 0;
+}
+
+.curiosity-detail-item {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--accent-gold);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.detail-number {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.detail-label {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+/* Box Rottura Cézanne & Citazione Panthéon */
+.curiosity-break-box {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-crimson);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+}
+
+.break-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-crimson);
+  margin-bottom: 6px;
+}
+
+.curiosity-break-box p {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.pantheon-quote-card {
+  background: linear-gradient(135deg, var(--bg-card-subtle) 0%, var(--accent-gold-light) 100%);
+  border: 1px solid var(--border-color-strong);
+  border-left: 4px solid var(--accent-gold);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+}
+
+.quote-speaker {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.quote-content {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Griglia Aneddoti e Misteri Storici */
+.curiosity-anecdotes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 22px;
   margin-top: 24px;
 }
 
+.anecdote-box {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.anecdote-box:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-md);
+  background: var(--bg-card);
+}
+
+.anecdote-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.anecdote-header h4 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.anecdote-box p {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* ==========================================================================
+   GALLERIA FOTOGRAFICA HD PREMIUM
+   ========================================================================== */
+.gallery-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 26px;
+  margin-top: 28px;
+}
+
 .gallery-card {
-  position: relative;
   background: var(--bg-card-subtle);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   overflow: hidden;
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
@@ -3638,37 +3798,74 @@ body[data-theme="dark"] .focus-card-header h4 {
 
 .gallery-card:hover {
   border-color: var(--accent-gold);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
+}
+
+.gallery-img-container {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: #090d16;
 }
 
 .gallery-img {
   width: 100%;
-  height: 220px;
+  height: 100%;
   object-fit: cover;
   display: block;
-  background: #111;
-  transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
 }
 
 .gallery-card:hover .gallery-img {
-  transform: scale(1.06);
+  transform: scale(1.08);
+  filter: brightness(1.06);
 }
 
-.gallery-label {
-  padding: 14px 16px;
+.gallery-card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--accent-gold);
   font-family: var(--font-sans);
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(179, 126, 25, 0.4);
+  backdrop-filter: blur(4px);
+  text-transform: uppercase;
+}
+
+.gallery-caption-box {
+  padding: 18px 20px;
   background: var(--bg-card);
   border-top: 1px solid var(--border-color);
+  flex-grow: 1;
+}
+
+.gallery-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
   transition: color var(--transition-fast);
 }
 
-.gallery-card:hover .gallery-label {
+.gallery-card:hover .gallery-title {
   color: var(--accent-gold);
+}
+
+.gallery-subtext {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 /* ==========================================================================

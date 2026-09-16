@@ -1254,17 +1254,17 @@ window.closeImageLightbox = function() {
   }
 };
 
-// 7. Sezione Curiosità Storiche
+// 7. Sezione Curiosità Storiche & Galleria
 function renderCuriosities() {
   const container = document.getElementById('curiosities-grid');
   if (!container) return;
 
-  const curiositaList = ZOLA_DATA.curiosita;
   const subtabs = [
     { label: "Zola Fotografo (4.000+ Scatti)", key: "fotografo" },
     { label: "Cézanne & L'Œuvre", key: "cezanne" },
-    { label: "Il Panthéon (1908)", key: "pantheon" },
-    { label: "Galleria Fotografica Storica", key: "galleria" }
+    { label: "Il Panthéon & Anatole France", key: "pantheon" },
+    { label: "Morte, Nobel & Aneddoti", key: "morte" },
+    { label: "Galleria Fotografica HD", key: "galleria" }
   ];
 
   container.innerHTML = `
@@ -1282,100 +1282,237 @@ function renderCuriosities() {
       
       <!-- Subtab 0: Zola Fotografo -->
       <div class="subtab-pane active animate-fade-in">
-        <div class="curiosity-feature-layout">
-          <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Émile Zola Fotografo', 'Émile Zola con la sua macchina fotografica (scattò oltre 4.000 foto)')">
-            <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Émile Zola Fotografo" class="curiosity-full-img">
-            <div class="curiosity-zoom-badge">Clicca per ingrandire</div>
-          </div>
-          <div class="curiosity-feature-text">
-            <span class="curiosity-tag">PASSIONE VISIVA & TECNOLOGIA</span>
-            <h3>Oltre 4.000 Fotografie Scattate</h3>
-            <p>Zola fu uno dei primissimi grandi scrittori a praticare la fotografia in modo sistematico. Possedeva dieci apparecchi fotografici diversi e allestì laboratori di sviluppo sia a Parigi che a Médan e persino durante l'esilio londinese. Considerava l'obiettivo uno strumento di indagine oggettiva del reale, analogo al taccuino dello scrittore naturalista.</p>
+        <div class="presentation-big-card curiosity-monumental-card">
+          <div class="curiosity-feature-layout">
+            <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Émile Zola Fotografo', 'Émile Zola con la sua attrezzatura fotografica (scattò oltre 4.000 fotografie)')">
+              <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Émile Zola Fotografo" class="curiosity-full-img">
+              <div class="curiosity-zoom-badge">Ingrandisci a Schermo Intero</div>
+            </div>
+            <div class="curiosity-feature-text">
+              <span class="curiosity-tag">PIONIERE DELLA FOTOGRAFIA & DOCUMENTAZIONE</span>
+              <h3 class="curiosity-main-title">Lo Sguardo Scientifico dell'Obiettivo</h3>
+              <p class="curiosity-lead-p">
+                Zola fu uno dei primissimi grandi letterati europei ad abbracciare la fotografia moderna con rigore scientifico e ossessiva maestria. Considerava la lente un prolungamento esatto del metodo naturalista: documentare senza filtri né abbellimenti la verità materiale.
+              </p>
+
+              <div class="curiosity-details-grid">
+                <div class="curiosity-detail-item">
+                  <div class="detail-number">10+</div>
+                  <div class="detail-label">Macchine fotografiche di precisione collezionate</div>
+                </div>
+                <div class="curiosity-detail-item">
+                  <div class="detail-number">4.000+</div>
+                  <div class="detail-label">Lastre fotografiche e scatti d'epoca documentati</div>
+                </div>
+                <div class="curiosity-detail-item">
+                  <div class="detail-number">3</div>
+                  <div class="detail-label">Laboratori chimici di sviluppo (Parigi, Médan, Londra)</div>
+                </div>
+              </div>
+
+              <div class="pres-key-takeaway">
+                <span class="takeaway-badge">DA RICORDARE</span>
+                <p>Zola affermava: <em>«Non si può dire di aver veramente visto qualcosa finché non lo si è fotografato»</em>. La fotografia non era un hobby, ma l'equivalente visivo del taccuino d'inchiesta per i suoi romanzi sperimentali.</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" disabled>&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 1 di 4</span>
+          <span class="subnav-step-info">Curiosità 1 di 5</span>
           <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Cézanne &rarr;</button>
         </div>
       </div>
 
       <!-- Subtab 1: Cézanne & L'Œuvre -->
       <div class="subtab-pane animate-fade-in">
-        <div class="curiosity-feature-layout">
-          <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/ZOLAECézanne.jpg', 'Émile Zola e Paul Cézanne', 'Émile Zola e Paul Cézanne ad Aix-en-Provence')">
-            <img src="assets/foto/ZOLAECézanne.jpg" alt="Émile Zola e Cézanne" class="curiosity-full-img">
-            <div class="curiosity-zoom-badge">Clicca per ingrandire</div>
-          </div>
-          <div class="curiosity-feature-text">
-            <span class="curiosity-tag">AMICIZIA STORICA & ROTTURA</span>
-            <h3>L'Amicizia Fraterna con Paul Cézanne</h3>
-            <p>Amici inseparabili fin dai banchi di scuola al Collège Bourbon di Aix-en-Provence, Zola difese appassionatamente la pittura rivoluzionaria di Cézanne e degli Impressionisti nei suoi articoli di critica d'arte. Tuttavia, nel 1886 la pubblicazione del romanzo <em>L'Œuvre</em> (il cui protagonista, il pittore geniale ma fallito Claude Lantier, muore suicida davanti alla sua tela incompiuta) ferì profondamente Cézanne, portando a una tragica rottura del loro trentennale legame.</p>
+        <div class="presentation-big-card curiosity-monumental-card">
+          <div class="curiosity-feature-layout">
+            <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/ZOLAECézanne.jpg', 'Émile Zola e Paul Cézanne', 'Émile Zola e Paul Cézanne ad Aix-en-Provence')">
+              <img src="assets/foto/ZOLAECézanne.jpg" alt="Émile Zola e Cézanne" class="curiosity-full-img">
+              <div class="curiosity-zoom-badge">Ingrandisci a Schermo Intero</div>
+            </div>
+            <div class="curiosity-feature-text">
+              <span class="curiosity-tag">ARTE, FRATELLANZA & ROTTURA</span>
+              <h3 class="curiosity-main-title">Il Legame Fraterno con Paul Cézanne</h3>
+              <p class="curiosity-lead-p">
+                Cresciuti insieme tra le colline di Aix-en-Provence al Collège Bourbon, Zola e Cézanne condivisero i sogni giovanili di gloria letteraria e pittorica. Zola difese con coraggio Cézanne e la rivoluzione degli Impressionisti (Manet, Monet, Pissarro) contro i salotti accademici parigini.
+              </p>
+
+              <div class="curiosity-break-box">
+                <div class="break-title">La Tragedia di un Romanzo: <em>L'Œuvre</em> (1886)</div>
+                <p>Nel 1886 Zola pubblica <em>L'Œuvre</em>, incentrato sulla figura di Claude Lantier, un pittore geniale incapace di realizzare il suo capolavoro assoluto, che finisce per impiccarsi davanti alla tela incompiuta. Cézanne riconobbe nella figura del fallito le proprie ossessioni e inviò a Zola una lettera di commiato gelida e definitiva, ponendo fine a trent'anni di sodalizio.</p>
+              </div>
+
+              <div class="pres-key-takeaway">
+                <span class="takeaway-badge">DA RICORDARE</span>
+                <p>Alla morte improvvisa di Zola nel 1902, Cézanne pianse a lungo nel suo studio di Aix: nonostante la rottura, l'affetto e l'ammirazione per l'amico d'infanzia rimasero vivi per tutta la vita.</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 2 di 4</span>
+          <span class="subnav-step-info">Curiosità 2 di 5</span>
           <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Il Panthéon &rarr;</button>
         </div>
       </div>
 
       <!-- Subtab 2: Il Panthéon (1908) -->
       <div class="subtab-pane animate-fade-in">
-        <div class="curiosity-feature-layout">
-          <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/PANTHEONZOLA.jpg', 'Traslazione al Panthéon 1908', 'La solenne cerimonia di traslazione di Zola al Panthéon di Parigi (1908)')">
-            <img src="assets/foto/PANTHEONZOLA.jpg" alt="Panthéon Zola" class="curiosity-full-img">
-            <div class="curiosity-zoom-badge">Clicca per ingrandire</div>
-          </div>
-          <div class="curiosity-feature-text">
-            <span class="curiosity-tag">APOTEOSI NAZIONALE</span>
-            <h3>La Traslazione al Panthéon di Parigi</h3>
-            <p>Il 4 giugno 1908, a sei anni dalla morte, le spoglie di Émile Zola vennero solennemente traslate nella cripta del Panthéon, accanto a Victor Hugo e Voltaire. Durante la cerimonia, un giornalista nazionalista antidreyfusardo sparò al colonnello Dreyfus ferendolo al braccio. Anatole France pronunciò la memorabile orazione: <em>«Invidiamolo: egli onorò la sua patria e il mondo con un'opera immensa e con un grande atto. Egli fu un momento della coscienza umana!»</em>.</p>
+        <div class="presentation-big-card curiosity-monumental-card">
+          <div class="curiosity-feature-layout">
+            <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/PANTHEONZOLA.jpg', 'Traslazione al Panthéon 1908', 'La solenne cerimonia di traslazione di Zola al Panthéon di Parigi (1908)')">
+              <img src="assets/foto/PANTHEONZOLA.jpg" alt="Panthéon Zola" class="curiosity-full-img">
+              <div class="curiosity-zoom-badge">Ingrandisci a Schermo Intero</div>
+            </div>
+            <div class="curiosity-feature-text">
+              <span class="curiosity-tag">APOTEOSI NAZIONALE & GLORIA REPUBBLICANA</span>
+              <h3 class="curiosity-main-title">La Solenne Traslazione al Panthéon (1908)</h3>
+              <p class="curiosity-lead-p">
+                Il 4 giugno 1908, a sei anni dalla morte, la Repubblica Francese tributò a Émile Zola il massimo onore laico: le sue spoglie vennero traslate nella cripta del Panthéon, accanto a <strong>Victor Hugo</strong> e <strong>Voltaire</strong>.
+              </p>
+
+              <div class="pantheon-quote-card">
+                <div class="quote-speaker">Dall'Orazione Funebre di Anatole France:</div>
+                <blockquote class="quote-content">
+                  «Invidiamolo: egli onorò la sua patria e il mondo con un'opera immensa e con un grande atto. Egli fu un momento della coscienza umana!»
+                </blockquote>
+              </div>
+
+              <div class="pres-key-takeaway">
+                <span class="takeaway-badge">DA RICORDARE</span>
+                <p>Durante la cerimonia al Panthéon, il giornalista nazionalista Louis Grégori sparò due colpi di pistola contro il colonnello Alfred Dreyfus ferendolo al braccio: la figura di Zola divideva la Francia tra forze democratiche e reazionarie anche dopo la sua morte.</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 3 di 4</span>
-          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Galleria Fotografica &rarr;</button>
+          <span class="subnav-step-info">Curiosità 3 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Morte & Nobel &rarr;</button>
         </div>
       </div>
 
-      <!-- Subtab 3: Galleria Fotografica Completa -->
+      <!-- Subtab 3: Morte Sospetta, Nobel & Aneddoti -->
       <div class="subtab-pane animate-fade-in">
-        <div class="presentation-big-card">
+        <div class="presentation-big-card curiosity-monumental-card">
           <div class="pres-card-header">
-            <span class="pres-card-tag">ARCHIVIO FOTOGRAFICO AD ALTA RISOLUZIONE</span>
-            <h3 class="pres-card-title">Galleria Immagini Storiche</h3>
+            <span class="pres-card-tag">ENIGMI STORICI, RICONOSCIMENTI & VITA PRIVATA</span>
+            <h3 class="pres-card-title">Mistero della Morte, Mancato Nobel & Curiosità</h3>
           </div>
-          <p class="pres-lead-text">Clicca su ciascuna foto per aprirla a schermo intero sul proiettore / LIM.</p>
+          <p class="pres-lead-text">Particolari storici emblematici della vita tumultuosa e del lascito universale di Zola.</p>
+
+          <div class="curiosity-anecdotes-grid">
+            <div class="anecdote-box">
+              <div class="anecdote-header">
+                <span class="anecdote-badge">IL MISTERO DEL CAMINETTO (1902)</span>
+                <h4>Morte Accidentale o Omicidio Politico?</h4>
+              </div>
+              <p>La notte del 29 settembre 1902, Zola e la moglie Alexandrine vengono asfissiati dai fumi di monossido di carbonio nella loro camera a Rue de Bruxelles. Nel 1953, una confessione sul letto di morte di uno spazzacamino nazionalista rivelò che la canna fumaria era stata deliberatamente ostruita per assassinare lo scrittore nemico dell'esercito.</p>
+            </div>
+
+            <div class="anecdote-box">
+              <div class="anecdote-header">
+                <span class="anecdote-badge">IL CASO LETTERARIO</span>
+                <h4>Candidato al Nobel per la Letteratura (1901-1902)</h4>
+              </div>
+              <p>Zola fu proposto per il neonato Premio Nobel per la Letteratura nelle primissime edizioni. L'Accademia di Svezia, tuttavia, guidata dal conservatore Carl David af Wirsén, rifiutò categoricamente di premiarlo a causa del realismo crudo e anti-idealista dei suoi romanzi, preferendo Sully Prudhomme e Theodor Mommsen.</p>
+            </div>
+
+            <div class="anecdote-box">
+              <div class="anecdote-header">
+                <span class="anecdote-badge">COLLEZIONISMO & MODERNO</span>
+                <h4>L'Amore per le Biciclette e la Tecnologia</h4>
+              </div>
+              <p>Zola era un entusiasta sostenitore delle innovazioni dell'era industriale: imparò ad andare in bicicletta a cinquant'anni, compiendo lunghi percorsi nella campagna di Médan, e installò nella sua villa parigina tra i primi impianti a luce elettrica e linee telefoniche private della città.</p>
+            </div>
+
+            <div class="anecdote-box">
+              <div class="anecdote-header">
+                <span class="anecdote-badge">PRODUTTIVITÀ RIGOROSA</span>
+                <h4>La Formula: «Nulla dies sine linea»</h4>
+              </div>
+              <p>Scolpì sul camino del suo studio a Médan il celebre motto latino di Plinio il Vecchio: <em>«Nulla dies sine linea»</em> (Nessun giorno senza una riga scritta). Ogni mattina, dalle 9:00 alle 13:00 senza eccezioni, scriveva esattamente quattro cartelle piene (circa 1.000 parole), completando 20 romanzi in 22 anni.</p>
+            </div>
+          </div>
+
+          <div class="pres-key-takeaway" style="margin-top: 24px;">
+            <span class="takeaway-badge">DA RICORDARE</span>
+            <p>La morte di Zola, avvenuta alla vigilia della riabilitazione di Dreyfus, trasformò il suo funerale a Montmartre in una gigantesca manifestazione di popolo: 50.000 persone sfilarono dietro al feretro intonando i canti dei minatori di <em>Germinal</em>.</p>
+          </div>
+        </div>
+
+        <div class="subnav-stepper-footer">
+          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
+          <span class="subnav-step-info">Curiosità 4 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Galleria Fotografica HD &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Subtab 4: Galleria Fotografica HD a Schermo Intero -->
+      <div class="subtab-pane animate-fade-in">
+        <div class="presentation-big-card curiosity-monumental-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">ARCHIVIO VISIVO STORICO AD ALTA DEFINIZIONE</span>
+            <h3 class="pres-card-title">Galleria Fotografica d'Epoca</h3>
+          </div>
+          <p class="pres-lead-text">Clicca su qualsiasi fotografia per aprirla nel visore a tutto schermo per l'esposizione alla LIM.</p>
 
           <div class="gallery-photo-grid">
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/emillezola1.jpeg', 'Ritratto Ufficiale di Émile Zola', 'Émile Zola (1840–1902) in un celebre ritratto d\'epoca')">
-              <img src="assets/foto/emillezola1.jpeg" alt="Ritratto Zola" class="gallery-img">
-              <div class="gallery-label">Ritratto Ufficiale</div>
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/emillezola1.jpeg', 'Ritratto Ufficiale di Émile Zola', 'Émile Zola (1840–1902) nel celebre ritratto ufficiale all\'apice del successo naturalista')">
+              <div class="gallery-img-container">
+                <img src="assets/foto/emillezola1.jpeg" alt="Ritratto Zola" class="gallery-img">
+                <span class="gallery-card-badge">Ritratto Storico</span>
+              </div>
+              <div class="gallery-caption-box">
+                <h4 class="gallery-title">Ritratto Ufficiale</h4>
+                <p class="gallery-subtext">Lo sguardo fermo e rigoroso dell'intellettuale e teorico del Naturalismo.</p>
+              </div>
             </div>
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Zola con Macchina Fotografica', 'Émile Zola con la sua attrezzatura fotografica')">
-              <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Zola Fotografo" class="gallery-img">
-              <div class="gallery-label">Zola Fotografo</div>
+
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Zola con Attrezzatura Fotografica', 'Émile Zola con la macchina fotografica a lastre: autore di oltre 4.000 fotografie')">
+              <div class="gallery-img-container">
+                <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Zola Fotografo" class="gallery-img">
+                <span class="gallery-card-badge">Fotografo Pioniere</span>
+              </div>
+              <div class="gallery-caption-box">
+                <h4 class="gallery-title">Zola Fotografo</h4>
+                <p class="gallery-subtext">Con l'attrezzatura a treppiede per la documentazione visiva dei suoi romanzi.</p>
+              </div>
             </div>
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAECézanne.jpg', 'Émile Zola e Paul Cézanne', 'Zola e Paul Cézanne ad Aix-en-Provence')">
-              <img src="assets/foto/ZOLAECézanne.jpg" alt="Zola e Cézanne" class="gallery-img">
-              <div class="gallery-label">Zola e Cézanne</div>
+
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAECézanne.jpg', 'Émile Zola e Paul Cézanne', 'Émile Zola e Paul Cézanne da giovani ad Aix-en-Provence')">
+              <div class="gallery-img-container">
+                <img src="assets/foto/ZOLAECézanne.jpg" alt="Zola e Cézanne" class="gallery-img">
+                <span class="gallery-card-badge">Amicizia Storica</span>
+              </div>
+              <div class="gallery-caption-box">
+                <h4 class="gallery-title">Zola & Paul Cézanne</h4>
+                <p class="gallery-subtext">La storica complicità tra letteratura e pittura impressionista.</p>
+              </div>
             </div>
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/PANTHEONZOLA.jpg', 'Cerimonia al Panthéon (1908)', 'Cerimonia di traslazione al Panthéon di Parigi (1908)')">
-              <img src="assets/foto/PANTHEONZOLA.jpg" alt="Panthéon" class="gallery-img">
-              <div class="gallery-label">Cerimonia al Panthéon</div>
+
+            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/PANTHEONZOLA.jpg', 'Cerimonia al Panthéon (1908)', 'La solenne cerimonia di traslazione di Zola al Panthéon di Parigi (4 Giugno 1908)')">
+              <div class="gallery-img-container">
+                <img src="assets/foto/PANTHEONZOLA.jpg" alt="Panthéon" class="gallery-img">
+                <span class="gallery-card-badge">Panthéon 1908</span>
+              </div>
+              <div class="gallery-caption-box">
+                <h4 class="gallery-title">Traslazione al Panthéon</h4>
+                <p class="gallery-subtext">Il trionfo della Repubblica laica che consacra Zola tra i Grandi di Francia.</p>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 4 di 4</span>
-          <button class="subnav-step-btn primary" onclick="window.quizApp.openQuizModal()">Avvia Quiz Live &rarr;</button>
+          <span class="subnav-step-info">Curiosità 5 di 5</span>
+          <button class="subnav-step-btn primary" onclick="window.quizApp.openQuizModal()">Avvia Sessione Quiz Live &rarr;</button>
         </div>
       </div>
 
