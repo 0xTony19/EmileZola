@@ -460,7 +460,7 @@ function renderCyclesAndNovels() {
       { label: "Tutti i 20 Romanzi", key: "all" },
       { label: "Miniere & Proletariato", key: "proletariato" },
       { label: "Commercio & Finanza", key: "commercio" },
-      { label: "Arte & Spettacolo", key: "arte" },
+      { label: "Arte, Spettacolo & Misticismo", key: "arte" },
       { label: "Politica & Chiesa", key: "politica" },
       { label: "Ferrovie & Tecnologia", key: "ferrovia" }
     ];
@@ -481,19 +481,19 @@ function renderCyclesAndNovels() {
 
       let filtered = novels;
       if (category === 'proletariato') {
-        filtered = novels.filter(n => [7, 13, 15].includes(n.n));
+        filtered = novels.filter(n => [7, 12, 13, 15].includes(n.n));
       } else if (category === 'commercio') {
-        filtered = novels.filter(n => [2, 3, 11, 19].includes(n.n));
+        filtered = novels.filter(n => [2, 3, 10, 11, 18].includes(n.n));
       } else if (category === 'arte') {
-        filtered = novels.filter(n => [9, 14].includes(n.n));
+        filtered = novels.filter(n => [8, 9, 14, 16].includes(n.n));
       } else if (category === 'politica') {
-        filtered = novels.filter(n => [1, 4, 6].includes(n.n));
+        filtered = novels.filter(n => [1, 4, 5, 6, 19, 20].includes(n.n));
       } else if (category === 'ferrovia') {
-        filtered = novels.filter(n => [18].includes(n.n));
+        filtered = novels.filter(n => [17].includes(n.n));
       }
 
       novelsContainer.innerHTML = filtered.map(n => `
-        <div class="novel-card ${n.n === 13 ? 'featured-novel' : ''} animate-pop" onclick="window.openNovelModal(${n.n - 1})">
+        <div class="novel-card ${n.n === 13 ? 'featured-novel' : ''} animate-pop" onclick="window.openNovelModal(${n.n})">
           <div class="novel-card-top">
             <span class="novel-number">N. ${n.n}</span>
             <span class="novel-year">${n.anno}</span>
@@ -505,8 +505,8 @@ function renderCyclesAndNovels() {
       `).join('');
     };
 
-    window.openNovelModal = function(idx) {
-      const n = novels[idx];
+    window.openNovelModal = function(novelNum) {
+      const n = novels.find(item => item.n === novelNum);
       if (!n) return;
 
       const modal = document.getElementById('novel-modal');
