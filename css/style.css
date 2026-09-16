@@ -500,12 +500,55 @@ body {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+  font-size: clamp(2.8rem, 6vw, 4.6rem);
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: 2px;
-  line-height: 1.12;
+  line-height: 1.15;
   margin-bottom: 14px;
+  min-height: 1.2em;
+}
+
+/* Corsivo Calligrafico Ottocentesco con Effetto Scrittura a Mano */
+.handwriting-script-title {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: 'Great Vibes', 'Alex Brush', 'MonteCarlo', cursive;
+  font-weight: 400;
+  font-size: clamp(3.4rem, 7.5vw, 5.8rem);
+  letter-spacing: 1px;
+  color: var(--text-primary);
+  text-shadow: 0 2px 12px rgba(179, 126, 25, 0.15);
+  position: relative;
+}
+
+body[data-theme="dark"] .handwriting-script-title {
+  color: #f6f1e8;
+  text-shadow: 0 0 20px rgba(216, 162, 72, 0.25);
+}
+
+.handwriting-pen {
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  background: var(--accent-gold);
+  margin-left: 4px;
+  vertical-align: baseline;
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--accent-gold);
+  animation: penBlink 0.65s infinite alternate;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.handwriting-pen.done {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes penBlink {
+  0% { opacity: 1; }
+  50% { opacity: 0.15; }
+  100% { opacity: 1; }
 }
 
 .hero-subtitle {

@@ -4,6 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initThemeAndSettings();
+  initHandwritingAnimation();
   initScrollSpy();
   initMobileNavbar();
   initKeyboardNavigation();
@@ -17,6 +18,41 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuizController();
   checkUrlMode();
 });
+
+// 1. Animazione di Scrittura a Mano Calligrafica (Handwriting Script)
+function initHandwritingAnimation() {
+  const container = document.getElementById('handwriting-title');
+  if (!container) return;
+
+  const textElem = container.querySelector('.handwriting-text');
+  const penElem = container.querySelector('.handwriting-pen');
+  if (!textElem) return;
+
+  const fullText = "Émile Zola";
+  let currentIndex = 0;
+  textElem.textContent = "";
+
+  // Breve ritardo iniziale elegante prima di iniziare a scrivere
+  setTimeout(() => {
+    function typeNextChar() {
+      if (currentIndex < fullText.length) {
+        textElem.textContent += fullText.charAt(currentIndex);
+        currentIndex++;
+        
+        // Ritmo naturale e organico di penna a mano (varia tra 110ms e 160ms)
+        const charDelay = 115 + Math.random() * 45;
+        setTimeout(typeNextChar, charDelay);
+      } else {
+        // Scrittura completata: nascondi il pennino dopo un attimo
+        setTimeout(() => {
+          if (penElem) penElem.classList.add('done');
+        }, 1200);
+      }
+    }
+
+    typeNextChar();
+  }, 350);
+}
 
 // 2. ScrollSpy in Tempo Reale per la Navbar
 function initScrollSpy() {
