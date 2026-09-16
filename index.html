@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Émile Zola — Scheda Tecnica Digitale & Quiz Live</title>
+  <meta name="description" content="Scheda tecnica multimediale e interattiva su Émile Zola, caposcuola del Naturalismo francese: biografia, poetica, Rougon-Macquart, Germinal e Quiz Live multigiocatore con QR code locale.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/quiz.css">
+</head>
+<body data-theme="classic">
+
+  <div id="app-root">
+    <!-- Top Navigation Bar Evoluta -->
+    <header class="top-navbar">
+      <div class="container nav-inner">
+        <!-- Brand Signature -->
+        <a href="#" class="brand-badge">
+          <div class="brand-text-group">
+            <span class="brand-name">ÉMILE ZOLA</span>
+            <span class="brand-tagline">1840–1902 | Naturalismo Francese</span>
+          </div>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-toggle" class="mobile-toggle-btn" aria-label="Apri Menu Navigazione">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <!-- Central Navigation Links with Section Numbers (ScrollSpy) -->
+        <nav class="nav-links-wrapper" id="nav-links-wrapper">
+          <ul class="nav-links">
+            <li><a href="#biografia" class="nav-item-link" data-section="biografia"><span class="nav-num">01</span>Biografia</a></li>
+            <li><a href="#poetica" class="nav-item-link" data-section="poetica"><span class="nav-num">02</span>Metodo</a></li>
+            <li><a href="#albero" class="nav-item-link" data-section="albero"><span class="nav-num">03</span>Albero</a></li>
+            <li><a href="#romanzi" class="nav-item-link" data-section="romanzi"><span class="nav-num">04</span>Romanzi</a></li>
+            <li><a href="#germinal" class="nav-item-link" data-section="germinal"><span class="nav-num">05</span>Germinal</a></li>
+            <li><a href="#jaccuse" class="nav-item-link" data-section="jaccuse"><span class="nav-num">06</span>J'accuse</a></li>
+            <li><a href="#curiosita" class="nav-item-link" data-section="curiosita"><span class="nav-num">07</span>Curiosità</a></li>
+          </ul>
+        </nav>
+
+        <!-- Right Utility Controls -->
+        <div class="nav-controls">
+          <button id="theme-toggle-btn" class="btn-icon-control nav-pill-btn" title="Cambia Tema Visivo [Scorciatoia: T]">
+            <span class="theme-dot"></span>
+            <span class="theme-label">Tema: Classique</span>
+          </button>
+          <button id="sound-toggle-btn" class="btn-icon-control nav-pill-btn" title="Attiva/Disattiva Audio">
+            <span class="sound-icon">Audio On</span>
+          </button>
+          <button id="presentation-btn" class="btn-icon-control nav-pill-btn" title="Modalità Proiezione a Schermo Intero [Scorciatoia: F]">
+            Schermo Intero
+          </button>
+          <button class="btn-icon-control btn-launch-quiz btn-launch-quiz-nav" title="Avvia Sfida Live con QR Code [Scorciatoia: Q]">
+            Quiz Live
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Barra Galleggiante con Scorciatoie da Tastiera -->
+    <div class="floating-quick-bar" title="Scorciatoie da tastiera per la presentazione">
+      <span class="keyboard-hint-pill">[Q] Quiz</span>
+      <span class="keyboard-hint-pill">[T] Tema</span>
+      <span class="keyboard-hint-pill">[F] Schermo Intero</span>
+      <span class="keyboard-hint-pill">[←/→] Sezioni</span>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="container">
+      
+      <!-- Hero Section -->
+      <section class="hero-section animate-fade-in">
+        <div class="hero-content-layout">
+          <div class="hero-portrait-container">
+            <div class="hero-portrait-frame">
+              <img src="assets/foto/emillezola1.jpeg" alt="Fotografia Storica di Émile Zola" class="hero-portrait-img">
+              <div class="hero-portrait-caption">Émile Zola nel suo studio (1840–1902)</div>
+            </div>
+          </div>
+
+          <div class="hero-text-container">
+            <span class="hero-tag">SCHEDA TECNICA DIGITALE</span>
+            <h1 class="hero-title">ÉMILE ZOLA</h1>
+            <p class="hero-subtitle">
+              "La verità è in cammino e nulla la fermerà." — Il Maestro del Naturalismo, il teorico del Romanzo Sperimentale e il paladino dell'impegno civile.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-stats-banner">
+          <div class="stat-pill">
+            <div class="stat-number">20</div>
+            <div class="stat-label">Romanzi nei Rougon-Macquart</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-number">1880</div>
+            <div class="stat-label">Le Roman Expérimental</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-number">1885</div>
+            <div class="stat-label">Capolavoro Germinal</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-number">1898</div>
+            <div class="stat-label">J'accuse...! & Caso Dreyfus</div>
+          </div>
+          <div class="stat-pill">
+            <div class="stat-number">4.000+</div>
+            <div class="stat-label">Fotografie Scattate</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Biografia & Passport -->
+      <section id="biografia" class="content-section">
+        <div class="section-header">
+          <span class="section-category">Sezione 01</span>
+          <h2 class="section-title">Dati Biografici Essenziali</h2>
+          <p class="section-lead">L'identikit storico, le origini italo-francesi e il contesto sociopolitico del Secondo Impero e della Terza Repubblica.</p>
+        </div>
+        <div id="bio-identity-grid"></div>
+      </section>
+
+      <!-- Section 2: Poetica & Laboratorio Sperimentale -->
+      <section id="poetica" class="content-section">
+        <div class="section-header">
+          <span class="section-category">Sezione 02</span>
+          <h2 class="section-title">Pensiero, Poetica & Il Metodo Sperimentale</h2>
+          <p class="section-lead">Il romanziere come medico e scienziato della società: dall'osservazione clinica di Claude Bernard al determinismo di Taine e Lucas.</p>
+        </div>
+
+        <div class="poetics-pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-tag">METODO</div>
+            <h3 class="pillar-title">1. Il Metodo Sperimentale</h3>
+            <p>Tratto da Claude Bernard (1865). Lo scrittore osserva la realtà senza filtri morali, predispone l'esperimento narrativo e deduce le leggi sociali.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-tag">SCIENZA</div>
+            <h3 class="pillar-title">2. Determinismo Cieco</h3>
+            <p>L'individuo è plasmato da due forze insuperabili: l'<strong>Eredità Biologica</strong> (tare genetiche, nevrosi) e il <strong>Milieu</strong> (ambiente sociale ed economico).</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-tag">DOCUMENTO</div>
+            <h3 class="pillar-title">3. Documento Umano</h3>
+            <p>Rigidi <em>dossiers préparatoires</em>: Zola scende nelle miniere, visita ferrovie e mercati per trasformare il romanzo in un fedele referto della realtà.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-tag">PROGRESSO</div>
+            <h3 class="pillar-title">4. Tensione Utopica</h3>
+            <p>Dal pessimismo clinico iniziale verso la fede nel progresso, nel lavoro e nella giustizia sociale (*Les Quatre Évangiles*).</p>
+          </div>
+        </div>
+
+        <!-- Laboratorio Interattivo del Determinismo -->
+        <div class="lab-simulator-card">
+          <div class="section-header" style="margin-bottom: 16px;">
+            <span class="section-category">Laboratorio Interattivo</span>
+            <h3 style="font-family: var(--font-serif); font-size: 1.5rem;">Simulatore Scientifico Zoliano: Eredità + Ambiente = Destino</h3>
+          </div>
+          <div id="determinism-simulator"></div>
+        </div>
+      </section>
+
+      <!-- Section 3: I Tre Cicli & Albero Genealogico -->
+      <section id="albero" class="content-section">
+        <div class="section-header">
+          <span class="section-category">Sezione 03</span>
+          <h2 class="section-title">I Cicli Letterari & L'Albero dei Rougon-Macquart</h2>
+          <p class="section-lead">Dalla genesi di Plassans alla mappa genetica compilata dal Dottor Pascal: il confronto tra i due rami della stirpe.</p>
+        </div>
+
+        <div id="family-tree-visualizer"></div>
+      </section>
+
+      <!-- Section 4: I 20 Romanzi dei Rougon-Macquart -->
+      <section id="romanzi" class="content-section">
+        <div class="section-header">
+          <span class="section-category">Sezione 04</span>
+          <h2 class="section-title">Esploratore dei 20 Romanzi del Ciclo</h2>
+          <p class="section-lead">Ogni romanzo esplora un ambiente sociale diverso del Secondo Impero francese (1871–1893). Clicca su una scheda per aprire la scheda di dettaglio.</p>
+        </div>
+
+        <div id="novels-filters" class="novels-filters"></div>
+        <div id="novels-grid" class="novels-grid"></div>
+      </section>
+
+      <!-- Section 5: Focus Capolavoro Germinal -->
+      <section id="germinal" class="content-section">
+        <div class="section-header">
+          <span class="section-category">Sezione 05</span>
+          <h2 class="section-title">Focus Capolavoro: Germinal (1885)</h2>
+          <p class="section-lead">Il vertice assoluto del Naturalismo europeo: l'epopea dei minatori, la lotta di classe e la speranza nel futuro.</p>
+        </div>
+
+        <div class="germinal-hero-card">
+          <div class="germinal-top-badge">TREDICESIMO ROMANZO DEI ROUGON-MACQUART</div>
+          <h3 class="germinal-title">Germinal — La Terra che Trema</h3>
+          <p class="germinal-synopsis">
+            Ambientato nel pozzo minerario di Montsou, segue le vicende di <strong>Étienne Lantier</strong>. Zola trasforma l'inchiesta sul lavoro minorile e sui salari da fame in un poema corale in cui la miniera diventa una bestia mitologica e la rivolta un seme destinato a germogliare inevitabilmente nella primavera dei popoli.
+          </p>
+
+          <div class="germinal-keys-grid">
+            <div class="germinal-key-box">
+              <h4>Il Mostro "Le Voreux"</h4>
+              <p>Il pozzo è personificato come una voragine divoratrice di vite umane che inghiotte operai per alimentare la macchina del capitale.</p>
+            </div>
+            <div class="germinal-key-box">
+              <h4>Simbologia del Titolo</h4>
+              <p>"Germinal", mese della germinazione rivoluzionaria: la sconfitta immediata è il preludio fecondo del riscatto sociale futuro.</p>
+            </div>
+            <div class="germinal-key-box">
+              <h4>Inchiesta ad Anzin</h4>
+              <p>Zola visitò le miniere nel febbraio 1884 durante un reale sciopero, raccogliendo quaderni di note tecniche e linguistiche.</p>
+            </div>
+            <div class="germinal-key-box">
+              <h4>Dimensione Corale</h4>
+              <p>Il vero eroe è la massa operaia solidale, anticipando la narrativa sociale moderna del Novecento.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: J'accuse & Impegno Civile -->
+      <section id="jaccuse" class="content-section">
+        <div class="section-header">
+          <span class="section-category">Sezione 06</span>
+          <h2 class="section-title">L'Impegno Civile: J'accuse...! & L'Esilio</h2>
+          <p class="section-lead">13 gennaio 1898: la nascita dell'intellettuale moderno che rischia la propria vita per la verità.</p>
+        </div>
+
+        <div class="passport-card" style="border-color: var(--accent-crimson);">
+          <div class="passport-header">
+            <span class="passport-stamp" style="color: var(--accent-crimson); border-color: var(--accent-crimson);">L'AURORE — 13 GENNAIO 1898</span>
+            <span class="passport-title">LETTRE AU PRÉSIDENT DE LA RÉPUBLIQUE</span>
+          </div>
+          <div class="passport-body">
+            <div class="passport-field">
+              <label>Il Caso Storico</label>
+              <div class="val">L'Affaire Dreyfus — Il capitano ebreo ingiustamente condannato per alto tradimento per antisemitismo di Stato.</div>
+            </div>
+            <div class="passport-field">
+              <label>L'Atto Coraggioso di Zola</label>
+              <div class="val">Lettera aperta in prima pagina con cui Zola accusa nominativamente lo Stato Maggiore dell'esercito francese di depistaggio.</div>
+            </div>
+            <div class="passport-field">
+              <label>Il Prezzo Pagato</label>
+              <div class="val highlight-val">Condannato a 1 anno di carcere e 3.000 franchi di multa; costretto all'esilio a Londra per 11 mesi.</div>
+            </div>
+            <div class="passport-field">
+              <label>Il Gruppo di Médan</label>
+              <div class="val">Zola guida del cenacolo naturalista con Guy de Maupassant e Joris-Karl Huysmans (*Les Soirées de Médan*, 1880).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Curiosità e Approfondimenti -->
+      <section id="curiosita" class="content-section">
+        <div class="section-header">
+          <span class="section-category">Sezione 07</span>
+          <h2 class="section-title">Archivio Storico & Approfondimenti</h2>
+          <p class="section-lead">Dettagli documentari e aneddoti storici per una comprensione rigorosa dell'autore.</p>
+        </div>
+        <div id="curiosities-grid" class="curiosities-grid"></div>
+      </section>
+
+      <!-- CTA Quiz Arena Banner -->
+      <section class="cta-quiz-banner">
+        <h2>Verifica delle Conoscenze in Tempo Reale</h2>
+        <p>
+          Avvia la sessione interattiva con codice QR in locale (funziona con lo stesso Wi-Fi o Hotspot dello smartphone, senza necessità di internet o pubblicazione).
+        </p>
+        <button class="btn-huge-action btn-launch-quiz">
+          AVVIA SESSIONE QUIZ LIVE CON QR CODE
+        </button>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border-color); color: var(--text-muted);">
+      <div class="container">
+        <p><strong>ÉMILE ZOLA — Scheda Tecnica & Sistema di Valutazione Interattivo</strong></p>
+        <small>Esecuzione locale 100% autonoma | Compatibile con proiettori, monitor interattivi, smartphone e tablet.</small>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Modale Dettaglio Romanzo -->
+  <div id="novel-modal" class="generic-modal-overlay" onclick="if(event.target === this) window.closeNovelModal()">
+    <div class="generic-modal-box">
+      <button class="btn-close-modal" style="position: absolute; top: 16px; right: 20px;" onclick="window.closeNovelModal()">&times;</button>
+      <div id="novel-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       QUIZ LIVE MODAL / ARENA SULLO SCHERMO PROIETTORE
+       ========================================================================= -->
+  <div id="quiz-modal" class="quiz-modal-overlay">
+    <div class="quiz-modal-window">
+      <div class="quiz-modal-header">
+        <div class="modal-title">
+          <span>ARENA DI VALUTAZIONE LIVE</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <button class="nav-pill-btn" onclick="if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});}else{document.exitFullscreen().catch(()=>{});}" title="Schermo Intero [Scorciatoia: F]">Schermo Intero</button>
+          <button id="close-quiz-btn" class="btn-close-modal" title="Chiudi Arena Quiz">&times;</button>
+        </div>
+      </div>
+
+      <div class="quiz-modal-content">
+        
+        <!-- Lobby State -->
+        <div id="quiz-game-container">
+          <div class="quiz-lobby-view animate-fade-in">
+            <div class="lobby-top">
+              <h1>Inquadra il Codice QR per Partecipare</h1>
+              <p class="lobby-subtitle">Tutti i 21 compagni possono partecipare dal proprio smartphone usando 4G, 5G o Wi-Fi!</p>
+              <span class="local-network-badge" id="network-mode-badge">MODALITA LIVE: 4G / 5G & WI-FI (COME KAHOOT)</span>
+            </div>
+
+            <div class="lobby-center-grid">
+              <!-- QR Code Card -->
+              <div class="lobby-qr-card">
+                <div class="qr-canvas-holder">
+                  <canvas id="qr-canvas"></canvas>
+                </div>
+                <div class="qr-pin-badge">
+                  PIN STANZA: <span id="room-pin-display">ZOLA-1885</span>
+                </div>
+                <p class="qr-scan-hint" id="qr-scan-instruction">Inquadra con la fotocamera di QUALSIASI telefono (4G, 5G o Wi-Fi)</p>
+                <small id="join-url-text" style="word-break: break-all; color: var(--text-muted); font-size: 0.78rem; margin: 8px 0; background: var(--bg-main); padding: 4px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-color);"></small>
+                
+                <div style="display: flex; gap: 6px; margin: 8px 0; justify-content: center;">
+                  <button class="ip-edit-btn" onclick="window.quizApp.setNetworkMode('public')">4G / 5G Online</button>
+                  <button class="ip-edit-btn" onclick="window.quizApp.setNetworkMode('local')">Wi-Fi Locale</button>
+                  <button class="ip-edit-btn" onclick="window.quizApp.copyJoinLink()">Copia Link</button>
+                </div>
+                
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 4px;">
+                  <button class="ip-edit-btn" onclick="window.quizApp.openLocalPlayerTab()">Apri Scheda Giocatore su questo PC</button>
+                  <button class="ip-edit-btn" onclick="window.quizApp.setCustomIP()">Personalizza IP / Dominio</button>
+                </div>
+                <div id="file-protocol-warning" style="display: none; margin-top: 10px; font-size: 0.75rem; color: var(--accent-crimson); background: rgba(190,18,60,0.08); padding: 8px; border-radius: var(--radius-sm); border: 1px solid rgba(190,18,60,0.2);">
+                  Nota: Per consentire a tutta la classe di connettersi da 4G/5G, avvia <strong>avvia_presentazione.bat</strong>!
+                </div>
+              </div>
+
+              <!-- Players Lobby Grid -->
+              <div class="lobby-players-box">
+                <div class="lobby-players-header">
+                  <h3>Studenti Connessi</h3>
+                  <span id="lobby-player-count" class="player-count-badge">0 Partecipanti</span>
+                </div>
+                <div id="lobby-player-grid" class="lobby-player-grid"></div>
+              </div>
+            </div>
+
+            <div class="lobby-actions">
+              <button class="btn-secondary-action" onclick="window.quizApp.addBots()">
+                Aggiungi Studenti Dimostrativi
+              </button>
+              <button class="btn-primary-action" onclick="window.quizApp.startGame()">
+                Avvia la Sessione (10s per Domanda)
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: QR Generator, PeerJS Cloud WebRTC, Data, Sync, Engine, App -->
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/peerjs.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/qr-sync.js"></script>
+  <script src="js/quiz-engine.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
