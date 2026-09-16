@@ -36,16 +36,17 @@
           <span class="hamburger-line"></span>
         </button>
         
-        <!-- Central Navigation Links with Clean Literary Typography (ScrollSpy) -->
+        <!-- Central Navigation Links with Clean Literary Typography (Multi-Page Tabs) -->
         <nav class="nav-links-wrapper" id="nav-links-wrapper">
           <ul class="nav-links">
-            <li><a href="#biografia" class="nav-item-link" data-section="biografia">Biografia</a></li>
-            <li><a href="#poetica" class="nav-item-link" data-section="poetica">Poetica</a></li>
-            <li><a href="#opere" class="nav-item-link" data-section="opere">Opere</a></li>
-            <li><a href="#contesto" class="nav-item-link" data-section="contesto">Contesto</a></li>
-            <li><a href="#germinal" class="nav-item-link" data-section="germinal">Germinal</a></li>
-            <li><a href="#esilio" class="nav-item-link" data-section="esilio">Esilio</a></li>
-            <li><a href="#curiosita" class="nav-item-link" data-section="curiosita">Curiosità</a></li>
+            <li><a href="#home" class="nav-item-link active" data-page="home">Home</a></li>
+            <li><a href="#biografia" class="nav-item-link" data-page="biografia">Biografia</a></li>
+            <li><a href="#poetica" class="nav-item-link" data-page="poetica">Poetica</a></li>
+            <li><a href="#opere" class="nav-item-link" data-page="opere">Opere</a></li>
+            <li><a href="#contesto" class="nav-item-link" data-page="contesto">Contesto</a></li>
+            <li><a href="#germinal" class="nav-item-link" data-page="germinal">Germinal</a></li>
+            <li><a href="#esilio" class="nav-item-link" data-page="esilio">Esilio</a></li>
+            <li><a href="#curiosita" class="nav-item-link" data-page="curiosita">Curiosità</a></li>
           </ul>
         </nav>
 
@@ -76,11 +77,11 @@
       <span class="keyboard-hint-pill">[←/→] Sezioni</span>
     </div>
 
-    <!-- Main Content Container -->
+    <!-- Main Content Container (Divided by Pages) -->
     <main class="container">
       
-      <!-- Hero Section -->
-      <section class="hero-section animate-fade-in">
+      <!-- Page 0: Home / Panoramica Hero & Indice Generale -->
+      <section id="home" class="content-section page-view active animate-fade-in" data-page="home">
         <div class="hero-content-layout">
           <div class="hero-portrait-container">
             <div class="hero-portrait-frame" onclick="window.openImageLightbox('assets/foto/emillezola1.jpeg', 'Émile Zola', 'Émile Zola (1840–1902)')" title="Clicca per ingrandire">
@@ -124,32 +125,78 @@
             <div class="stat-label">Fotografie Scattate</div>
           </div>
         </div>
+
+        <!-- Menu Sommario Rapido Pagine della Scheda -->
+        <div class="home-sections-index">
+          <div class="section-header" style="text-align: center; margin: 40px 0 25px;">
+            <span class="section-category">INDICE GENERALE</span>
+            <h2 class="section-title">Esplora le Pagine della Scheda</h2>
+            <p class="section-lead" style="margin: 0 auto;">Seleziona un capitolo o usa la barra in alto per navigare nei contenuti approfonditi.</p>
+          </div>
+          <div class="home-index-grid">
+            <button class="home-index-card" onclick="window.navigateToPage('biografia')">
+              <span class="index-num">01</span>
+              <h3>Dati Biografici</h3>
+              <p>Origini, formazione e quadro anagrafico essenziale.</p>
+            </button>
+            <button class="home-index-card" onclick="window.navigateToPage('poetica')">
+              <span class="index-num">02</span>
+              <h3>Pensiero e Poetica</h3>
+              <p>Il Romanzo Sperimentale, Claude Bernard e determinismo.</p>
+            </button>
+            <button class="home-index-card" onclick="window.navigateToPage('opere')">
+              <span class="index-num">03</span>
+              <h3>Opere & Rougon-Macquart</h3>
+              <p>I cicli, l'albero genealogico e i venti romanzi.</p>
+            </button>
+            <button class="home-index-card" onclick="window.navigateToPage('contesto')">
+              <span class="index-num">04</span>
+              <h3>Analisi del Contesto</h3>
+              <p>Seconda Rivoluzione Industriale e questione sociale.</p>
+            </button>
+            <button class="home-index-card" onclick="window.navigateToPage('germinal')">
+              <span class="index-num">05</span>
+              <h3>Capolavoro Germinal</h3>
+              <p>Trama, miniera di Montsou e valore simbolico.</p>
+            </button>
+            <button class="home-index-card" onclick="window.navigateToPage('esilio')">
+              <span class="index-num">06</span>
+              <h3>Esilio in Inghilterra</h3>
+              <p>J'accuse...!, processo e soggiorno londinese.</p>
+            </button>
+            <button class="home-index-card" onclick="window.navigateToPage('curiosita')">
+              <span class="index-num">07</span>
+              <h3>Curiosità Storiche</h3>
+              <p>Cézanne, fotografia e traslazione al Panthéon.</p>
+            </button>
+          </div>
+        </div>
       </section>
 
-      <!-- Section 1: Dati Biografici Essenziali -->
-      <section id="biografia" class="content-section">
+      <!-- Page 1: Dati Biografici Essenziali -->
+      <section id="biografia" class="content-section page-view" data-page="biografia">
         <div class="section-header">
-          <span class="section-category">Sezione 01</span>
+          <span class="section-category">Pagina 01</span>
           <h2 class="section-title">Dati Biografici Essenziali</h2>
           <p class="section-lead">Quadro anagrafico, origini italo-francesi e inquadramento storico-letterario.</p>
         </div>
         <div id="bio-identity-grid"></div>
       </section>
 
-      <!-- Section 2: Pensiero e Poetica -->
-      <section id="poetica" class="content-section">
+      <!-- Page 2: Pensiero e Poetica -->
+      <section id="poetica" class="content-section page-view" data-page="poetica">
         <div class="section-header">
-          <span class="section-category">Sezione 02</span>
+          <span class="section-category">Pagina 02</span>
           <h2 class="section-title">Pensiero e Poetica</h2>
           <p class="section-lead">I principi teorici del Naturalismo zoliano: dal metodo clinico di Claude Bernard al determinismo e al documento umano.</p>
         </div>
         <div id="poetics-grid" class="poetics-structured-grid"></div>
       </section>
 
-      <!-- Section 3: Opere Composte (Cicli Principali & Rougon-Macquart) -->
-      <section id="opere" class="content-section">
+      <!-- Page 3: Opere Composte (Cicli Principali & Rougon-Macquart) -->
+      <section id="opere" class="content-section page-view" data-page="opere">
         <div class="section-header">
-          <span class="section-category">Sezione 03</span>
+          <span class="section-category">Pagina 03</span>
           <h2 class="section-title">Opere Composte & Cicli Principali</h2>
           <p class="section-lead">I tre grandi cicli narrativi e l'analisi romanzo per romanzo della saga monumentale dei Rougon-Macquart.</p>
         </div>
@@ -174,45 +221,56 @@
         </div>
       </section>
 
-      <!-- Section 4: Analisi del Contesto delle Opere -->
-      <section id="contesto" class="content-section">
+      <!-- Page 4: Analisi del Contesto delle Opere -->
+      <section id="contesto" class="content-section page-view" data-page="contesto">
         <div class="section-header">
-          <span class="section-category">Sezione 04</span>
+          <span class="section-category">Pagina 04</span>
           <h2 class="section-title">Analisi del Contesto delle Opere</h2>
           <p class="section-lead">La Francia dell'industrializzazione avanzata, la nascita del proletariato e la visione positivista.</p>
         </div>
         <div id="context-grid" class="context-card-container"></div>
       </section>
 
-      <!-- Section 5: Analisi Approfondita: Germinal (1885) -->
-      <section id="germinal" class="content-section">
+      <!-- Page 5: Analisi Approfondita: Germinal (1885) -->
+      <section id="germinal" class="content-section page-view" data-page="germinal">
         <div class="section-header">
-          <span class="section-category">Sezione 05</span>
+          <span class="section-category">Pagina 05</span>
           <h2 class="section-title">Analisi Approfondita: Germinal (1885)</h2>
           <p class="section-lead">Il capolavoro assoluto di Zola: trama essenziale, chiavi interpretative e valore simbolico del titolo.</p>
         </div>
         <div id="germinal-deep-dive"></div>
       </section>
 
-      <!-- Section 6: L'Esilio in Inghilterra (1898–1899) -->
-      <section id="esilio" class="content-section">
+      <!-- Page 6: L'Esilio in Inghilterra (1898–1899) -->
+      <section id="esilio" class="content-section page-view" data-page="esilio">
         <div class="section-header">
-          <span class="section-category">Sezione 06</span>
+          <span class="section-category">Pagina 06</span>
           <h2 class="section-title">L'Esilio in Inghilterra (1898–1899)</h2>
           <p class="section-lead">La condanna per J'accuse...!, la fuga notturna e gli undici mesi a Londra prima della riabilitazione.</p>
         </div>
         <div id="exile-grid"></div>
       </section>
 
-      <!-- Section 7: Curiosità -->
-      <section id="curiosita" class="content-section">
+      <!-- Page 7: Curiosità -->
+      <section id="curiosita" class="content-section page-view" data-page="curiosita">
         <div class="section-header">
-          <span class="section-category">Sezione 07</span>
+          <span class="section-category">Pagina 07</span>
           <h2 class="section-title">Curiosità</h2>
           <p class="section-lead">Particolari biografici, aneddoti storici e il riconoscimento al Panthéon di Parigi.</p>
         </div>
         <div id="curiosities-grid" class="curiosities-grid"></div>
       </section>
+
+      <!-- Bottom Page Navigation Bar (Avanti / Indietro tra le pagine) -->
+      <nav class="page-pagination-bar" aria-label="Navigazione Pagine">
+        <button id="prev-page-btn" class="pagination-btn pagination-prev" onclick="window.navigateRelativePage(-1)">
+          &larr; Pagina Precedente
+        </button>
+        <span id="current-page-indicator" class="pagination-indicator">Pagina 1 di 8</span>
+        <button id="next-page-btn" class="pagination-btn pagination-next" onclick="window.navigateRelativePage(1)">
+          Pagina Successiva &rarr;
+        </button>
+      </nav>
 
       <!-- CTA Quiz Arena Banner -->
       <section class="cta-quiz-banner">

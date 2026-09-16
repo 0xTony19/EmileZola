@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initThemeAndSettings();
   initHandwritingAnimation();
-  initScrollSpy();
+  initMultiPageRouter();
   initMobileNavbar();
   initKeyboardNavigation();
   renderBiography();
@@ -54,32 +54,105 @@ function initHandwritingAnimation() {
   }, 350);
 }
 
-// 2. ScrollSpy in Tempo Reale per la Navbar
-function initScrollSpy() {
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-item-link');
+// 2. Sistema di Navigazione Multi-Pagina (Pagine Separate)
+const APP_PAGES = ['home', 'biografia', 'poetica', 'opere', 'contesto', 'germinal', 'esilio', 'curiosita'];
 
-  const onScroll = () => {
-    const scrollPos = window.scrollY + 140;
+window.navigateToPage = function(pageId, updateHash = true) {
+  if (!APP_PAGES.includes(pageId)) pageId = 'home';
 
-    sections.forEach(section => {
-      const top = section.offsetTop;
-      const height = section.offsetHeight;
-      const id = section.getAttribute('id');
+  // Aggiorna viste sezioni (mostra solo la pagina attiva)
+  document.querySelectorAll('.page-view').forEach(view => {
+    if (view.getAttribute('data-page') === pageId) {
+      view.classList.add('active');
+    } else {
+      view.classList.remove('active');
+    }
+  });
 
-      if (scrollPos >= top && scrollPos < top + height) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${id}`) {
-            link.classList.add('active');
-          }
-        });
-      }
+  // Aggiorna navbar links
+  document.querySelectorAll('.nav-item-link').forEach(link => {
+    if (link.getAttribute('data-page') === pageId) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+
+  // Aggiorna controlli di paginazione inferiore
+  const pageIndex = APP_PAGES.indexOf(pageId);
+  const prevBtn = document.getElementById('prev-page-btn');
+  const nextBtn = document.getElementById('next-page-btn');
+  const indicator = document.getElementById('current-page-indicator');
+
+  if (prevBtn) prevBtn.disabled = (pageIndex === 0);
+  if (nextBtn) nextBtn.disabled = (pageIndex === APP_PAGES.length - 1);
+  if (indicator) {
+    const pageTitles = {
+      home: 'Home / Panoramica',
+      biografia: '1. Dati Biografici',
+      poetica: '2. Pensiero e Poetica',
+      opere: '3. Opere & Rougon-Macquart',
+      contesto: '4. Contesto Storico',
+      germinal: '5. Capolavoro Germinal',
+      esilio: '6. Esilio in Inghilterra',
+      curiosita: '7. Curiosità Storiche'
+    };
+    indicator.textContent = `Pagina ${pageIndex + 1} di ${APP_PAGES.length} — ${pageTitles[pageId] || pageId}`;
+  }
+
+  // Aggiorna hash nell'URL se richiesto
+  if (updateHash && window.location.hash !== `#${pageId}`) {
+    history.pushState(null, '', `#${pageId}`);
+  }
+
+  // Scroll in cima con delicatezza
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  SFX.playTone(480, 'sine', 0.04, 0.03);
+};
+
+window.navigateRelativePage = function(direction) {
+  const currentHash = (window.location.hash || '#home').replace('#', '');
+  let currentIndex = APP_PAGES.indexOf(currentHash);
+  if (currentIndex === -1) currentIndex = 0;
+
+  const targetIndex = currentIndex + direction;
+  if (targetIndex >= 0 && targetIndex < APP_PAGES.length) {
+    window.navigateToPage(APP_PAGES[targetIndex]);
+  }
+};
+
+function initMultiPageRouter() {
+  // Gestione click su tutti i link di navigazione
+  document.querySelectorAll('.nav-item-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const pageId = link.getAttribute('data-page');
+      window.navigateToPage(pageId);
+
+      // Chiudi menu mobile se aperto
+      const navWrapper = document.getElementById('nav-links-wrapper');
+      if (navWrapper) navWrapper.classList.remove('open');
     });
-  };
+  });
 
-  window.addEventListener('scroll', onScroll);
-  onScroll();
+  // Click su logo / brand porta a Home
+  const brandBadge = document.querySelector('.brand-badge');
+  if (brandBadge) {
+    brandBadge.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.navigateToPage('home');
+    });
+  }
+
+  // Supporto per tasto Indietro/Avanti del browser (popstate / hashchange)
+  window.addEventListener('hashchange', () => {
+    const pageId = (window.location.hash || '#home').replace('#', '');
+    window.navigateToPage(pageId, false);
+  });
+
+  // Carica pagina iniziale in base all'hash o default home
+  const initialPage = (window.location.hash || '#home').replace('#', '');
+  window.navigateToPage(initialPage, false);
 }
 
 // 3. Gestione Menu Mobile Responsive
@@ -91,20 +164,10 @@ function initMobileNavbar() {
   toggleBtn.addEventListener('click', () => {
     navWrapper.classList.toggle('open');
   });
-
-  // Chiudi menu al click su un link
-  document.querySelectorAll('.nav-item-link').forEach(link => {
-    link.addEventListener('click', () => {
-      navWrapper.classList.remove('open');
-    });
-  });
 }
 
-// 2. Comandi da Tastiera per Presentazione e Quiz
+// 4. Comandi da Tastiera per Presentazione, Pagine e Quiz
 function initKeyboardNavigation() {
-  const sections = ['biografia', 'poetica', 'albero', 'romanzi', 'germinal', 'jaccuse', 'curiosita'];
-  let currentSecIdx = 0;
-
   window.addEventListener('keydown', (e) => {
     // Ignora se si sta digitando in un input
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -166,15 +229,11 @@ function initKeyboardNavigation() {
       }
     }
 
-    // Navigazione sezioni con freccia destra/giù (avanti) e sinistra/su (indietro)
+    // Navigazione tra le pagine con freccia destra/giù (pagina successiva) e sinistra/su (pagina precedente)
     if (e.key === 'ArrowRight' || e.key === 'PageDown') {
-      currentSecIdx = Math.min(sections.length - 1, currentSecIdx + 1);
-      const el = document.getElementById(sections[currentSecIdx]);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      window.navigateRelativePage(1);
     } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-      currentSecIdx = Math.max(0, currentSecIdx - 1);
-      const el = document.getElementById(sections[currentSecIdx]);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      window.navigateRelativePage(-1);
     }
   });
 }

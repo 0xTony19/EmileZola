@@ -618,9 +618,149 @@ body[data-theme="dark"] .handwriting-script-title {
   font-weight: 600;
 }
 
+/* Multi-Page Views System */
+.page-view {
+  display: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0, 0.2, 1);
+  padding: 40px 0 60px;
+  border-bottom: none;
+}
+
+.page-view.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: pageSlideIn 0.35s ease forwards;
+}
+
+@keyframes pageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Home Page Index Grid */
+.home-sections-index {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-color);
+}
+
+.home-index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.home-index-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--accent-gold);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.home-index-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-gold);
+  box-shadow: var(--shadow-md), 0 0 20px rgba(179, 126, 25, 0.15);
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--accent-gold-light) 100%);
+}
+
+.home-index-card .index-num {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  letter-spacing: 2px;
+}
+
+.home-index-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.28rem;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.home-index-card p {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Page Pagination Navigation Bar */
+.page-pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 40px 0 20px;
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.pagination-btn {
+  background: var(--bg-card-subtle);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: var(--accent-gold);
+  color: #ffffff;
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(179, 126, 25, 0.25);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pagination-indicator {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
 /* Sections */
 .content-section {
-  padding: 65px 0;
+  padding: 30px 0 50px;
   border-bottom: 1px solid var(--border-color);
 }
 
