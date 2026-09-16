@@ -73,6 +73,20 @@ function initKeyboardNavigation() {
     // Ignora se si sta digitando in un input
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
+    // Tasto 'Escape' -> Chiudi Lightbox o Modali
+    if (e.key === 'Escape') {
+      const lbModal = document.getElementById('image-lightbox-modal');
+      if (lbModal && lbModal.classList.contains('active')) {
+        window.closeImageLightbox();
+        return;
+      }
+      const novModal = document.getElementById('novel-modal');
+      if (novModal && novModal.classList.contains('active')) {
+        window.closeNovelModal();
+        return;
+      }
+    }
+
     // Tasto 'Q' -> Lancia o Chiude Quiz
     if (e.key.toLowerCase() === 'q') {
       const modal = document.getElementById('quiz-modal');
@@ -519,6 +533,29 @@ function renderExile() {
   `;
 }
 
+// Lightbox per Immagini Storiche
+window.openImageLightbox = function(src, alt, caption) {
+  const modal = document.getElementById('image-lightbox-modal');
+  const img = document.getElementById('lightbox-img');
+  const cap = document.getElementById('lightbox-caption');
+  if (!modal || !img) return;
+
+  img.src = src;
+  img.alt = alt || '';
+  if (cap) cap.textContent = caption || alt || '';
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  SFX.playTone(520, 'sine', 0.05, 0.04);
+};
+
+window.closeImageLightbox = function() {
+  const modal = document.getElementById('image-lightbox-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+
 // 10. Curiosità
 function renderCuriosities() {
   const container = document.getElementById('curiosities-grid');
@@ -527,8 +564,9 @@ function renderCuriosities() {
   container.innerHTML = ZOLA_DATA.curiosita.map(c => `
     <div class="curiosity-card ${c.immagine ? 'curiosity-card-featured' : ''} animate-slide-up">
       ${c.immagine ? `
-        <div class="curiosity-img-container">
+        <div class="curiosity-img-container" onclick="window.openImageLightbox('${c.immagine}', '${c.titolo}', '${(c.didascalia || c.titolo).replace(/'/g, "\\'")}')" title="Clicca per ingrandire la fotografia">
           <img src="${c.immagine}" alt="${c.titolo}" class="curiosity-photo-img" loading="lazy">
+          <div class="curiosity-zoom-badge">🔍 Ingrandisci</div>
           ${c.didascalia ? `<span class="curiosity-img-caption">${c.didascalia}</span>` : ''}
         </div>
       ` : ''}

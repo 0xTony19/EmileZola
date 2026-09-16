@@ -83,7 +83,7 @@
       <section class="hero-section animate-fade-in">
         <div class="hero-content-layout">
           <div class="hero-portrait-container">
-            <div class="hero-portrait-frame">
+            <div class="hero-portrait-frame" onclick="window.openImageLightbox('assets/foto/emillezola1.jpeg', 'Émile Zola', 'Émile Zola (1840–1902)')" title="Clicca per ingrandire">
               <img src="assets/foto/emillezola1.jpeg" alt="Fotografia Storica di Émile Zola" class="hero-portrait-img">
               <div class="hero-portrait-caption">Émile Zola (1840–1902)</div>
             </div>
@@ -313,6 +313,17 @@
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- Image Lightbox Modal for Fullscreen Zoom -->
+  <div id="image-lightbox-modal" class="lightbox-modal-overlay" onclick="window.closeImageLightbox()">
+    <div class="lightbox-dialog" onclick="event.stopPropagation()">
+      <button class="lightbox-close-btn" onclick="window.closeImageLightbox()" aria-label="Chiudi Immagine">&times;</button>
+      <div class="lightbox-image-wrapper">
+        <img id="lightbox-img" src="" alt="Immagine Ingrandita" class="lightbox-full-img">
+      </div>
+      <div id="lightbox-caption" class="lightbox-caption-text"></div>
     </div>
   </div>
 
