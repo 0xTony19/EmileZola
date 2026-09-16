@@ -199,7 +199,9 @@ const ZOLA_DATA = {
     {
       titolo: "Traslazione al Panthéon (1908)",
       tag: "MEMORIA",
-      testo: "Nel 1908 le sue ceneri furono traslate al Panthéon di Parigi, riconoscimento ufficiale del suo ruolo letterario e civile."
+      testo: "Nel 1908 le sue ceneri furono traslate al Panthéon di Parigi, riconoscimento ufficiale del suo ruolo letterario e civile.",
+      immagine: "assets/foto/PANTHEONZOLA.jpg",
+      didascalia: "La solenne cerimonia di traslazione al Panthéon (1908)"
     }
   ],
 
