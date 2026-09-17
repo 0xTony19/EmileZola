@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCyclesAndNovels();
   renderContext();
   renderGerminal();
-  renderExile();
   renderCuriosities();
   initQuizController();
   checkUrlMode();
@@ -55,7 +54,7 @@ function initHandwritingAnimation() {
 }
 
 // 2. Sistema di Navigazione Multi-Pagina (Pagine Separate)
-const APP_PAGES = ['home', 'biografia', 'poetica', 'opere', 'contesto', 'germinal', 'esilio', 'curiosita'];
+const APP_PAGES = ['home', 'biografia', 'poetica', 'opere', 'contesto', 'germinal', 'curiosita'];
 
 window.navigateToPage = function(pageId, updateHash = true) {
   if (!APP_PAGES.includes(pageId)) pageId = 'home';
@@ -94,8 +93,7 @@ window.navigateToPage = function(pageId, updateHash = true) {
       opere: '3. Opere & Rougon-Macquart',
       contesto: '4. Contesto Storico',
       germinal: '5. Capolavoro Germinal',
-      esilio: '6. Esilio in Inghilterra',
-      curiosita: '7. Curiosità Storiche'
+      curiosita: '6. Curiosità Storiche'
     };
     indicator.textContent = `Pagina ${pageIndex + 1} di ${APP_PAGES.length} — ${pageTitles[pageId] || pageId}`;
   }
@@ -175,7 +173,6 @@ window.activeSubtabs = {
   opere: 0,
   contesto: 0,
   germinal: 0,
-  esilio: 0,
   curiosita: 0
 };
 
@@ -1187,80 +1184,6 @@ function renderGerminal() {
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
           <span class="subnav-step-info">Scheda 4 di 4</span>
-          <button class="subnav-step-btn primary" onclick="window.navigateToPage('esilio')">Passa a Esilio in Inghilterra &rarr;</button>
-        </div>
-      </div>
-
-    </div>
-  `;
-}
-
-// 6. Sezione L'Esilio in Inghilterra (1898–1899)
-function renderExile() {
-  const container = document.getElementById('exile-grid');
-  if (!container) return;
-
-  const ex = ZOLA_DATA.esilioInghilterra;
-  const subtabs = [
-    { label: "1. La Condanna (Feb 1898)", key: "condanna" },
-    { label: "2. La Fuga Notturna (Lug 1898)", key: "fuga" },
-    { label: "3. Londra & Surrey", key: "londra" },
-    { label: "4. Il Ritorno Trionfale (Giu 1899)", key: "ritorno" },
-    { label: "Eredità Civile", key: "eredita" }
-  ];
-
-  container.innerHTML = `
-    <!-- Sottomenu a schede ad alta visibilità -->
-    <div class="section-subnav-bar">
-      ${subtabs.map((tab, idx) => `
-        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('esilio', ${idx})">
-          <span class="subnav-num">${idx + 1}</span>
-          <span>${tab.label}</span>
-        </button>
-      `).join('')}
-    </div>
-
-    <div class="subtabs-content-wrapper">
-      
-      <!-- Subtabs 0..3: Le 4 Tappe Cronologiche -->
-      ${ex.tappeCronologiche.map((t, idx) => `
-        <div class="subtab-pane ${idx === 0 ? 'active' : ''} animate-fade-in">
-          <div class="presentation-big-card">
-            <div class="pres-card-header">
-              <span class="pres-card-tag">${t.data} — TAPPA CRONOLOGICA N. ${idx + 1}</span>
-              <h3 class="pres-card-title">${t.titolo}</h3>
-            </div>
-
-            <div class="pillar-huge-display">
-              <p class="pillar-huge-text">${t.desc}</p>
-            </div>
-          </div>
-
-          <div class="subnav-stepper-footer">
-            <button class="subnav-step-btn" ${idx === 0 ? 'disabled' : `onclick="window.switchSubtabRelative('esilio', -1)"`}>&larr; Tappa Precedente</button>
-            <span class="subnav-step-info">Tappa ${idx + 1} di 5</span>
-            <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('esilio', 1)">Tappa Successiva &rarr;</button>
-          </div>
-        </div>
-      `).join('')}
-
-      <!-- Subtab 4: Eredità Civile -->
-      <div class="subtab-pane animate-fade-in">
-        <div class="presentation-big-card">
-          <div class="pres-card-header">
-            <span class="pres-card-tag">VALORE STORICO E MORALE</span>
-            <h3 class="pres-card-title">L'Eredità Civile dell'Esilio Zoliano</h3>
-          </div>
-
-          <div class="pres-focus-box" style="margin-top: 25px;">
-            <div class="pres-focus-label">LA VITTORIA DELLA COSCIENZA UMANA</div>
-            <div class="pres-focus-text">${ex.ereditaCivile}</div>
-          </div>
-        </div>
-
-        <div class="subnav-stepper-footer">
-          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('esilio', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Tappa 5 di 5</span>
           <button class="subnav-step-btn primary" onclick="window.navigateToPage('curiosita')">Passa a Curiosità &rarr;</button>
         </div>
       </div>

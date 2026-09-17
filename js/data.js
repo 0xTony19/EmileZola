@@ -35,11 +35,11 @@ const ZOLA_DATA = {
         tag: "RUOLO CIVILE",
         titolo: "L'Affaire Dreyfus e la Nascita dell'Intellettuale Engagé",
         punti: [
-          "Il 13 gennaio 1898 pubblica la celebre lettera aperta *J'accuse...!* sul giornale *L'Aurore* per difendere l'ufficiale Alfred Dreyfus.",
+          "Il 13 gennaio 1898 pubblica la celebre lettera aperta *J'accuse...!* sul quotidiano *L'Aurore* per difendere l'ufficiale Alfred Dreyfus.",
           "Denuncia lo Stato Maggiore dell'esercito francese di complotto antisemita e depistaggio.",
-          "Condannato a 1 anno di carcere, sceglie l'esilio volontario a Londra prima della revisione del processo."
+          "Condannato per diffamazione, si rifugia per alcuni mesi in esilio in Inghilterra (1898–1899) per continuare la sua battaglia di verità, prima di rientrare in patria."
         ],
-        focusOrale: "Con Zola nasce l'intellettuale moderno: la letteratura non è intrattenimento ma impegno morale e civile."
+        focusOrale: "Con Zola nasce l'intellettuale moderno: la letteratura si fa impegno morale e difesa della giustizia."
       },
       {
         tag: "FINE E RICONOSCIMENTO",
@@ -291,35 +291,6 @@ const ZOLA_DATA = {
       }
     ],
     chiaveSimbolicaTitolo: "'Germinal' era il settimo mese del calendario rivoluzionario francese (corrispondente a fine marzo-aprile), il mese della germinazione. Zola sceglie questo titolo per suggerire che, come i semi germogliano sotto la terra prima di sbocciare, così la coscienza di classe e la spinta al cambiamento sociale — pur sconfitte nel breve termine nel romanzo — sono un processo naturale e inarrestabile, destinato a 'fiorire' nel futuro."
-  },
-
-  esilioInghilterra: {
-    anni: "1898–1899",
-    titolo: "L'Esilio in Inghilterra dopo J'accuse...! e l'Affaire Dreyfus",
-    sintesi: "A seguito della pubblicazione di J'accuse...! (13 gennaio 1898), Zola viene processato per diffamazione delle forze armate. Per non scontare il carcere e mantenere la libertà di parola, accetta la fuga all'estero, trasformando il suo esilio in un simbolo internazionale di lotta per la giustizia.",
-    tappeCronologiche: [
-      {
-        data: "23 Febbraio 1898",
-        titolo: "La Condanna al Carcere",
-        desc: "La Corte d'Assise di Parigi condanna Zola al massimo della pena: 1 anno di reclusione e 3.000 franchi di ammenda per diffamazione."
-      },
-      {
-        data: "18-19 Luglio 1898",
-        titolo: "La Fuga Notturna",
-        desc: "Su consiglio dei suoi avvocati e amici (tra cui Georges Clemenceau), parte segretamente dalla stazione di Parigi-Nord per Londra, senza bagagli e sotto falso nome."
-      },
-      {
-        data: "1898–1899",
-        titolo: "11 Mesi di Isolamento a Londra e Surrey",
-        desc: "Vive in clandestinità sotto vari pseudonimi (tra cui 'M. Pascal'), isolato e senza parlare inglese. Nonostante lo sconforto, continua a lavorare alacremente avviando il ciclo *Les Quatre Évangiles* (iniziando con *Fécondité*)."
-      },
-      {
-        data: "4 Giugno 1899",
-        titolo: "Il Rientro Trionfale a Parigi",
-        desc: "La Corte di Cassazione accoglie l'istanza di revisione del processo per l'ufficiale Alfred Dreyfus. Zola può fare ritorno in patria a testa alta."
-      }
-    ],
-    ereditaCivile: "L'esilio dimostrò al mondo che l'autorità morale di uno scrittore poteva piegare l'apparato repressivo dello Stato. Zola non fuggì per paura, ma per continuare a guidare la battaglia per la verità democratica."
   },
 
   curiosita: [
