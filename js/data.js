@@ -143,34 +143,6 @@ const ZOLA_DATA = {
     { titolo: "J'accuse...!", anno: 1898, desc: "Lettera aperta, capolavoro di letteratura civile." }
   ],
 
-  contestoStorico: {
-    titolo: "Analisi del Contesto Storico e Sociale",
-    quadroGenerale: "Zola opera nel cuore della Seconda Rivoluzione Industriale, attraversando il Secondo Impero di Napoleone III (1852–1870) e la Terza Repubblica (1870–1940). È l'epoca della trasformazione radicale di Parigi ad opera del barone Haussmann, dell'ascesa della finanza e della nascita delle masse proletarie.",
-    pilastriContesto: [
-      {
-        titolo: "Industrializzazione e Urbanesimo",
-        icon: "FABBRICA",
-        desc: "Spostamento massiccio dalle campagne ai sobborghi industriali. Nascita del proletariato di fabbrica e di miniera, costretto a ritmi massacranti, salari di sussistenza e alloggi insalubri."
-      },
-      {
-        titolo: "Emergenza della Questione Sociale",
-        icon: "CONFLITTO",
-        desc: "Conflitti di classe, primi grandi scioperi e nascita della coscienza operaia. Emergenza di piaghe sociali sistemiche come l'alcolismo, la prostituzione, la tubercolosi e la criminalità nei quartieri operai."
-      },
-      {
-        titolo: "Positivismo e Fede Scientifica",
-        icon: "SCIENZA",
-        desc: "Trionfo dell'epistemologia positivista (Auguste Comte, Claude Bernard, Prosper Lucas). La scienza, la medicina e l'evoluzionismo darwiniano diventano gli unici strumenti per spiegare l'uomo e la società."
-      },
-      {
-        titolo: "La Speculazione e il Capitalismo Finanziario",
-        icon: "FINANZA",
-        desc: "Nascita delle grandi banche d'affari, speculazione edilizia, borsa e grandi magazzini parigini (esplorati da Zola in *La Curée*, *L'Argent* e *Au Bonheur des Dames*)."
-      }
-    ],
-    progettoRougonMacquart: "Nel ciclo dei *Rougon-Macquart*, con il programmatico sottotitolo *'Histoire naturelle et sociale d'une famille sous le Second Empire'*, Zola adotta una duplice prospettiva: genetica-ereditaria (due rami familiari con le loro tare) e sociologica (ogni romanzo attraversa una specifica classe sociale o ambiente di lavoro)."
-  },
-
   romanziRougonMacquart: [
     { n: 1, titolo: "La Fortune des Rougon", anno: 1871, ambiente: "Origini della famiglia, colpo di stato del 1851 a Plassans", tema: "Nascita dei due rami familiari (Rougon e Macquart) con Adélaïde Fouque; ascesa sociale spietata durante il colpo di stato di Napoleone III." },
     { n: 2, titolo: "La Curée", anno: 1872, ambiente: "Speculazione edilizia, alta borghesia parigina", tema: "Sventramenti di Parigi e trasformazioni urbane di Haussmann, corruzione morale, incesto e avidità finanziaria di Aristide Saccard." },

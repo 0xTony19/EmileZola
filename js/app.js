@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderBiography();
   renderPoetics();
   renderCyclesAndNovels();
-  renderContext();
   renderGerminal();
   renderCuriosities();
   initQuizController();
@@ -54,7 +53,7 @@ function initHandwritingAnimation() {
 }
 
 // 2. Sistema di Navigazione Multi-Pagina (Pagine Separate)
-const APP_PAGES = ['home', 'biografia', 'poetica', 'opere', 'contesto', 'germinal', 'curiosita'];
+const APP_PAGES = ['home', 'biografia', 'poetica', 'opere', 'germinal', 'curiosita'];
 
 window.navigateToPage = function(pageId, updateHash = true) {
   if (!APP_PAGES.includes(pageId)) pageId = 'home';
@@ -91,9 +90,8 @@ window.navigateToPage = function(pageId, updateHash = true) {
       biografia: '1. Dati Biografici',
       poetica: '2. Pensiero e Poetica',
       opere: '3. Opere & Rougon-Macquart',
-      contesto: '4. Contesto Storico',
-      germinal: '5. Capolavoro Germinal',
-      curiosita: '6. Curiosità Storiche'
+      germinal: '4. Capolavoro Germinal',
+      curiosita: '5. Curiosità Storiche'
     };
     indicator.textContent = `Pagina ${pageIndex + 1} di ${APP_PAGES.length} — ${pageTitles[pageId] || pageId}`;
   }
@@ -171,7 +169,6 @@ window.activeSubtabs = {
   biografia: 0,
   poetica: 0,
   opere: 0,
-  contesto: 0,
   germinal: 0,
   curiosita: 0
 };
@@ -791,7 +788,7 @@ function renderCyclesAndNovels() {
           <div class="subnav-stepper-footer">
             <button class="subnav-step-btn" onclick="window.switchSubtabRelative('opere', -1)">&larr; Precedente</button>
             <span class="subnav-step-info">Scheda 4 di 4</span>
-            <button class="subnav-step-btn primary" onclick="window.navigateToPage('contesto')">Passa a Contesto Storico &rarr;</button>
+            <button class="subnav-step-btn primary" onclick="window.navigateToPage('germinal')">Passa al Capolavoro Germinal &rarr;</button>
           </div>
         </div>
 
@@ -888,84 +885,6 @@ function initNovelsExplorer() {
   };
 
   window.filterNovels('all');
-}
-
-// 4. Sezione Contesto Storico
-function renderContext() {
-  const container = document.getElementById('context-grid');
-  if (!container) return;
-
-  const ctx = ZOLA_DATA.contestoStorico;
-  const subtabs = [
-    { label: "Quadro Generale", key: "quadro" },
-    { label: "1. Industrializzazione", key: "industria" },
-    { label: "2. Questione Sociale", key: "questione" },
-    { label: "3. Positivismo & Scienza", key: "positivismo" },
-    { label: "4. Capitalismo & Haussmann", key: "finanza" }
-  ];
-
-  container.innerHTML = `
-    <!-- Sottomenu a schede ad alta visibilità -->
-    <div class="section-subnav-bar">
-      ${subtabs.map((tab, idx) => `
-        <button class="subnav-pill-btn ${idx === 0 ? 'active' : ''}" onclick="window.switchSubtab('contesto', ${idx})">
-          <span class="subnav-num">${idx + 1}</span>
-          <span>${tab.label}</span>
-        </button>
-      `).join('')}
-    </div>
-
-    <div class="subtabs-content-wrapper">
-      
-      <!-- Subtab 0: Quadro Generale -->
-      <div class="subtab-pane active animate-fade-in">
-        <div class="presentation-big-card">
-          <div class="pres-card-header">
-            <span class="pres-card-tag">SECONDO IMPERO & TERZA REPUBBLICA (1852–1902)</span>
-            <h3 class="pres-card-title">${ctx.titolo}</h3>
-          </div>
-          <p class="pres-lead-text">${ctx.quadroGenerale}</p>
-
-          <div class="pres-focus-box" style="margin-top: 25px;">
-            <div class="pres-focus-label">LA DOPPIA PROSPETTIVA DEI ROUGON-MACQUART</div>
-            <div class="pres-focus-text">${ctx.progettoRougonMacquart}</div>
-          </div>
-        </div>
-
-        <div class="subnav-stepper-footer">
-          <button class="subnav-step-btn" disabled>&larr; Precedente</button>
-          <span class="subnav-step-info">Tappa 1 di 5</span>
-          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('contesto', 1)">Tappa Successiva: Industrializzazione &rarr;</button>
-        </div>
-      </div>
-
-      <!-- Subtabs 1..4: I 4 Grandi Pilastri Storici -->
-      ${ctx.pilastriContesto.map((p, idx) => `
-        <div class="subtab-pane animate-fade-in">
-          <div class="presentation-big-card">
-            <div class="pres-card-header">
-              <span class="pres-card-tag">PILASTRO STORICO N. ${idx + 1}</span>
-              <h3 class="pres-card-title">${p.titolo}</h3>
-            </div>
-
-            <div class="pillar-huge-display">
-              <p class="pillar-huge-text">${p.desc}</p>
-            </div>
-          </div>
-
-          <div class="subnav-stepper-footer">
-            <button class="subnav-step-btn" onclick="window.switchSubtabRelative('contesto', -1)">&larr; Precedente</button>
-            <span class="subnav-step-info">Tappa ${idx + 2} di 5</span>
-            <button class="subnav-step-btn ${idx === ctx.pilastriContesto.length - 1 ? '' : 'primary'}" 
-              onclick="${idx === ctx.pilastriContesto.length - 1 ? 'window.navigateToPage(\'germinal\')' : 'window.switchSubtabRelative(\'contesto\', 1)'}">
-              ${idx === ctx.pilastriContesto.length - 1 ? 'Passa al Capolavoro Germinal &rarr;' : 'Tappa Successiva &rarr;'}
-            </button>
-          </div>
-        </div>
-      `).join('')}
-
-    </div>
-  `;
 }
 
 // 5. Sezione Capolavoro Germinal (1885)
