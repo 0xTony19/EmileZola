@@ -176,16 +176,6 @@ window.activeSubtabs = {
   curiosita: 0
 };
 
-window.toggleLimMode = function() {
-  const isLim = document.body.classList.toggle('lim-mode');
-  const limBtn = document.getElementById('lim-toggle-btn');
-  if (limBtn) {
-    limBtn.classList.toggle('active', isLim);
-    limBtn.title = isLim ? 'Disattiva Modalità LIM [L]' : 'Attiva Modalità LIM / Alta Visibilità [L]';
-  }
-  SFX.playTone(isLim ? 620 : 420, 'sine', 0.08, 0.06);
-};
-
 window.adjustFontSize = function(delta) {
   let newScale = Math.round((window.currentFontScale + delta) * 100) / 100;
   if (newScale < 0.85) newScale = 0.85;
@@ -271,12 +261,6 @@ function initKeyboardNavigation() {
       return;
     }
 
-    // Tasto 'L' -> Attiva/Disattiva Modalità LIM
-    if (e.key.toLowerCase() === 'l') {
-      window.toggleLimMode();
-      return;
-    }
-
     // Tasti '+' e '-' -> Regola Dimensione Font
     if (e.key === '+' || e.key === '=') {
       window.adjustFontSize(0.08);
@@ -337,18 +321,13 @@ function initKeyboardNavigation() {
   });
 }
 
-// 5. Gestione Temi, LIM e Audio
+// 5. Gestione Temi e Audio
 function initThemeAndSettings() {
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const soundToggleBtn = document.getElementById('sound-toggle-btn');
   const presentationBtn = document.getElementById('presentation-btn');
-  const limToggleBtn = document.getElementById('lim-toggle-btn');
   const fontDecBtn = document.getElementById('font-dec-btn');
   const fontIncBtn = document.getElementById('font-inc-btn');
-
-  if (limToggleBtn) {
-    limToggleBtn.addEventListener('click', () => window.toggleLimMode());
-  }
 
   if (fontDecBtn) {
     fontDecBtn.addEventListener('click', () => window.adjustFontSize(-0.08));
