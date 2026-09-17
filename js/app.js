@@ -1253,7 +1253,7 @@ function renderCuriosities() {
 
   const subtabs = [
     { label: "Zola Fotografo (4.000+ Scatti)", key: "fotografo" },
-    { label: "Cézanne & L'Œuvre", key: "cezanne" },
+    { label: "Cézanne & L'Opera (L'Œuvre)", key: "cezanne" },
     { label: "Il Panthéon & Anatole France", key: "pantheon" },
     { label: "Morte, Nobel & Aneddoti", key: "morte" }
   ];

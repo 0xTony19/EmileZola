@@ -2687,6 +2687,8 @@ body[data-theme="dark"] .focus-card-header h4 {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-sm);
 }
