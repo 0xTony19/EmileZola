@@ -256,6 +256,11 @@ function initKeyboardNavigation() {
         window.closeNovelModal();
         return;
       }
+      const curModal = document.getElementById('curiosity-modal');
+      if (curModal && curModal.classList.contains('active')) {
+        window.closeCuriosityModal();
+        return;
+      }
     }
 
     // Tasto 'Q' -> Lancia o Chiude Quiz
@@ -994,11 +999,10 @@ function renderGerminal() {
 
   const g = ZOLA_DATA.focusGerminal;
   const subtabs = [
-    { label: "Trama in 3 Atti", key: "trama" },
-    { label: "La Miniera \"Le Voreux\"", key: "miniera" },
-    { label: "Personaggi Chiave", key: "personaggi" },
-    { label: "Il Simbolo del Titolo", key: "simbolo" },
-    { label: "6 Chiavi di Lettura", key: "chiavi" }
+    { label: "Trama Epica in 3 Atti", key: "trama" },
+    { label: "I Simboli: Il Pozzo & Il Titolo", key: "simboli" },
+    { label: "I Personaggi di Montsou", key: "personaggi" },
+    { label: "I 6 Pilastri Critici", key: "pilastri" }
   ];
 
   container.innerHTML = `
@@ -1014,64 +1018,110 @@ function renderGerminal() {
 
     <div class="subtabs-content-wrapper">
       
-      <!-- Subtab 0: Trama in 3 Atti -->
+      <!-- Subtab 0: Trama Epica in 3 Atti -->
       <div class="subtab-pane active animate-fade-in">
-        <div class="germinal-main-header">
-          <div class="germinal-badge-pill">IL VERTICE DEL NATURALISMO EUROPEO (1885)</div>
-          <h2 class="germinal-title-display">Germinal — Lo Sviluppo in 3 Atti</h2>
-        </div>
+        <div class="presentation-big-card">
+          <div class="pres-card-header">
+            <span class="pres-card-tag">IL VERTICE DEL NATURALISMO EUROPEO (1885)</span>
+            <h3 class="pres-card-title">Germinal — L'Epopea dei Minatori in 3 Atti</h3>
+          </div>
+          
+          <div class="germinal-meta-strip">
+            <div class="meta-pill"><strong>Anno:</strong> 1885</div>
+            <div class="meta-pill"><strong>Ciclo:</strong> Rougon-Macquart (Vol. 13)</div>
+            <div class="meta-pill"><strong>Luogo:</strong> Bacino di Montsou (Anzin)</div>
+            <div class="meta-pill"><strong>Tema:</strong> Sfruttamento e Lotta di Classe</div>
+          </div>
 
-        <div class="three-acts-grid">
-          ${(g.treAtti || []).map((atto, idx) => `
-            <div class="act-card animate-slide-up" style="animation-delay: ${idx * 0.08}s">
-              <div class="act-header">
-                <span class="act-number">${atto.atto}</span>
-                <span class="act-tag">${atto.tag}</span>
+          <p class="pres-lead-text" style="margin-top: 14px;">
+            ${g.tramaEssenziale}
+          </p>
+
+          <div class="three-acts-grid">
+            ${(g.treAtti || []).map((atto, idx) => `
+              <div class="act-card animate-slide-up" style="animation-delay: ${idx * 0.08}s">
+                <div class="act-header">
+                  <span class="act-number">${atto.atto}</span>
+                  <span class="act-tag">${atto.tag}</span>
+                </div>
+                <h4 class="act-title">${atto.titolo}</h4>
+                <ul class="act-points">
+                  ${atto.punti.map(pt => `<li>${pt}</li>`).join('')}
+                </ul>
+                <div class="act-quote">${atto.citazione}</div>
               </div>
-              <h4 class="act-title">${atto.titolo}</h4>
-              <ul class="act-points">
-                ${atto.punti.map(pt => `<li>${pt}</li>`).join('')}
-              </ul>
-              <div class="act-quote">${atto.citazione}</div>
-            </div>
-          `).join('')}
+            `).join('')}
+          </div>
         </div>
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" disabled>&larr; Precedente</button>
-          <span class="subnav-step-info">Scheda 1 di 5</span>
-          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: La Miniera Le Voreux &rarr;</button>
+          <span class="subnav-step-info">Scheda 1 di 4</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: I Simboli &rarr;</button>
         </div>
       </div>
 
-      <!-- Subtab 1: La Miniera Le Voreux come mostro vivente -->
+      <!-- Subtab 1: I Simboli (Il Pozzo & Il Titolo) -->
       <div class="subtab-pane animate-fade-in">
         <div class="presentation-big-card">
           <div class="pres-card-header">
-            <span class="pres-card-tag">METAFORA CENTRALE</span>
-            <h3 class="pres-card-title">Il Pozzo "Le Voreux": Il Mostro Divoratore</h3>
+            <span class="pres-card-tag">ANALISI SIMBOLICA & MITO</span>
+            <h3 class="pres-card-title">Il Pozzo "Le Voreux" & Il Titolo "Germinal"</h3>
           </div>
-          
-          <div class="miniera-monster-box">
-            <div class="monster-quote-highlight">
-              «Appariva come una bestia gigantesca, accovacciata nell'ombra, che inghiottiva senza sosta la carne umana dei minatori.»
-            </div>
-            <div class="monster-points-grid">
-              <div class="monster-point-item">
-                <h4>Transformazione Mitica</h4>
-                <p>Zola trasforma una struttura industriale d'acciaio in una divinità mostruosa pagana che richiede sacrifici quotidiani di corpi umani.</p>
+
+          <div class="germinal-dual-symbols">
+            <!-- Simbolo 1: Il Pozzo -->
+            <div class="symbol-block-card">
+              <div class="symbol-block-header">
+                <span class="symbol-subtag">LA METAFORA DEL MOSTRO</span>
+                <h4>Il Pozzo «Le Voreux» (Il Vorace)</h4>
               </div>
-              <div class="monster-point-item">
-                <h4>Condizioni Infernali</h4>
-                <p>Caldo asfissiante a 500 metri, semioscurità, rischio perenne di allagamento, crolli e il gas silenzioso mortale: il grisù.</p>
+              <div class="monster-quote-highlight">
+                «Appariva come una bestia gigantesca, accovacciata nell'ombra, che inghiottiva senza sosta la carne umana dei minatori.»
+              </div>
+              <div class="symbol-block-points">
+                <div class="symbol-point">
+                  <strong>Trasformazione Mitica:</strong>
+                  <span>Zola trasforma la struttura industriale d'acciaio in una divinità mostruosa pagana che richiede sacrifici quotidiani di corpi umani.</span>
+                </div>
+                <div class="symbol-point">
+                  <strong>Gli Inferi Sotterranei:</strong>
+                  <span>Caldo asfissiante a 500 metri, buio pesto rischiarato dalle lampade, rischio perenne di frane, allagamenti e il gas silenzioso mortale: il grisù.</span>
+                </div>
               </div>
             </div>
+
+            <!-- Simbolo 2: Il Titolo -->
+            <div class="symbol-block-card symbol-featured">
+              <div class="symbol-block-header">
+                <span class="symbol-subtag">CALENDARIO RIVOLUZIONARIO FRANCESE</span>
+                <h4>Il Significato Profetico del Titolo</h4>
+              </div>
+              <div class="symbol-quote-highlight">
+                «Uomini stavano germogliando, un esercito nero e vendicatore che sarebbe presto sbocciato per i raccolti del secolo futuro.»
+              </div>
+              <div class="symbol-block-points">
+                <div class="symbol-point">
+                  <strong>Il Mese della Germinazione:</strong>
+                  <span>"Germinal" corrispondeva al mese di aprile (primavera) nel calendario repubblicano del 1793: il momento in cui la natura risveglia i semi sepolti.</span>
+                </div>
+                <div class="symbol-point">
+                  <strong>La Speranza Sociale:</strong>
+                  <span>Come il grano matura al buio prima di rompere la terra, così la lotta operaia, pur temporaneamente sconfitta, produrrà la futura emancipazione umana.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pres-key-takeaway" style="margin-top: 24px;">
+            <span class="takeaway-badge">DA RICORDARE</span>
+            <p>In <em>Germinal</em> il dato scientifico e documentario si fonde con la grandezza epica e mitica: la macchina diventa mostro e il proletariato diventa forza della natura.</p>
           </div>
         </div>
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Scheda 2 di 5</span>
+          <span class="subnav-step-info">Scheda 2 di 4</span>
           <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: Personaggi &rarr;</button>
         </div>
       </div>
@@ -1083,6 +1133,9 @@ function renderGerminal() {
             <span class="pres-card-tag">I PROTAGONISTI DELLA TRAGEDIA CORALE</span>
             <h3 class="pres-card-title">I Personaggi Chiave di Montsou</h3>
           </div>
+          <p class="pres-lead-text">
+            A differenza del romanzo tradizionale incentrato su un solo eroe, <em>Germinal</em> è un grande affresco corale dove ogni figura incarna una reazione psicologica e sociale allo sfruttamento.
+          </p>
 
           <div class="characters-large-grid">
             ${(g.personaggi || []).map(p => `
@@ -1097,41 +1150,21 @@ function renderGerminal() {
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Scheda 3 di 5</span>
-          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: Il Titolo &rarr;</button>
+          <span class="subnav-step-info">Scheda 3 di 4</span>
+          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: 6 Pilastri Critici &rarr;</button>
         </div>
       </div>
 
-      <!-- Subtab 3: Il Simbolo del Titolo -->
-      <div class="subtab-pane animate-fade-in">
-        <div class="presentation-big-card">
-          <div class="pres-card-header">
-            <span class="pres-card-tag">CALENDARIO RIVOLUZIONARIO FRANCESE</span>
-            <h3 class="pres-card-title">Il Significato Simbolico di "Germinal"</h3>
-          </div>
-
-          <div class="symbol-display-card">
-            <div class="symbol-content">
-              <h4>Mese della Germinazione (Aprile / Primavera)</h4>
-              <p>${g.chiaveSimbolicaTitolo}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="subnav-stepper-footer">
-          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Scheda 4 di 5</span>
-          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('germinal', 1)">Scheda Successiva: 6 Chiavi di Lettura &rarr;</button>
-        </div>
-      </div>
-
-      <!-- Subtab 4: 6 Chiavi di Lettura -->
+      <!-- Subtab 3: 6 Chiavi di Lettura -->
       <div class="subtab-pane animate-fade-in">
         <div class="presentation-big-card">
           <div class="pres-card-header">
             <span class="pres-card-tag">APPROFONDIMENTO CRITICO</span>
-            <h3 class="pres-card-title">Perché è l'opera più rappresentativa (6 Pilastri)</h3>
+            <h3 class="pres-card-title">Perché Germinal è il Vertice del Naturalismo (6 Pilastri)</h3>
           </div>
+          <p class="pres-lead-text">
+            I sei motivi fondamentali che rendono <em>Germinal</em> l'opera più studiata, celebrata e potente di Émile Zola.
+          </p>
 
           <div class="germinal-reasons-grid">
             ${g.puntiRappresentativi.map((p, i) => `
@@ -1144,11 +1177,16 @@ function renderGerminal() {
               </div>
             `).join('')}
           </div>
+
+          <div class="pres-key-takeaway" style="margin-top: 24px;">
+            <span class="takeaway-badge">DA RICORDARE</span>
+            <p>Al funerale di Zola nel 1902, le delegazioni dei minatori francesi sfilarono scandendo all'unisono il grido <em>«Germinal! Germinal!»</em>, a testimonianza del legame indissolubile tra l'opera e la coscienza civile della nazione.</p>
+          </div>
         </div>
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('germinal', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Scheda 5 di 5</span>
+          <span class="subnav-step-info">Scheda 4 di 4</span>
           <button class="subnav-step-btn primary" onclick="window.navigateToPage('esilio')">Passa a Esilio in Inghilterra &rarr;</button>
         </div>
       </div>
@@ -1254,6 +1292,37 @@ window.closeImageLightbox = function() {
   }
 };
 
+const CURIOSITY_ANECDOTES = [
+  {
+    badge: "IL MISTERO DEL CAMINETTO (1902)",
+    title: "Morte Accidentale o Omicidio Politico?",
+    subtitle: "L'asfissia nella residenza di Parigi: disgrazia o complotto nazionalista?",
+    text: "La notte del 29 settembre 1902, Émile Zola e la moglie Alexandrine vengono asfissiati dai fumi di monossido di carbonio nella loro camera da letto in Rue de Bruxelles. Alexandrine viene salvata in extremis dai soccorsi, ma per lo scrittore, ormai sessantaduenne, non c'è più nulla da fare.\n\nNel 1953, una clamorosa confessione sul letto di morte di uno spazzacamino parigino nazionalista (Henri Buronfosse) rivelò che la canna fumaria dell'abitazione era stata deliberatamente ostruita con pezzi di intonaco il giorno prima e poi stappata la mattina seguente all'alba, con l'obiettivo premeditato di assassinare lo scrittore, odiato dagli ambienti reazionari per aver difeso il capitano Dreyfus.",
+    takeaway: "Le indagini ufficiali del 1902 archiviarono il caso come incidente dovuto al tiraggio difettoso, ma la testimonianza del 1953 confermò i sospetti storici di un vero e proprio assassinio politico mirato."
+  },
+  {
+    badge: "IL CASO LETTERARIO",
+    title: "Candidato al Nobel per la Letteratura (1901-1902)",
+    subtitle: "Il rifiuto ideologico dell'Accademia di Svezia contro il realismo naturalista.",
+    text: "Émile Zola fu proposto a gran voce per il neonato Premio Nobel per la Letteratura nelle sue primissime edizioni storiche (1901 e 1902), sostenuto da autorevoli circoli letterari francesi ed europei.\n\nL'Accademia Reale di Svezia, tuttavia, guidata dall'inflessibile segretario permanente e critico conservatore Carl David af Wirsén, pose un veto categorico. Wirsén considerava il realismo crudo, l'indagine scientifica delle tare ereditarie e l'anticlericalismo di Zola incompatibili con la clausola testamentaria di Alfred Nobel, che richiedeva opere 'di tendenza idealistica'. Gli vennero così preferiti il poeta parnassiano Sully Prudhomme (1901) e lo storico tedesco Theodor Mommsen (1902).",
+    takeaway: "Il mancato Nobel a Zola rimane uno dei più celebri e discussi verdetti ideologici nella storia dell'Accademia Svedese."
+  },
+  {
+    badge: "COLLEZIONISMO & MODERNO",
+    title: "L'Amore per le Biciclette e la Tecnologia",
+    subtitle: "Pioniere della mobilità moderna e delle innovazioni scientifiche quotidiane.",
+    text: "Zola non era solo il teorico del progresso scientifico sulla carta, ma un entusiasta sperimentatore di ogni novità dell'era industriale.\n\nImparò ad andare in bicicletta a cinquant'anni, compiendo lunghe e impegnative pedalate quotidiane tra i boschi e le colline attorno alla sua celebre villa di Médan per rinvigorire il corpo dopo ore di scrittura. Inoltre, fu tra i primissimi cittadini francesi a dotare la propria dimora di illuminazione elettrica a filamento, di una linea telefonica privata diretta con Parigi e di moderne macchine da stampa per le bozze.",
+    takeaway: "Per Zola la tecnologia e la velocità moderna erano parte integrante dello stile di vita dell'intellettuale contemporaneo."
+  },
+  {
+    badge: "PRODUTTIVITÀ RIGOROSA",
+    title: "La Formula: «Nulla dies sine linea»",
+    subtitle: "Una disciplina metodica: 20 capolavori monumentali in soli 22 anni.",
+    text: "Scolpì sul monumentale camino in pietra del suo studio di lavoro a Médan il celebre precetto latino attribuito a Plinio il Vecchio: «Nulla dies sine linea» (Nessun giorno senza una riga scritta).\n\nLa sua routine quotidiana era scandita con la precisione di un laboratorio: ogni mattina, dalle 9:00 alle 13:00 senza eccezione alcuna (anche durante i viaggi o le crisi politiche), redigeva esattamente quattro cartelle dense (circa 1.000 parole al giorno). Grazie a questo rigore instancabile completò l'intero ciclo dei Rougon-Macquart (oltre 1.200 personaggi e 20 romanzi) in soli 22 anni.",
+    takeaway: "Il metodo sperimentale di Zola non era un'astratta filosofia, ma una disciplina artigianale ferrea e incrollabile fondata sulla costanza quotidiana."
+  }
+];
+
 // 7. Sezione Curiosità Storiche & Galleria
 function renderCuriosities() {
   const container = document.getElementById('curiosities-grid');
@@ -1263,8 +1332,7 @@ function renderCuriosities() {
     { label: "Zola Fotografo (4.000+ Scatti)", key: "fotografo" },
     { label: "Cézanne & L'Œuvre", key: "cezanne" },
     { label: "Il Panthéon & Anatole France", key: "pantheon" },
-    { label: "Morte, Nobel & Aneddoti", key: "morte" },
-    { label: "Galleria Fotografica HD", key: "galleria" }
+    { label: "Morte, Nobel & Aneddoti", key: "morte" }
   ];
 
   container.innerHTML = `
@@ -1284,7 +1352,7 @@ function renderCuriosities() {
       <div class="subtab-pane active animate-fade-in">
         <div class="presentation-big-card curiosity-monumental-card">
           <div class="curiosity-feature-layout">
-            <div class="curiosity-feature-photo" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Émile Zola Fotografo', 'Émile Zola con la sua attrezzatura fotografica (scattò oltre 4.000 fotografie)')">
+            <div class="curiosity-feature-photo curiosity-photo-vertical" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Émile Zola Fotografo', 'Émile Zola con la sua attrezzatura fotografica (scattò oltre 4.000 fotografie)')">
               <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Émile Zola Fotografo" class="curiosity-full-img">
               <div class="curiosity-zoom-badge">Ingrandisci a Schermo Intero</div>
             </div>
@@ -1320,7 +1388,7 @@ function renderCuriosities() {
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" disabled>&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 1 di 5</span>
+          <span class="subnav-step-info">Curiosità 1 di 4</span>
           <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Cézanne &rarr;</button>
         </div>
       </div>
@@ -1355,7 +1423,7 @@ function renderCuriosities() {
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 2 di 5</span>
+          <span class="subnav-step-info">Curiosità 2 di 4</span>
           <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Il Panthéon &rarr;</button>
         </div>
       </div>
@@ -1392,7 +1460,7 @@ function renderCuriosities() {
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 3 di 5</span>
+          <span class="subnav-step-info">Curiosità 3 di 4</span>
           <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Curiosità Successiva: Morte & Nobel &rarr;</button>
         </div>
       </div>
@@ -1404,40 +1472,21 @@ function renderCuriosities() {
             <span class="pres-card-tag">ENIGMI STORICI, RICONOSCIMENTI & VITA PRIVATA</span>
             <h3 class="pres-card-title">Mistero della Morte, Mancato Nobel & Curiosità</h3>
           </div>
-          <p class="pres-lead-text">Particolari storici emblematici della vita tumultuosa e del lascito universale di Zola.</p>
+          <p class="pres-lead-text">Clicca su ciascuna card per ingrandirla a tutto schermo e leggere i dettagli storici completi.</p>
 
           <div class="curiosity-anecdotes-grid">
-            <div class="anecdote-box">
-              <div class="anecdote-header">
-                <span class="anecdote-badge">IL MISTERO DEL CAMINETTO (1902)</span>
-                <h4>Morte Accidentale o Omicidio Politico?</h4>
+            ${CURIOSITY_ANECDOTES.map((item, idx) => `
+              <div class="anecdote-box" onclick="window.openCuriosityModal(${idx})" title="Clicca per ingrandire">
+                <div class="anecdote-header">
+                  <span class="anecdote-badge">${item.badge}</span>
+                  <h4>${item.title}</h4>
+                </div>
+                <p>${item.subtitle}</p>
+                <div class="anecdote-zoom-hint">
+                  <span>Clicca per ingrandire &rarr;</span>
+                </div>
               </div>
-              <p>La notte del 29 settembre 1902, Zola e la moglie Alexandrine vengono asfissiati dai fumi di monossido di carbonio nella loro camera a Rue de Bruxelles. Nel 1953, una confessione sul letto di morte di uno spazzacamino nazionalista rivelò che la canna fumaria era stata deliberatamente ostruita per assassinare lo scrittore nemico dell'esercito.</p>
-            </div>
-
-            <div class="anecdote-box">
-              <div class="anecdote-header">
-                <span class="anecdote-badge">IL CASO LETTERARIO</span>
-                <h4>Candidato al Nobel per la Letteratura (1901-1902)</h4>
-              </div>
-              <p>Zola fu proposto per il neonato Premio Nobel per la Letteratura nelle primissime edizioni. L'Accademia di Svezia, tuttavia, guidata dal conservatore Carl David af Wirsén, rifiutò categoricamente di premiarlo a causa del realismo crudo e anti-idealista dei suoi romanzi, preferendo Sully Prudhomme e Theodor Mommsen.</p>
-            </div>
-
-            <div class="anecdote-box">
-              <div class="anecdote-header">
-                <span class="anecdote-badge">COLLEZIONISMO & MODERNO</span>
-                <h4>L'Amore per le Biciclette e la Tecnologia</h4>
-              </div>
-              <p>Zola era un entusiasta sostenitore delle innovazioni dell'era industriale: imparò ad andare in bicicletta a cinquant'anni, compiendo lunghi percorsi nella campagna di Médan, e installò nella sua villa parigina tra i primi impianti a luce elettrica e linee telefoniche private della città.</p>
-            </div>
-
-            <div class="anecdote-box">
-              <div class="anecdote-header">
-                <span class="anecdote-badge">PRODUTTIVITÀ RIGOROSA</span>
-                <h4>La Formula: «Nulla dies sine linea»</h4>
-              </div>
-              <p>Scolpì sul camino del suo studio a Médan il celebre motto latino di Plinio il Vecchio: <em>«Nulla dies sine linea»</em> (Nessun giorno senza una riga scritta). Ogni mattina, dalle 9:00 alle 13:00 senza eccezioni, scriveva esattamente quattro cartelle piene (circa 1.000 parole), completando 20 romanzi in 22 anni.</p>
-            </div>
+            `).join('')}
           </div>
 
           <div class="pres-key-takeaway" style="margin-top: 24px;">
@@ -1448,77 +1497,63 @@ function renderCuriosities() {
 
         <div class="subnav-stepper-footer">
           <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 4 di 5</span>
-          <button class="subnav-step-btn primary" onclick="window.switchSubtabRelative('curiosita', 1)">Galleria Fotografica HD &rarr;</button>
-        </div>
-      </div>
-
-      <!-- Subtab 4: Galleria Fotografica HD a Schermo Intero -->
-      <div class="subtab-pane animate-fade-in">
-        <div class="presentation-big-card curiosity-monumental-card">
-          <div class="pres-card-header">
-            <span class="pres-card-tag">ARCHIVIO VISIVO STORICO AD ALTA DEFINIZIONE</span>
-            <h3 class="pres-card-title">Galleria Fotografica d'Epoca</h3>
-          </div>
-          <p class="pres-lead-text">Clicca su qualsiasi fotografia per aprirla nel visore a tutto schermo per l'esposizione alla LIM.</p>
-
-          <div class="gallery-photo-grid">
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/emillezola1.jpeg', 'Ritratto Ufficiale di Émile Zola', 'Émile Zola (1840–1902) nel celebre ritratto ufficiale all\'apice del successo naturalista')">
-              <div class="gallery-img-container">
-                <img src="assets/foto/emillezola1.jpeg" alt="Ritratto Zola" class="gallery-img">
-                <span class="gallery-card-badge">Ritratto Storico</span>
-              </div>
-              <div class="gallery-caption-box">
-                <h4 class="gallery-title">Ritratto Ufficiale</h4>
-                <p class="gallery-subtext">Lo sguardo fermo e rigoroso dell'intellettuale e teorico del Naturalismo.</p>
-              </div>
-            </div>
-
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAFOTOGRAFO.jpg', 'Zola con Attrezzatura Fotografica', 'Émile Zola con la macchina fotografica a lastre: autore di oltre 4.000 fotografie')">
-              <div class="gallery-img-container">
-                <img src="assets/foto/ZOLAFOTOGRAFO.jpg" alt="Zola Fotografo" class="gallery-img">
-                <span class="gallery-card-badge">Fotografo Pioniere</span>
-              </div>
-              <div class="gallery-caption-box">
-                <h4 class="gallery-title">Zola Fotografo</h4>
-                <p class="gallery-subtext">Con l'attrezzatura a treppiede per la documentazione visiva dei suoi romanzi.</p>
-              </div>
-            </div>
-
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/ZOLAECézanne.jpg', 'Émile Zola e Paul Cézanne', 'Émile Zola e Paul Cézanne da giovani ad Aix-en-Provence')">
-              <div class="gallery-img-container">
-                <img src="assets/foto/ZOLAECézanne.jpg" alt="Zola e Cézanne" class="gallery-img">
-                <span class="gallery-card-badge">Amicizia Storica</span>
-              </div>
-              <div class="gallery-caption-box">
-                <h4 class="gallery-title">Zola & Paul Cézanne</h4>
-                <p class="gallery-subtext">La storica complicità tra letteratura e pittura impressionista.</p>
-              </div>
-            </div>
-
-            <div class="gallery-card" onclick="window.openImageLightbox('assets/foto/PANTHEONZOLA.jpg', 'Cerimonia al Panthéon (1908)', 'La solenne cerimonia di traslazione di Zola al Panthéon di Parigi (4 Giugno 1908)')">
-              <div class="gallery-img-container">
-                <img src="assets/foto/PANTHEONZOLA.jpg" alt="Panthéon" class="gallery-img">
-                <span class="gallery-card-badge">Panthéon 1908</span>
-              </div>
-              <div class="gallery-caption-box">
-                <h4 class="gallery-title">Traslazione al Panthéon</h4>
-                <p class="gallery-subtext">Il trionfo della Repubblica laica che consacra Zola tra i Grandi di Francia.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="subnav-stepper-footer">
-          <button class="subnav-step-btn" onclick="window.switchSubtabRelative('curiosita', -1)">&larr; Precedente</button>
-          <span class="subnav-step-info">Curiosità 5 di 5</span>
-          <button class="subnav-step-btn primary" onclick="window.quizApp.openQuizModal()">Avvia Sessione Quiz Live &rarr;</button>
+          <span class="subnav-step-info">Curiosità 4 di 4</span>
+          <button class="subnav-step-btn primary" onclick="window.quizApp && window.quizApp.openQuizModal()">Avvia Sessione Quiz Live &rarr;</button>
         </div>
       </div>
 
     </div>
   `;
 }
+
+window.openCuriosityModal = function(idx) {
+  const item = CURIOSITY_ANECDOTES[idx];
+  if (!item) return;
+  const content = document.getElementById('curiosity-modal-content');
+  const modal = document.getElementById('curiosity-modal');
+  if (!content || !modal) return;
+
+  const total = CURIOSITY_ANECDOTES.length;
+  const prevIdx = (idx - 1 + total) % total;
+  const nextIdx = (idx + 1) % total;
+
+  content.innerHTML = `
+    <div class="curiosity-modal-body">
+      <div class="curiosity-modal-header">
+        <span class="curiosity-modal-badge">${item.badge}</span>
+        <h3 class="curiosity-modal-title">${item.title}</h3>
+        <p class="curiosity-modal-lead">${item.subtitle}</p>
+      </div>
+
+      <div class="curiosity-modal-paragraphs">
+        ${item.text.split('\n\n').map(p => `<p class="curiosity-modal-text">${p}</p>`).join('')}
+      </div>
+
+      <div class="pres-key-takeaway" style="margin-top: 14px;">
+        <span class="takeaway-badge">PUNTO CHIAVE</span>
+        <p>${item.takeaway}</p>
+      </div>
+
+      <div class="curiosity-modal-nav">
+        <button class="subnav-step-btn" onclick="window.openCuriosityModal(${prevIdx})">&larr; Precedente</button>
+        <span class="subnav-step-info">Curiosità ${idx + 1} di ${total}</span>
+        <button class="subnav-step-btn primary" onclick="window.openCuriosityModal(${nextIdx})">Successiva &rarr;</button>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  SFX.playTone(600, 'sine', 0.05, 0.04);
+};
+
+window.closeCuriosityModal = function() {
+  const modal = document.getElementById('curiosity-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
 
 // 9. Controller per la Gestione del Quiz
 function initQuizController() {
@@ -1701,6 +1736,18 @@ function initQuizController() {
       this.engine.advanceNext();
     },
 
+    setQuestionCount: function(count, btn) {
+      if (this.engine) {
+        this.engine.totalQuestions = parseInt(count, 10) || 10;
+      }
+      document.querySelectorAll('.qcount-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const sublabel = document.getElementById('lobby-qcount-sublabel');
+      if (sublabel) sublabel.textContent = `${count} Domande`;
+      this.updateLobbyStartButtonText();
+      SFX.playTone(520, 'sine', 0.06, 0.05);
+    },
+
     setTimeLimit: function(seconds, btn) {
       if (this.engine) {
         this.engine.timeLimit = seconds;
@@ -1708,9 +1755,19 @@ function initQuizController() {
       }
       document.querySelectorAll('.timer-chip').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
-      const startBtn = document.getElementById('lobby-start-btn');
-      if (startBtn) startBtn.textContent = `Avvia la Sessione (${seconds}s per Domanda)`;
+      const sublabel = document.getElementById('lobby-timer-sublabel');
+      if (sublabel) sublabel.textContent = `${seconds} Secondi`;
+      this.updateLobbyStartButtonText();
       SFX.playTone(550, 'sine', 0.06, 0.05);
+    },
+
+    updateLobbyStartButtonText: function() {
+      const startBtn = document.getElementById('lobby-start-btn');
+      const qCount = (this.engine && this.engine.totalQuestions) ? this.engine.totalQuestions : 10;
+      const tSec = (this.engine && this.engine.timeLimit) ? this.engine.timeLimit : 10;
+      if (startBtn) {
+        startBtn.textContent = `Avvia la Sessione (${qCount} Domande · ${tSec}s ciascuna)`;
+      }
     },
 
     restartGame: function() {

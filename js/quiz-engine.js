@@ -313,9 +313,31 @@ class QuizEngine {
             </div>
           </div>
 
-          <!-- Selettore Durata Timer per Domanda -->
+          <!-- Selettore Lunghezza Partita (Numero Domande) e Timer per Domanda -->
           <div class="lobby-timer-selector-card">
-            <span class="timer-selector-label">DURATA TIMER PER DOMANDA:</span>
+            <div class="timer-selector-header">
+              <span class="timer-label">NUMERO DI DOMANDE DELLA PARTITA:</span>
+              <span id="lobby-qcount-sublabel" class="timer-sublabel">${this.totalQuestions} Domande</span>
+            </div>
+            <div class="timer-chips-group qcount-chips-group">
+              <button type="button" class="qcount-chip ${this.totalQuestions === 5 ? 'active' : ''}" onclick="window.quizApp.setQuestionCount(5, this)">
+                <span class="chip-sec">5</span>
+                <span class="chip-name">Rapida</span>
+              </button>
+              <button type="button" class="qcount-chip ${this.totalQuestions === 10 ? 'active' : ''}" onclick="window.quizApp.setQuestionCount(10, this)">
+                <span class="chip-sec">10</span>
+                <span class="chip-name">Standard</span>
+              </button>
+              <button type="button" class="qcount-chip ${this.totalQuestions === 15 ? 'active' : ''}" onclick="window.quizApp.setQuestionCount(15, this)">
+                <span class="chip-sec">15</span>
+                <span class="chip-name">Completa</span>
+              </button>
+            </div>
+
+            <div class="timer-selector-header" style="margin-top: 14px;">
+              <span class="timer-label">DURATA TIMER PER DOMANDA:</span>
+              <span id="lobby-timer-sublabel" class="timer-sublabel">${this.timeLimit} Secondi</span>
+            </div>
             <div class="timer-chips-group">
               <button type="button" class="timer-chip ${this.timeLimit === 5 ? 'active' : ''}" onclick="window.quizApp.setTimeLimit(5, this)"><span class="chip-sec">5s</span> <span class="chip-name">Flash</span></button>
               <button type="button" class="timer-chip ${this.timeLimit === 10 ? 'active' : ''}" onclick="window.quizApp.setTimeLimit(10, this)"><span class="chip-sec">10s</span> <span class="chip-name">Standard</span></button>
@@ -326,7 +348,7 @@ class QuizEngine {
 
           <div class="lobby-actions">
             <button id="lobby-start-btn" class="btn-primary-action" onclick="window.quizApp.startGame()">
-              Avvia la Sessione (${this.timeLimit}s per Domanda)
+              Avvia la Sessione (${this.totalQuestions} Domande · ${this.timeLimit}s ciascuna)
             </button>
           </div>
         </div>

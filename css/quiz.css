@@ -1107,7 +1107,12 @@ body[data-theme="dark"] .lb-score {
   gap: 10px;
 }
 
-.timer-chip {
+.qcount-chips-group {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.timer-chip,
+.qcount-chip {
   background: var(--bg-main);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -1121,26 +1126,30 @@ body[data-theme="dark"] .lb-score {
   color: var(--text-secondary);
 }
 
-.timer-chip:hover {
+.timer-chip:hover,
+.qcount-chip:hover {
   border-color: var(--accent-gold);
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(217, 119, 6, 0.15);
 }
 
-.timer-chip.active {
+.timer-chip.active,
+.qcount-chip.active {
   background: linear-gradient(135deg, rgba(217, 119, 6, 0.18), rgba(245, 158, 11, 0.08));
   border-color: var(--accent-gold);
   color: var(--accent-gold);
   box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
 }
 
-.timer-chip .chip-sec {
+.timer-chip .chip-sec,
+.qcount-chip .chip-sec {
   font-size: 1.15rem;
   font-weight: 800;
   font-family: var(--font-heading);
 }
 
-.timer-chip .chip-name {
+.timer-chip .chip-name,
+.qcount-chip .chip-name {
   font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;

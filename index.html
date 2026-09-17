@@ -171,6 +171,18 @@
             </button>
           </div>
         </div>
+
+        <!-- CTA Quiz Arena Banner (Solo nella Home) -->
+        <section class="cta-quiz-banner">
+          <span class="section-category">VERIFICA IN TEMPO REALE</span>
+          <h2>Verifica delle Conoscenze con Quiz Live</h2>
+          <p>
+            Avvia la sessione interattiva con codice QR in locale per testare tutta la classe in tempo reale stile Kahoot.
+          </p>
+          <button class="btn-huge-action btn-launch-quiz" onclick="window.quizApp && window.quizApp.openQuizModal()">
+            AVVIA SESSIONE QUIZ LIVE CON QR CODE
+          </button>
+        </section>
       </section>
 
       <!-- Page 1: Dati Biografici Essenziali -->
@@ -254,26 +266,11 @@
         </button>
       </nav>
 
-      <!-- CTA Quiz Arena Banner -->
-      <section class="cta-quiz-banner">
-        <h2>Verifica delle Conoscenze in Tempo Reale</h2>
-        <p>
-          Avvia la sessione interattiva con codice QR in locale per testare tutta la classe in modalità live stile Kahoot.
-        </p>
-        <button class="btn-huge-action btn-launch-quiz">
-          AVVIA SESSIONE QUIZ LIVE CON QR CODE
-        </button>
-      </section>
+
 
     </main>
 
-    <!-- Footer -->
-    <footer style="text-align: center; padding: 40px 0; border-top: 1px solid var(--border-color); color: var(--text-muted);">
-      <div class="container">
-        <p><strong>ÉMILE ZOLA — Scheda Tecnica & Sistema di Valutazione Interattivo</strong></p>
-        <small>Esecuzione locale 100% autonoma | Compatibile con proiettori, monitor interattivi, smartphone e tablet.</small>
-      </div>
-    </footer>
+
   </div>
 
   <!-- Modale Dettaglio Romanzo -->
@@ -281,6 +278,14 @@
     <div class="generic-modal-box">
       <button class="btn-close-modal" style="position: absolute; top: 16px; right: 20px;" onclick="window.closeNovelModal()">&times;</button>
       <div id="novel-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Modale Zoom Curiosità & Aneddoti -->
+  <div id="curiosity-modal" class="generic-modal-overlay" onclick="if(event.target === this) window.closeCuriosityModal()">
+    <div class="generic-modal-box curiosity-modal-box">
+      <button class="btn-close-modal" style="position: absolute; top: 16px; right: 20px;" onclick="window.closeCuriosityModal()">&times;</button>
+      <div id="curiosity-modal-content"></div>
     </div>
   </div>
 
@@ -345,20 +350,54 @@
               </div>
             </div>
 
-            <!-- Selettore Durata Timer per Domanda -->
+            <!-- Selettore Lunghezza Partita (Numero Domande) e Timer per Domanda -->
             <div class="lobby-timer-selector-card">
-              <span class="timer-selector-label">DURATA TIMER PER DOMANDA:</span>
+              <div class="timer-selector-header">
+                <span class="timer-label">NUMERO DI DOMANDE DELLA PARTITA:</span>
+                <span id="lobby-qcount-sublabel" class="timer-sublabel">10 Domande</span>
+              </div>
+              <div class="timer-chips-group qcount-chips-group">
+                <button type="button" class="qcount-chip" onclick="window.quizApp.setQuestionCount(5, this)">
+                  <span class="chip-sec">5</span>
+                  <span class="chip-name">Rapida</span>
+                </button>
+                <button type="button" class="qcount-chip active" onclick="window.quizApp.setQuestionCount(10, this)">
+                  <span class="chip-sec">10</span>
+                  <span class="chip-name">Standard</span>
+                </button>
+                <button type="button" class="qcount-chip" onclick="window.quizApp.setQuestionCount(15, this)">
+                  <span class="chip-sec">15</span>
+                  <span class="chip-name">Completa</span>
+                </button>
+              </div>
+
+              <div class="timer-selector-header" style="margin-top: 14px;">
+                <span class="timer-label">DURATA TIMER PER DOMANDA:</span>
+                <span id="lobby-timer-sublabel" class="timer-sublabel">10 Secondi</span>
+              </div>
               <div class="timer-chips-group">
-                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(5, this)">5s <small>Flash</small></button>
-                <button type="button" class="timer-chip active" onclick="window.quizApp.setTimeLimit(10, this)">10s <small>Standard</small></button>
-                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(15, this)">15s <small>Riflessivo</small></button>
-                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(20, this)">20s <small>Esteso</small></button>
+                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(5, this)">
+                  <span class="chip-sec">5s</span>
+                  <span class="chip-name">Flash</span>
+                </button>
+                <button type="button" class="timer-chip active" onclick="window.quizApp.setTimeLimit(10, this)">
+                  <span class="chip-sec">10s</span>
+                  <span class="chip-name">Standard</span>
+                </button>
+                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(15, this)">
+                  <span class="chip-sec">15s</span>
+                  <span class="chip-name">Riflessivo</span>
+                </button>
+                <button type="button" class="timer-chip" onclick="window.quizApp.setTimeLimit(20, this)">
+                  <span class="chip-sec">20s</span>
+                  <span class="chip-name">Esteso</span>
+                </button>
               </div>
             </div>
 
             <div class="lobby-actions">
               <button id="lobby-start-btn" class="btn-primary-action" onclick="window.quizApp.startGame()">
-                Avvia la Sessione (10s per Domanda)
+                Avvia la Sessione (10 Domande · 10s ciascuna)
               </button>
             </div>
           </div>
