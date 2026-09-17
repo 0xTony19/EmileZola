@@ -1437,9 +1437,8 @@ body[data-theme="dark"] .panel-tag-icon {
 
 /* Curiosities Grid */
 .curiosities-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  display: block;
+  width: 100%;
 }
 
 .curiosity-card {
