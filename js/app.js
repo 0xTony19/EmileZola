@@ -1818,11 +1818,14 @@ function renderStudentMobileView(initialRoomCode) {
   window.studentJoinGame = function(pId) {
     const roomInput = document.getElementById('student-room-input');
     if (roomInput && roomInput.value.trim()) {
-      activeRoom = roomInput.value.trim().toUpperCase();
-      sync = new SyncHub(activeRoom);
-      sync.initWebRTC(false);
-      const b = document.getElementById('student-room-badge');
-      if (b) b.textContent = `Stanza: ${activeRoom}`;
+      const enteredRoom = roomInput.value.trim().toUpperCase();
+      if (enteredRoom !== activeRoom) {
+        activeRoom = enteredRoom;
+        sync = new SyncHub(activeRoom);
+        sync.initWebRTC(false);
+        const b = document.getElementById('student-room-badge');
+        if (b) b.textContent = `Stanza: ${activeRoom}`;
+      }
     }
 
     const nick = document.getElementById('student-nickname').value.trim() || 'Studente';
@@ -1834,11 +1837,24 @@ function renderStudentMobileView(initialRoomCode) {
       bg: selectedBg
     };
 
-    sync.broadcast('PLAYER_JOIN', {
+    const joinPayload = {
       id: pId,
       name: nick,
       avatar: avatarData
-    });
+    };
+
+    // Invio iniziale
+    sync.broadcast('PLAYER_JOIN', joinPayload);
+
+    // Heartbeat di sicurezza per garantire che l'Host riceva la registrazione anche con ritardo di rete
+    let joinHeartbeat = setInterval(() => {
+      const waitingScreen = document.getElementById('student-waiting-screen');
+      if (waitingScreen && waitingScreen.classList.contains('active')) {
+        sync.broadcast('PLAYER_JOIN', joinPayload);
+      } else {
+        clearInterval(joinHeartbeat);
+      }
+    }, 2000);
 
     const avHolder = document.getElementById('student-active-avatar-holder');
     if (avHolder) {

@@ -64,6 +64,7 @@ class SyncHub {
     this.peerConnections = new Map(); // id -> connection (per l'Host)
     this.hostConn = null; // connection all'Host (per i Client smartphone)
     this.peerId = null;
+    this.pendingQueue = []; // Coda messaggi se la connessione si sta ancora stabilendo
 
     // 1. BroadcastChannel per test locali multi-tab
     if (typeof BroadcastChannel !== 'undefined') {
@@ -189,6 +190,11 @@ class SyncHub {
 
       this.hostConn.on('open', () => {
         console.log('[SyncHub Client] Connesso con successo al server Host WebRTC');
+        // Svuota la coda di messaggi in attesa (es. PLAYER_JOIN inviato prima dell'apertura)
+        while (this.pendingQueue.length > 0) {
+          const msg = this.pendingQueue.shift();
+          try { this.hostConn.send(msg); } catch (e) {}
+        }
       });
 
       this.hostConn.on('data', (data) => {
@@ -196,7 +202,7 @@ class SyncHub {
       });
 
       this.hostConn.on('close', () => {
-        setTimeout(() => this.connectToHostPeer(hostPeerId), 3000);
+        setTimeout(() => this.connectToHostPeer(hostPeerId), 2000);
       });
     } catch (e) {
       console.warn('[SyncHub connectToHostPeer failed]', e);
@@ -224,8 +230,13 @@ class SyncHub {
           try { conn.send(message); } catch (e) {}
         }
       });
-    } else if (this.hostConn && this.hostConn.open) {
-      try { this.hostConn.send(message); } catch (e) {}
+    } else {
+      if (this.hostConn && this.hostConn.open) {
+        try { this.hostConn.send(message); } catch (e) {}
+      } else {
+        // Accoda per l'invio immediato non appena la connessione WebRTC è aperta
+        this.pendingQueue.push(message);
+      }
     }
 
     // 2. BroadcastChannel locale
